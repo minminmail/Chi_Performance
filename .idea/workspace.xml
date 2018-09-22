@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="910f8b0d-c71b-4094-acec-84c9d0076830" name="Default" comment="first time to push all">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change beforePath="" afterPath="$PROJECT_DIR$/venv/Include/Python-ast.h" />
       <change beforePath="" afterPath="$PROJECT_DIR$/venv/Include/Python.h" />
       <change beforePath="" afterPath="$PROJECT_DIR$/venv/Include/abstract.h" />
@@ -3434,8 +3433,6 @@
       <change beforePath="" afterPath="$PROJECT_DIR$/venv1/tcl/tk8.6/ttk/xpTheme.tcl" />
       <change beforePath="" afterPath="$PROJECT_DIR$/venv1/tcl/tk8.6/unsupported.tcl" />
       <change beforePath="" afterPath="$PROJECT_DIR$/venv1/tcl/tk8.6/xmfbox.tcl" />
-      <change beforePath="$PROJECT_DIR$/.idea/Chi_RW.iml" afterPath="$PROJECT_DIR$/.idea/Chi_RW.iml" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -3757,6 +3754,14 @@
       <option name="presentableId" value="Default" />
       <updated>1529468596060</updated>
     </task>
+    <task id="LOCAL-00001" summary="first time to push all">
+      <created>1537590100382</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1537590100382</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView">
