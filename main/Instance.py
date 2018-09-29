@@ -1,473 +1,472 @@
-'''
-/***********************************************************************
 
-	This file is part of KEEL-software, the Data Mining tool for regression,
-	classification, clustering, pattern mining and so on.
+# /***********************************************************************
+#
+# 	This file is part of KEEL-software, the Data Mining tool for regression,
+# 	classification, clustering, pattern mining and so on.
+#
+# 	Copyright (C) 2004-2010
+#
+# 	F. Herrera (herrera@decsai.ugr.es)
+#     L. S谩nchez (luciano@uniovi.es)
+#     J. Alcal谩-Fdez (jalcala@decsai.ugr.es)
+#     S. Garc铆a (sglopez@ujaen.es)
+#     A. Fern谩ndez (alberto.fernandez@ujaen.es)
+#     J. Luengo (julianlm@decsai.ugr.es)
+#
+# 	This program is free software: you can redistribute it and/or modify
+# 	it under the terms of the GNU General Public License as published by
+# 	the Free Software Foundation, either version 3 of the License, or
+# 	(at your option) any later version.
+#
+# 	This program is distributed in the hope that it will be useful,
+# 	but WITHOUT ANY WARRANTY; without even the implied warranty of
+# 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# 	GNU General Public License for more details.
+#
+# 	You should have received a copy of the GNU General Public License
+# 	along with this program.  If not, see http://www.gnu.org/licenses/
+#
+# **********************************************************************/
 
-	Copyright (C) 2004-2010
 
-	F. Herrera (herrera@decsai.ugr.es)
-    L. S谩nchez (luciano@uniovi.es)
-    J. Alcal谩-Fdez (jalcala@decsai.ugr.es)
-    S. Garc铆a (sglopez@ujaen.es)
-    A. Fern谩ndez (alberto.fernandez@ujaen.es)
-    J. Luengo (julianlm@decsai.ugr.es)
+# /**
+#  * <p>
+#  * <b>Instance</b>
+#  * </p>
+#  *
+#  * This class keeps all the information of an instance. It stores nominal,
+#  * integer and real values read from the file (in KEEL format). Also, it
+#  * provides a set of methods to get information about the instance.
+#  *
+#  * @author Albert Orriols Puig
+#  * @version keel0.1
+#  */
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see http://www.gnu.org/licenses/
-
-**********************************************************************/
-'''
-'''
-/**
- * <p>
- * <b>Instance</b>
- * </p>
- *
- * This class keeps all the information of an instance. It stores nominal, 
- * integer and real values read from the file (in KEEL format). Also, it 
- * provides a set of methods to get information about the instance.
- *
- * @author Albert Orriols Puig
- * @version keel0.1 
- */
-'''
 from main import Attribute;
 from main import Attributes;
 from main import InstanceSet;
 from main import InstanceParser;
 from main import ErrorInfo;
+
 class Instance :
 
+
+    # /////////////////////////////////////////////////////////////////////////////
+    # ////////////////ATTRIBUTES OF THE INSTANCE CLASS ///////////////////////////
+    # /////////////////////////////////////////////////////////////////////////////
+    #
+    # 	/**
+    # 	 * It is a vector of vectors of size 'number of attributes' where all the nominal
+    # 	 * values will of the attributes be stored. In nominalValues[0] the input values
+    # 	 * are stored, and int nominalValues[1] the output values are stored.
+
+
+    __nominalValues=[];
+
+        # /**
+        #  * It is a vector of vector of size 'number of attributes' where all the nominal
+        #  * values will of the attributes be stored, but transformed to a integer value.
+        #  */
+
+
+    __intNominal=[];
+
+
+         # * The vector realValues is a vector of vectors of size 'number of attributes'
+         # * where all the integer and real attributes values will be stored. In realValues[0]
+         # * all the input attribute values will be stored, while in realValues[1], the
+         # * outputs will be stored.
+
+    __realValues=[];
+
+
+	 # * It is a vector of vectors of 'number of attributes' size that stores whichs
+	 # * attributes are missing for the inputs and the outputs.
+
+    __missingValues=[];
+
+
+     # * Indicates if the instance belongs to a train BD
+
+    isTrain=None;
+
+
+    # Indicates the number of input attributes per instance.
+
+    __numInputAttributes=0;
+
+
+    #Indicates the number of output attributes per instance.
+
+    __numOutputAttributes=0;
+
+
+     # * Indicates the number of undefined attributes (that are neither
+     # * inputs or outputs
+
+    __numUndefinedAttributes=0;
+
+
+    # It indicates if the instance has any missing value
+
+    __anyMissingValue=[];
+
+
+    #	The next attriubtes define the position in the arrays where each attribute is stored
+
     '''
-/////////////////////////////////////////////////////////////////////////////
-////////////////ATTRIBUTES OF THE INSTANCE CLASS ///////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * It is a vector of vectors of size 'number of attributes' where all the nominal
-	 * values will of the attributes be stored. In nominalValues[0] the input values
-	 * are stored, and int nominalValues[1] the output values are stored.
-	 */
-'''
-__nominalValues=[];
-
-'''
-	/**
-	 * It is a vector of vector of size 'number of attributes' where all the nominal
-	 * values will of the attributes be stored, but transformed to a integer value.
-	 */
- '''
-
-__intNominal=[];
-
-'''
-	 * The vector realValues is a vector of vectors of size 'number of attributes'
-	 * where all the integer and real attributes values will be stored. In realValues[0]
-	 * all the input attribute values will be stored, while in realValues[1], the
-	 * outputs will be stored.
-'''
-__realValues=[];
-
-'''
-	 * It is a vector of vectors of 'number of attributes' size that stores whichs
-	 * attributes are missing for the inputs and the outputs.
-'''
-__missingValues=[];
-
-'''
- * Indicates if the instance belongs to a train BD
-'''
-isTrain=None;
+     * Input attributes location
+    '''
+    ATT_INPUT = 0;
 
 
-# Indicates the number of input attributes per instance.
+    # Output attributes location
 
-__numInputAttributes=0;
-
-
-#Indicates the number of output attributes per instance.
-
-__numOutputAttributes=0;
-
-'''
- * Indicates the number of undefined attributes (that are neither
- * inputs or outputs
-'''
-__numUndefinedAttributes=0;
+    ATT_OUTPUT = 1;
 
 
-# It indicates if the instance has any missing value
+     #Non-defined direction attributes location
 
-__anyMissingValue=[];
-
-
-#	The next attriubtes define the position in the arrays where each attribute is stored
-
-'''
- * Input attributes location
-'''
-ATT_INPUT = 0;
+    ATT_NONDEF = 2;
 
 
-# Output attributes location
+    # /////////////////////////////////////////////////////////////////////////////
+    # /////////////////// METHODS OF THE INSTANCE CLASS ///////////////////////////
+    # /////////////////////////////////////////////////////////////////////////////
+    #
+    # /**
+    #  * It parses a new attribute line.
+    #  * @param def is the line to be parsed.
+    #  * @param _isTrain is a flag that indicates if the BD is for a train run.
+    #  * @param instanceNum is the number of the current instance. It's used to
+    #  * write error message with the maximum amount of information.
+    #  */
 
-ATT_OUTPUT = 1;
+    def __init__(self,defStr, _isTrain,instanceNum) :
+        currentClass = -1;
+        #System.out.println ("Reading data: "+def);
+        st  = str.split(defStr,","); #Separator: "," and " "
+
+        self.initClassAttributes();
+        isTrain  = _isTrain;
+
+        count=0,
+        inAttCount=0,
+        outAttCount=0,
+        indefCount=0,
+        inputOutput = 0,
+        curCount=0;
+        while (st.hasMoreTokens()) :
+            #Looking if the attribute is an input, an output or it's undefined
+            att = st.nextToken().trim();
+            curAt = Attributes.getAttribute(count);
+            directionAttr=curAt.getDirectionAttribute();
+            if (directionAttr==Attribute.INPUT):
+                inputOutput = Instance.ATT_INPUT;
+                inAttCount= + 1;
+                curCount = inAttCount;
+
+            elif (directionAttr==Attribute.OUTPUT):
+                inputOutput = Instance.ATT_OUTPUT;
+                if (curAt.getType() == Attribute.NOMINAL):
+                    currentClass = curAt.convertNominalValue(att);
+
+                    #System.out.println ( " The position of the current class "+ att +" is: "+ currentClass );
+                outAttCount += 1;
+                curCount = outAttCount;
+
+            else:
+                #Attribute not defined neither as input or output. So, it is not read.
+                inputOutput = Instance.ATT_NONDEF;
+                indefCount+=1;
+                curCount = indefCount;
 
 
- #Non-defined direction attributes location
+            #The attribute is defined. So, its value is processed, and the attributes definitions
+            #are checked to detect inconsistencies or to redefine undefined traits.
+            self.processReadValue(curAt,defStr, att, inputOutput, count, curCount, instanceNum);
 
-ATT_NONDEF = 2;
+            #Finally, the counter of read attributes is updated.
+            count+=1;
+            #end of the while
 
-'''
-/////////////////////////////////////////////////////////////////////////////
-/////////////////// METHODS OF THE INSTANCE CLASS ///////////////////////////
-/////////////////////////////////////////////////////////////////////////////
+        #Checking if the instance doesn't have the same number of attributes than defined.
+        if(count != Attributes.getNumAttributes()) :
+            er = ErrorInfo(ErrorInfo.BadNumberOfValues, instanceNum, InstanceParser.lineCounter, 0, 0, isTrain,("Instance "+defStr+" has a different number of attributes than defined\n   > Number of attributes defined: "+Attributes.getNumAttributes()+"   > Number of attributes read:    "+count));
+        InstanceSet.errorLogger.setError(er);
 
-/**
- * It parses a new attribute line.
- * @param def is the line to be parsed.
- * @param _isTrain is a flag that indicates if the BD is for a train run.
- * @param instanceNum is the number of the current instance. It's used to
- * write error message with the maximum amount of information.
- */
- '''
-def __init__(self,defStr, _isTrain,instanceNum) :
-    currentClass = -1;
-    #System.out.println ("Reading data: "+def);
-    st  = str.split(defStr,","); #Separator: "," and " "
+        #Compute the statistics
+        if (isTrain==True):
+            atts = Attributes.getInputAttributes();
+            length= int(len(atts));
+            for i in range(0,length):
+                if(self.missingValues[Instance.ATT_INPUT][i]==False):
 
-    initClassAttributes();
-    isTrain  = _isTrain;
+                    if((atts[i].getType() == Attribute.NOMINAL) and (Attributes.getOutputNumAttributes() == 1)):
+                        atts[i].increaseClassFrequency(currentClass, self.nominalValues[Instance.ATT_INPUT][i]);
+                    elif((atts[i].getType() == Attribute.INTEGER or atts[i].getType() == Attribute.REAL) and self.missingValues[Instance.ATT_INPUT][i]==False):
+                        atts[i].addInMeanValue(currentClass, self.realValues[Instance.ATT_INPUT][i]);
 
-    count=0,
-    inAttCount=0,
-    outAttCount=0,
-    indefCount=0,
-    inputOutput = 0,
-    curCount=0;
-    while (st.hasMoreTokens()) :
-        #Looking if the attribute is an input, an output or it's undefined
-        att = st.nextToken().trim();
-        curAt = Attributes.getAttribute(count);
-        directionAttr=curAt.getDirectionAttribute();
-        if (directionAttr==Attribute.INPUT):
-            inputOutput = Instance.ATT_INPUT;
-            inAttCount= + 1;
-            curCount = inAttCount;
 
-        elif (directionAttr==Attribute.OUTPUT):
-            inputOutput = Instance.ATT_OUTPUT;
-            if (curAt.getType() == Attribute.NOMINAL):
-                currentClass = curAt.convertNominalValue(att);
+    #end Instance
 
-                #System.out.println ( " The position of the current class "+ att +" is: "+ currentClass );
-            outAttCount += 1;
-            curCount = outAttCount;
 
+         # * Creates a deep copy of the Instance
+         # * @param inst Original Instance to be copied
+
+    def __init__(self,inst):
+        self.isTrain = inst.isTrain;
+        self.numInputAttributes = inst.numInputAttributes;
+        self.numOutputAttributes = inst.numOutputAttributes;
+        self.numUndefinedAttributes = inst.numUndefinedAttributes;
+
+        self.anyMissingValue = list.copyOf(inst.anyMissingValue, inst.anyMissingValue.length);
+                             #str[inst.nominalValues.length][];
+        self.nominalValues = str[inst.nominalValues.length];
+        for i in range(0,len(self.nominalValues)):
+            self.nominalValues[i] = list.copyOf(inst.nominalValues[i],inst.nominalValues[i].length);
+                                #int[inst.intNominalValues.length][];
+        self.intNominalValues = int[inst.intNominalValues.length];
+        for i in range(0,len(self.nominalValues)):
+            self.intNominalValues[i] = list.copyOf(inst.intNominalValues[i],inst.intNominalValues[i].length);
+
+                             #float[inst.realValues.length][];
+        self.realValues = float[inst.realValues.length];
+        for i in range(0,len(self.realValues)):
+            self.realValues[i] = list.copyOf(inst.realValues[i],inst.realValues[i].length);
+
+           #bool[inst.missingValues.length][];
+        self.missingValues = bool[inst.missingValues.length];
+        for i in range(0,len(self.missingValues)):
+            self.missingValues[i] = list.copyOf(inst.missingValues[i],inst.missingValues[i].length);
+
+
+     # * Creates an instance from a set of given values. It is supposed that the values
+     # * correspond to the current Attributes static definition or InstanceAttributes
+     # * non-static definition (it depends on the InstanceSet to which this new instance
+     # * will belong). If ats is null, we will use the Attributes static definiton. If not
+     # * the ats definition instead.
+     # * @param values A double array with the values (either real or nominals' index). Missing values are stored as Double.NaN
+     # * @param ats The definition of the attributes (optional, if null we use Attributes definition).
+
+    def __init__(values,instanceAttrs):
+        curAt=Attribute();
+        allat=[];
+        inOut=0,
+        inInt=0;
+        out=0;
+        undef=0;
+
+        #initialise structures
+        anyMissingValue = bool[3];
+        anyMissingValue[0] = False;
+        anyMissingValue[1] = False;
+        anyMissingValue[2] = False;
+        if(instanceAttrs==None):
+            numInputAttributes  = Attributes.getInputNumAttributes();
+            numOutputAttributes = Attributes.getOutputNumAttributes();
+            numUndefinedAttributes = Attributes.getNumAttributes() - (numInputAttributes+numOutputAttributes);
         else:
-            #Attribute not defined neither as input or output. So, it is not read.
-            inputOutput = Instance.ATT_NONDEF;
-            indefCount+=1;
-            curCount = indefCount;
+            numInputAttributes  = instanceAttrs.getInputNumAttributes();
+            numOutputAttributes = instanceAttrs.getOutputNumAttributes();
+            numUndefinedAttributes = instanceAttrs.getNumAttributes() - (numInputAttributes+numOutputAttributes);
+
+        intNominalValues =  [];
+        nominalValues =  [];
+        realValues    =  [];
+        missingValues = [];
+        nominalValues[0]    = str[numInputAttributes];
+        nominalValues[1]    = str[numOutputAttributes];
+        nominalValues[2]    = str[numUndefinedAttributes];
+        intNominalValues[0] = int[numInputAttributes];
+        intNominalValues[1] = int[numOutputAttributes];
+        intNominalValues[2] = int[numUndefinedAttributes];
+        realValues[0]       = float[numInputAttributes];
+        realValues[1]       = float[numOutputAttributes];
+        realValues[2]       = float[numUndefinedAttributes];
+        missingValues[0]    = float[numInputAttributes];
+        missingValues[1]    = bool[numOutputAttributes];
+        missingValues[2]    = bool[numUndefinedAttributes];
+
+        for i in range(0,numInputAttributes) :
+            missingValues[0][i]=False;
+        for i in range(0,numOutputAttributes) :
+            missingValues[1][i]=False;
+        for i in range(0,numUndefinedAttributes):
+            missingValues[2][i]=False;
+
+        #take the correct set of Attributes
+        if(instanceAttrs!=None):
+            allat = instanceAttrs.getAttributes();
+        else:
+            allat = Attributes.getAttributes();
+
+        #fill the data structures
+        inInt = out = undef = 0;
+        for i in range(0,len(values)):
+            curAt = allat[i];
+            inOut = 2;
+            if(curAt.getDirectionAttribute()==Attribute.INPUT):
+                inOut = 0;
+            elif(curAt.getDirectionAttribute()==Attribute.OUTPUT):
+                inOut = 1;
+
+            #is it missing?
+            if(float(values[i]).isNaN()==True):
+                if(inOut==0):
+                    missingValues[inOut][inInt] = True;
+                    anyMissingValue[inOut] = True;
+                    inInt +=1;
+                elif(inOut==1):
+                    missingValues[inOut][out] = True;
+                    anyMissingValue[inOut] = True;
+                    out+=1;
+                else:
+                    missingValues[inOut][undef] = True;
+                    anyMissingValue[inOut] = True;
+                    undef+=1;
+
+            elif((curAt.getType()==Attribute.NOMINAL)==False): #is numerical?
+                if(inOut==0):
+                    realValues[inOut][inInt] = values[i];
+                    inInt+=1;
+                elif(inOut==1):
+                    realValues[inOut][out] = values[i];
+                    out+=1;
+                else:
+                    realValues[inOut][undef] = values[i];
+                    undef+=1;
+
+            else :#is nominal
+
+                if(inOut==0):
+                    intNominalValues[inOut][inInt] = int(values[i]);
+                    realValues[inOut][inInt] = values[i];
+                    nominalValues[inOut][inInt] = curAt.getNominalValue(int(values[i]));
+                    inInt+=1;
+                elif(inOut==1):
+                    intNominalValues[inOut][out] = int(values[i]);
+                    realValues[inOut][out] = values[i];
+                    nominalValues[inOut][out] = curAt.getNominalValue(int(values[i]));
+                    out+=1;
+                else:
+                    intNominalValues[inOut][undef] = int(values[i]);
+                    realValues[inOut][undef] = values[i];
+                    nominalValues[inOut][undef] = curAt.getNominalValue(int(values[i]));
+                    undef+=1;
+
+    #
+    # '''
+    # /**
+    #  * It processes the read value for an attribute
+    #  * @param curAtt is the current attribute (the value read is from this attribute)
+    #  * @param def is the whole String
+    #  * @param inOut is an integer that indicates if the attribute is an input or an output attribute
+    #  * @param count is a counter of attributes.
+    #  * @param curCount is an attribute counter relative to the inputs or the output. So, it indicates
+    #  * that the attribute is the ith attribute of the input or the output.
+    #  * @param instanceNum is the number of the current instance. It's needed to write output messages
+    #  * with the maximum possible amount of information.
+    #  */
+
+    def processReadValue(self,curAtt, defStr,  att,  inOut, count,  curCount,  instanceNum):
+        #Checking if there is a missing value.
+        if(att.equalsIgnoreCase("<null>") or att.equalsIgnoreCase("?")) :
+            Attributes.hasMissing = True;
+            self.missingValues[inOut][curCount]=True;
+            self.anyMissingValue[inOut] = True;
+            if (inOut == 1): #If the output is a missing value, an error is generated.
+                er =  ErrorInfo (ErrorInfo.OutputMissingValue, instanceNum,
+                                 InstanceParser.lineCounter, curCount, Attribute.OUTPUT,
+                                 self.isTrain,
+                                 ("Output attribute "+count+" of "+defStr+" with missing value."));
+                InstanceSet.errorLogger.setError(er);
+
+        elif(Attributes.getAttribute(count).getType()==Attribute.INTEGER or Attributes.getAttribute(count).getType()==Attribute.REAL) :
+            try :
+                self.realValues[inOut][curCount]=float(att);
+            except  self.NumberFormatException as e :
+                er =  ErrorInfo(ErrorInfo.BadNumericValue, instanceNum, InstanceParser.lineCounter, curCount, Attribute.INPUT+inOut, isTrain,
+                                ("Attribute "+count+" of "+defStr+" is not an integer or real value."));
+            InstanceSet.errorLogger.setError(er);
+
+            #Checking if the new train value exceedes the bounds definition in train. The condition
+            #also checks if the attribute is defined (is an input or an output).
+            if (self.isTrain and inOut != 2):
+                if (curAtt.getFixedBounds() and (curAtt.isInBounds(realValues[inOut][curCount])==False)):
+                    er =  ErrorInfo(ErrorInfo.TrainNumberOutOfRange, instanceNum, InstanceParser.lineCounter, curCount, Attribute.INPUT+inOut, isTrain,
+                                    ("ERROR READING TRAIN FILE. Value "+realValues[inOut][curCount]+" read for a numeric attribute that is not in the bounds fixed in the attribute '"+curAtt.getName()+"' definition."));
+                InstanceSet.errorLogger.setError(er);
+
+                curAtt.enlargeBounds(self.realValues[inOut][curCount]);
+
+            elif(inOut!=2): #In test mode
+                self.realValues[inOut][curCount] = curAtt.rectifyValueInBounds(realValues[inOut][curCount]);
+
+        elif(Attributes.getAttribute(count).getType()==Attribute.NOMINAL) :
+            self.nominalValues[inOut][curCount]= att;
+        #Testing special cases.
+        if (self.isTrain and inOut!=2):
+            if (curAtt.getFixedBounds() and curAtt.isNominalValue(self.__nominalValues[inOut][curCount])==False):
+                er =  ErrorInfo(ErrorInfo.TrainNominalOutOfRange, instanceNum, InstanceParser.lineCounter, curCount, Attribute.INPUT+inOut, isTrain,("ERROR READING TRAIN FILE. Value '"+self.__nominalValues[inOut][curCount]+"' read for a nominal attribute that is not in the possible list of values fixed in the attribute '"+curAtt.getName()+"' definition."));
+                InstanceSet.errorLogger.setError(er);
+
+                curAtt.addNominalValue(self.nominalValues[inOut][curCount]);
+            elif(inOut!=2):
+                if (curAtt.addTestNominalValue(self.__nominalValues[inOut][curCount])):
+                        er =  ErrorInfo(ErrorInfo.TestNominalOutOfRange, instanceNum, InstanceParser.lineCounter, curCount, Attribute.INPUT+inOut, isTrain,
+                                        ("ERROR READING TEST FILE. Value '"+self.nominalValues[inOut][curCount]+"' read for a nominal attribute that is not in the possible list of values fixed in the attribute '"+curAtt.getName()+"' definition."));
+                        InstanceSet.errorLogger.setError(er);
 
 
-        #The attribute is defined. So, its value is processed, and the attributes definitions
-        #are checked to detect inconsistencies or to redefine undefined traits.
-        processReadValue(curAt,defStr, att, inputOutput, count, curCount, instanceNum);
+                if (inOut != -2):
+                    self.intNominalValues[inOut][curCount] = curAtt.convertNominalValue(self.__nominalValues[inOut][curCount]);
+                    self.realValues[inOut][curCount] = self.intNominalValues[inOut][curCount];
 
-        #Finally, the counter of read attributes is updated.
-        count+=1;
-        #end of the while
-
-    #Checking if the instance doesn't have the same number of attributes than defined.
-    if(count != Attributes.getNumAttributes()) :
-        er = ErrorInfo(ErrorInfo.BadNumberOfValues, instanceNum, InstanceParser.lineCounter, 0, 0, isTrain,("Instance "+defStr+" has a different number of attributes than defined\n   > Number of attributes defined: "+Attributes.getNumAttributes()+"   > Number of attributes read:    "+count));
-    InstanceSet.errorLogger.setError(er);
-
-    #Compute the statistics
-    if (isTrain==True):
-        atts = Attributes.getInputAttributes();
-        length= int(len(atts));
-        for i in range(0,length):
-            if(self.missingValues[Instance.ATT_INPUT][i]==False):
-
-                if((atts[i].getType() == Attribute.NOMINAL) and (Attributes.getOutputNumAttributes() == 1)):
-                    atts[i].increaseClassFrequency(currentClass, nominalValues[Instance.ATT_INPUT][i]);
-                elif((atts[i].getType() == Attribute.INTEGER or atts[i].getType() == Attribute.REAL) and missingValues[Instance.ATT_INPUT][i]==False):
-                    atts[i].addInMeanValue(currentClass, realValues[Instance.ATT_INPUT][i]);
+                    #end processReadValue
 
 
-#end Instance
+     # It reserves all the memory necessary for this instance
 
-'''
- * Creates a deep copy of the Instance
- * @param inst Original Instance to be copied
-'''
-def __init__(self,inst):
-    self.isTrain = inst.isTrain;
-    self.numInputAttributes = inst.numInputAttributes;
-    self.numOutputAttributes = inst.numOutputAttributes;
-    self.numUndefinedAttributes = inst.numUndefinedAttributes;
-
-    self.anyMissingValue = list.copyOf(inst.anyMissingValue, inst.anyMissingValue.length);
-                         #str[inst.nominalValues.length][];
-    self.nominalValues = str[inst.nominalValues.length];
-    for i in range(0,len(self.nominalValues)):
-        self.nominalValues[i] = list.copyOf(inst.nominalValues[i],inst.nominalValues[i].length);
-                            #int[inst.intNominalValues.length][];
-    self.intNominalValues = int[inst.intNominalValues.length];
-    for i in range(0,len(self.nominalValues)):
-        self.intNominalValues[i] = list.copyOf(inst.intNominalValues[i],inst.intNominalValues[i].length);
-
-                         #float[inst.realValues.length][];
-    self.realValues = float[inst.realValues.length];
-    for i in range(0,len(self.realValues)):
-        self.realValues[i] = list.copyOf(inst.realValues[i],inst.realValues[i].length);
-
-       #bool[inst.missingValues.length][];
-    self.missingValues = bool[inst.missingValues.length];
-    for i in range(0,len(self.missingValues)):
-        self.missingValues[i] = list.copyOf(inst.missingValues[i],inst.missingValues[i].length);
-
-'''
- * Creates an instance from a set of given values. It is supposed that the values
- * correspond to the current Attributes static definition or InstanceAttributes
- * non-static definition (it depends on the InstanceSet to which this new instance
- * will belong). If ats is null, we will use the Attributes static definiton. If not
- * the ats definition instead.
- * @param values A double array with the values (either real or nominals' index). Missing values are stored as Double.NaN
- * @param ats The definition of the attributes (optional, if null we use Attributes definition).
-'''
-def __init__(values,instanceAttrs):
-    curAt=Attribute();
-    allat=[];
-    inOut=0,
-    inInt=0;
-    out=0;
-    undef=0;
-
-    #initialise structures
-    anyMissingValue = bool[3];
-    anyMissingValue[0] = False;
-    anyMissingValue[1] = False;
-    anyMissingValue[2] = False;
-    if(instanceAttrs==None):
+    def initClassAttributes():
+        anyMissingValue = bool[3];
+        anyMissingValue[0] = False;
+        anyMissingValue[1] = False;
+        anyMissingValue[2] = False;
         numInputAttributes  = Attributes.getInputNumAttributes();
         numOutputAttributes = Attributes.getOutputNumAttributes();
         numUndefinedAttributes = Attributes.getNumAttributes() - (numInputAttributes+numOutputAttributes);
-    else:
-        numInputAttributes  = instanceAttrs.getInputNumAttributes();
-        numOutputAttributes = instanceAttrs.getOutputNumAttributes();
-        numUndefinedAttributes = instanceAttrs.getNumAttributes() - (numInputAttributes+numOutputAttributes);
+        intNominalValues = [];
+        nominalValues = [];
+        realValues    = [];
+        missingValues = [];
+        nominalValues[0]    = str[numInputAttributes];
+        nominalValues[1]    = str[numOutputAttributes];
+        nominalValues[2]    = str[numUndefinedAttributes];
+        intNominalValues[0] = int[numInputAttributes];
+        intNominalValues[1] = int[numOutputAttributes];
+        intNominalValues[2] = int[numUndefinedAttributes];
+        realValues[0]       = float[numInputAttributes];
+        realValues[1]       = float[numOutputAttributes];
+        realValues[2]       = float[numUndefinedAttributes];
+        missingValues[0]    = float[numInputAttributes];
+        missingValues[1]    = float[numOutputAttributes];
+        missingValues[2]    = float[numUndefinedAttributes];
 
-    intNominalValues =  [];
-    nominalValues =  [];
-    realValues    =  [];
-    missingValues = [];
-    nominalValues[0]    = str[numInputAttributes];
-    nominalValues[1]    = str[numOutputAttributes];
-    nominalValues[2]    = str[numUndefinedAttributes];
-    intNominalValues[0] = int[numInputAttributes];
-    intNominalValues[1] = int[numOutputAttributes];
-    intNominalValues[2] = int[numUndefinedAttributes];
-    realValues[0]       = float[numInputAttributes];
-    realValues[1]       = float[numOutputAttributes];
-    realValues[2]       = float[numUndefinedAttributes];
-    missingValues[0]    = float[numInputAttributes];
-    missingValues[1]    = bool[numOutputAttributes];
-    missingValues[2]    = bool[numUndefinedAttributes];
+        for i in range (0,numInputAttributes):
+            missingValues[0][i]=False;
+        for i in range(0,numOutputAttributes):
+            missingValues[1][i]=False;
 
-    for i in range(0,numInputAttributes) :
-        missingValues[0][i]=False;
-    for i in range(0,numOutputAttributes) :
-        missingValues[1][i]=False;
-    for i in range(0,numUndefinedAttributes):
-        missingValues[2][i]=False;
+        for i in range(0,numUndefinedAttributes):
+            missingValues[2][i]=False;
 
-    #take the correct set of Attributes
-    if(instanceAttrs!=None):
-        allat = instanceAttrs.getAttributes();
-    else:
-        allat = Attributes.getAttributes();
-
-    #fill the data structures
-    inInt = out = undef = 0;
-    for i in range(0,len(values)):
-        curAt = allat[i];
-        inOut = 2;
-        if(curAt.getDirectionAttribute()==Attribute.INPUT):
-            inOut = 0;
-        elif(curAt.getDirectionAttribute()==Attribute.OUTPUT):
-            inOut = 1;
-
-        #is it missing?
-        if(float(values[i]).isNaN()==True):
-            if(inOut==0):
-                missingValues[inOut][inInt] = True;
-                anyMissingValue[inOut] = True;
-                inInt +=1;
-            elif(inOut==1):
-                missingValues[inOut][out] = True;
-                anyMissingValue[inOut] = True;
-                out+=1;
-            else:
-                missingValues[inOut][undef] = True;
-                anyMissingValue[inOut] = True;
-                undef+=1;
-
-        elif((curAt.getType()==Attribute.NOMINAL)==False): #is numerical?
-            if(inOut==0):
-                realValues[inOut][inInt] = values[i];
-                inInt+=1;
-            elif(inOut==1):
-                realValues[inOut][out] = values[i];
-                out+=1;
-            else:
-                realValues[inOut][undef] = values[i];
-                undef+=1;
-
-        else :#is nominal
-
-            if(inOut==0):
-                intNominalValues[inOut][inInt] = int(values[i]);
-                realValues[inOut][inInt] = values[i];
-                nominalValues[inOut][inInt] = curAt.getNominalValue(int(values[i]));
-                inInt+=1;
-            elif(inOut==1):
-                intNominalValues[inOut][out] = int(values[i]);
-                realValues[inOut][out] = values[i];
-                nominalValues[inOut][out] = curAt.getNominalValue(int(values[i]));
-                out+=1;
-            else:
-                intNominalValues[inOut][undef] = int(values[i]);
-                realValues[inOut][undef] = values[i];
-                nominalValues[inOut][undef] = curAt.getNominalValue(int(values[i]));
-                undef+=1;
+       #end initClassAttributes
 
 
-'''
-/**
- * It processes the read value for an attribute
- * @param curAtt is the current attribute (the value read is from this attribute)
- * @param def is the whole String
- * @param inOut is an integer that indicates if the attribute is an input or an output attribute
- * @param count is a counter of attributes.
- * @param curCount is an attribute counter relative to the inputs or the output. So, it indicates
- * that the attribute is the ith attribute of the input or the output.
- * @param instanceNum is the number of the current instance. It's needed to write output messages
- * with the maximum possible amount of information.
- */
- 
- '''
-def processReadValue(self,curAtt, defStr,  att,  inOut, count,  curCount,  instanceNum):
-    #Checking if there is a missing value.
-    if(att.equalsIgnoreCase("<null>") or att.equalsIgnoreCase("?")) :
-        Attributes.hasMissing = True;
-        self.missingValues[inOut][curCount]=True;
-        self.anyMissingValue[inOut] = True;
-        if (inOut == 1): #If the output is a missing value, an error is generated.
-            er =  ErrorInfo (ErrorInfo.OutputMissingValue, instanceNum,
-                             InstanceParser.lineCounter, curCount, Attribute.OUTPUT,
-                             isTrain,
-                             ("Output attribute "+count+" of "+defStr+" with missing value."));
-            InstanceSet.errorLogger.setError(er);
+     # * It prints the instance to the specified PrintWriter.
+     # * @param out is the PrintWriter where to print.
 
-    elif(Attributes.getAttribute(count).getType()==Attribute.INTEGER or Attributes.getAttribute(count).getType()==Attribute.REAL) :
-        try :
-            self.realValues[inOut][curCount]=float(att);
-        except  self.NumberFormatException as e :
-            er =  ErrorInfo(ErrorInfo.BadNumericValue, instanceNum, InstanceParser.lineCounter, curCount, Attribute.INPUT+inOut, isTrain,
-                            ("Attribute "+count+" of "+defStr+" is not an integer or real value."));
-        InstanceSet.errorLogger.setError(er);
-
-        #Checking if the new train value exceedes the bounds definition in train. The condition
-        #also checks if the attribute is defined (is an input or an output).
-        if (isTrain and inOut != 2):
-            if (curAtt.getFixedBounds() and (curAtt.isInBounds(realValues[inOut][curCount])==False)):
-                er =  ErrorInfo(ErrorInfo.TrainNumberOutOfRange, instanceNum, InstanceParser.lineCounter, curCount, Attribute.INPUT+inOut, isTrain,
-                                ("ERROR READING TRAIN FILE. Value "+realValues[inOut][curCount]+" read for a numeric attribute that is not in the bounds fixed in the attribute '"+curAtt.getName()+"' definition."));
-            InstanceSet.errorLogger.setError(er);
-
-            curAtt.enlargeBounds(self.realValues[inOut][curCount]);
-
-        elif(inOut!=2): #In test mode
-            self.realValues[inOut][curCount] = curAtt.rectifyValueInBounds(realValues[inOut][curCount]);
-
-    elif(Attributes.getAttribute(count).getType()==Attribute.NOMINAL) :
-        self.nominalValues[inOut][curCount]= att;
-    #Testing special cases.
-    if (isTrain and inOut!=2):
-        if (curAtt.getFixedBounds() and curAtt.isNominalValue(self.__nominalValues[inOut][curCount])==False):
-            er =  ErrorInfo(ErrorInfo.TrainNominalOutOfRange, instanceNum, InstanceParser.lineCounter, curCount, Attribute.INPUT+inOut, isTrain,("ERROR READING TRAIN FILE. Value '"+self.__nominalValues[inOut][curCount]+"' read for a nominal attribute that is not in the possible list of values fixed in the attribute '"+curAtt.getName()+"' definition."));
-            InstanceSet.errorLogger.setError(er);
-
-            curAtt.addNominalValue(self.nominalValues[inOut][curCount]);
-        elif(inOut!=2):
-            if (curAtt.addTestNominalValue(self.__nominalValues[inOut][curCount])):
-                    er =  ErrorInfo(ErrorInfo.TestNominalOutOfRange, instanceNum, InstanceParser.lineCounter, curCount, Attribute.INPUT+inOut, isTrain,
-                                    ("ERROR READING TEST FILE. Value '"+self.nominalValues[inOut][curCount]+"' read for a nominal attribute that is not in the possible list of values fixed in the attribute '"+curAtt.getName()+"' definition."));
-                    InstanceSet.errorLogger.setError(er);
-
-
-            if (inOut != -2):
-                self.intNominalValues[inOut][curCount] = curAtt.convertNominalValue(self.__nominalValues[inOut][curCount]);
-                self.realValues[inOut][curCount] = self.intNominalValues[inOut][curCount];
-
-                #end processReadValue
-
-
- # It reserves all the memory necessary for this instance
-
-def initClassAttributes():
-    anyMissingValue = bool[3];
-    anyMissingValue[0] = False;
-    anyMissingValue[1] = False;
-    anyMissingValue[2] = False;
-    numInputAttributes  = Attributes.getInputNumAttributes();
-    numOutputAttributes = Attributes.getOutputNumAttributes();
-    numUndefinedAttributes = Attributes.getNumAttributes() - (numInputAttributes+numOutputAttributes);
-    intNominalValues = [];
-    nominalValues = [];
-    realValues    = [];
-    missingValues = [];
-    nominalValues[0]    = str[numInputAttributes];
-    nominalValues[1]    = str[numOutputAttributes];
-    nominalValues[2]    = str[numUndefinedAttributes];
-    intNominalValues[0] = int[numInputAttributes];
-    intNominalValues[1] = int[numOutputAttributes];
-    intNominalValues[2] = int[numUndefinedAttributes];
-    realValues[0]       = float[numInputAttributes];
-    realValues[1]       = float[numOutputAttributes];
-    realValues[2]       = float[numUndefinedAttributes];
-    missingValues[0]    = float[numInputAttributes];
-    missingValues[1]    = float[numOutputAttributes];
-    missingValues[2]    = float[numUndefinedAttributes];
-
-    for i in range (0,numInputAttributes):
-        missingValues[0][i]=False;
-    for i in range(0,numOutputAttributes):
-        missingValues[1][i]=False;
-
-    for i in range(0,numUndefinedAttributes):
-        missingValues[2][i]=False;
-
-   #end initClassAttributes
-
-'''
- * It prints the instance to the specified PrintWriter.
- * @param out is the PrintWriter where to print.
-'''
 def printInstance (self,outHere):
     outHere.print("    > Inputs: ");
     for i in range (0, self.numInputAttributes):
@@ -509,68 +508,68 @@ def printInstance (self,outHere):
             outHere.print(self.realValues[Instance.ATT_OUTPUT][i]);
 
 #end print
-'''
- * It prints the instance to the specified PrintWriter.
- * The attribtes order is the same as the one in the
- * original file.
- * @param out is the PrintWriter where to print.
-'''
-def printAsOriginal (out):
-    inCount = 0,
-    outCount = 0,
-    undefCount=0,
-    count=0;
-    numAttributes = Attributes.getNumAttributes();
-    for count in range (0, numAttributes):
-        at = Attributes.getAttribute(count);
-        directionAttr=at.getDirectionAttribute();
 
-        if(directionAttr== Attribute.INPUT):
-            printAttribute(out, Instance.ATT_INPUT,   inCount, at.getType());
-            inCount+=1;
+     # * It prints the instance to the specified PrintWriter.
+     # * The attribtes order is the same as the one in the
+     # * original file.
+     # * @param out is the PrintWriter where to print.
 
-        elif(directionAttr ==  Attribute.OUTPUT):
-            printAttribute(out, Instance.ATT_OUTPUT, outCount, at.getType());
-            outCount+=1;
+    def printAsOriginal (out):
+        inCount = 0,
+        outCount = 0,
+        undefCount=0,
+        count=0;
+        numAttributes = Attributes.getNumAttributes();
+        for count in range (0, numAttributes):
+            at = Attributes.getAttribute(count);
+            directionAttr=at.getDirectionAttribute();
 
-        elif( directionAttr == Attribute.DIR_NOT_DEF):
-            printAttribute(out, Instance.ATT_NONDEF, undefCount, at.getType());
-            undefCount+=1;
+            if(directionAttr== Attribute.INPUT):
+                printAttribute(out, Instance.ATT_INPUT,   inCount, at.getType());
+                inCount+=1;
 
-        if (count+1 <numAttributes) :
-            out.print(",");
+            elif(directionAttr ==  Attribute.OUTPUT):
+                printAttribute(out, Instance.ATT_OUTPUT, outCount, at.getType());
+                outCount+=1;
+
+            elif( directionAttr == Attribute.DIR_NOT_DEF):
+                printAttribute(out, Instance.ATT_NONDEF, undefCount, at.getType());
+                undefCount+=1;
+
+            if (count+1 <numAttributes) :
+                out.print(",");
 
 
  #end printAsOriginal
 
  # Does print an attribute to a PrintWriter
 
-def printAttribute(self,out, inOut, ct,type):
+    def printAttribute(self,out, inOut, ct,type):
 
-    if (self.missingValues[inOut][ct]):
-        out.print("<null>");
+        if (self.missingValues[inOut][ct]):
+            out.print("<null>");
 
-    else:
+        else:
 
-        if(type== Attribute.NOMINAL):
-            out.print(self.nominalValues[inOut][ct]);
+            if(type== Attribute.NOMINAL):
+                out.print(self.nominalValues[inOut][ct]);
 
-        elif (type == Attribute.INTEGER):
-            out.print(int(self.realValues[inOut][ct]));
+            elif (type == Attribute.INTEGER):
+                out.print(int(self.realValues[inOut][ct]));
 
-        elif(type == Attribute.REAL):
-             out.print(self.realValues[inOut][ct]);
+            elif(type == Attribute.REAL):
+                 out.print(self.realValues[inOut][ct]);
 
 
 
 #end printAttribute
 
-'''
-/**
- * It does print the instance information
- */
+
+    # /**
+    #  * It does print the instance information
+    #  */
  
- '''
+
 def printFunction (self):
     print("  > Inputs ("+self.numInputAttributes+"): ");
     for  i in range (0, self.numInputAttributes):
@@ -583,7 +582,7 @@ def printFunction (self):
                 print(self.nominalValues[Instance.ATT_INPUT][i]);
 
             if(inputAttrType== Attribute.INTEGER):
-                print(int(realValues[Instance.ATT_INPUT][i]));
+                print(int(self.realValues[Instance.ATT_INPUT][i]));
 
             if(inputAttrType== Attribute.REAL):
                 print(self.realValues[Instance.ATT_INPUT][i]);

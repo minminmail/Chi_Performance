@@ -99,55 +99,57 @@ class Fuzzy_Chi :
             self.val = MyDataSet()
             self.test = MyDataSet()
             try:
-              print("Reading the training set: " )
+              print("Reading the training set: ")
               inputTrainingFiles= parameters.getInputTrainingFiles()
               for file in inputTrainingFiles:
                   print("File Name is :" + file);
-              self.train.readClassificationSet(parameters.getInputTrainingFiles(), True)
-              print("Reading the validation set: ")
-                                 # did not see any parameters.getValidationInputFile()
-              #val.readClassificationSet(parameters.getValidationInputFile(), False);
-              print("Reading the test set: ")
-              for file in parameters.getInputTestFiles():
-                  print("File Name is :" + file);
-
-              self.test.readClassificationSet(parameters.getInputTestFiles(), False);
-            except IOError  as error:
-              print("There was a problem while reading the input data-sets: " +format(error));
-            somethingWrong = True;
-
-                #We may check if there are some numerical attributes, because our algorithm may not handle them:
-                #somethingWrong = somethingWrong || train.hasNumericalAttributes();
-            somethingWrong = somethingWrong or train.hasMissingAttributes();
-
-            outputTr = parameters.getTrainingOutputFile();
-            outputTst = parameters.getTestOutputFile();
-
-            fileDB = parameters.getOutputFile(0);
-            fileRB = parameters.getOutputFile(1);
-
-                #Now we parse the parameters
-            nLabels = int(parameters.getParameter(0));
-            aux = str(parameters.getParameter(1)).lower(); #Computation of the compatibility degree
-            combinationType = self.PRODUCT;
-            if (aux == "minimum"):
-                combinationType = self.MINIMUM;
-
-            aux = str(parameters.getParameter(2)).lower();
-            self.ruleWeight = self.PCF_IV;
-
-            if (aux == "Certainty_Factor".lower()):
-                  self.ruleWeight = self.CF;
-
-            elif (aux=="Average_Penalized_Certainty_Factor".lower()):
-                  self.ruleWeight = self.PCF_II;
-
-            elif (aux=="No_Weights".lower()):
-              self.ruleWeight = self.NO_RW;
-            aux = str(parameters.getParameter(3)).lower();
-            self.inferenceType = self.WINNING_RULE;
-            if(aux ==("Additive_Combination").lower()) :
-                self.inferenceType = self.ADDITIVE_COMBINATION;
+              self.train.readClassificationSet(inputTrainingFiles, True)
+            #   print("Reading the validation set: ")
+            #                      # did not see any parameters.getValidationInputFile()
+            #   #val.readClassificationSet(parameters.getValidationInputFile(), False);
+            #   print("Reading the test set: ")
+            #   for file in parameters.getInputTestFiles():
+            #       print("File Name is :" + file);
+            #
+            #   self.test.readClassificationSet(parameters.getInputTestFiles(), False);
+            except IOError as ioError :
+                print ("I/O error: "+ str(ioError))
+            except Exception as e:
+                print("Unexpected error:" + str(e));
+            # somethingWrong = True;
+            #
+            #     #We may check if there are some numerical attributes, because our algorithm may not handle them:
+            #     #somethingWrong = somethingWrong || train.hasNumericalAttributes();
+            # somethingWrong = somethingWrong or train.hasMissingAttributes();
+            #
+            # outputTr = parameters.getTrainingOutputFile();
+            # outputTst = parameters.getTestOutputFile();
+            #
+            # fileDB = parameters.getOutputFile(0);
+            # fileRB = parameters.getOutputFile(1);
+            #
+            #     #Now we parse the parameters
+            # nLabels = int(parameters.getParameter(0));
+            # aux = str(parameters.getParameter(1)).lower(); #Computation of the compatibility degree
+            # combinationType = self.PRODUCT;
+            # if (aux == "minimum"):
+            #     combinationType = self.MINIMUM;
+            #
+            # aux = str(parameters.getParameter(2)).lower();
+            # self.ruleWeight = self.PCF_IV;
+            #
+            # if (aux == "Certainty_Factor".lower()):
+            #       self.ruleWeight = self.CF;
+            #
+            # elif (aux=="Average_Penalized_Certainty_Factor".lower()):
+            #       self.ruleWeight = self.PCF_II;
+            #
+            # elif (aux=="No_Weights".lower()):
+            #   self.ruleWeight = self.NO_RW;
+            # aux = str(parameters.getParameter(3)).lower();
+            # self.inferenceType = self.WINNING_RULE;
+            # if(aux ==("Additive_Combination").lower()) :
+            #     self.inferenceType = self.ADDITIVE_COMBINATION;
 
                 #It launches the algorithm
       def execute(self) :

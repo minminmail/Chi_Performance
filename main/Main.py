@@ -49,7 +49,7 @@ class Main :
               parameters=ParseParameters()
               parameters.parseConfigurationFile(config_file)
               method = Fuzzy_Chi(parameters)
-              method.execute()
+              # method.execute()
 
        """ 
                * Main Program
