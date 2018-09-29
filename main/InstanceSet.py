@@ -63,15 +63,13 @@ from ErrorInfo import ErrorInfo
 
 
 class InstanceSet:
-    '''
-   /////////////////////////////////////////////////////////////////////////////
-   //////////////// ATTRIBUTES OF THE INSTANCESET CLASS ////////////////////////
-   /////////////////////////////////////////////////////////////////////////////
 
-   '''
+   # /////////////////////////////////////////////////////////////////////////////
+   # //////////////// ATTRIBUTES OF THE INSTANCESET CLASS ////////////////////////
+   # /////////////////////////////////////////////////////////////////////////////
 
 
-# Attribute where all the instances of the DB are stored.
+   # Attribute where all the instances of the DB are stored.
 
     instanceSet = [];
 
@@ -204,31 +202,32 @@ class InstanceSet:
             self.parseHeader(parser, isTrain);
             print(" The number of output attributes is: " + Attributes.getOutputNumAttributes());
             # The attributes statistics are init if we are in train mode.
-            #     if (isTrain and Attributes.getOutputNumAttributes() == 1):
-            #         Attributes.initStatistics();
-            #     # A temporal vector is used to store the instances read.
-            #     # print( "\n\n  > Reading the data ");
-            #     print("Reading the data");
-            #     tempSet = [[0] * 1000] * 10000;
-            #     line = parser.getLine();
-            #     while (line != None):
-            #         # System.out.println ("    > Data line: " + line );
-            #         newInstance = Instance(line, isTrain, tempSet.size());
-            #         tempSet.append(newInstance);
-            #
-            #         # The vector of instances is converted to an array of instances.
-            #         sizeInstance = tempSet.size();
-            #         print("    > Number of instances read: " + tempSet.size());
-            #         instanceSet = Instance[sizeInstance];
-            #         for i in range(0, sizeInstance):
-            #             instanceSet[i] = Instance(tempSet[i]);
-            #
-            #         print("After converting all instances");
-            #         # System.out.println("The error logger has any error: "+errorLogger.getNumErrors());
-            #         if (errorLogger.getNumErrors() > 0):
-            #             print("There has been " + errorLogger.getAllErrors().size() + "errors in the Dataset format.");
-            #             for k in range(0, errorLogger.getNumErrors()):
-            #                 errorLogger.getError(k).print();
+            if (isTrain and Attributes.getOutputNumAttributes() == 1):
+                Attributes.initStatistics();
+            # A temporal vector is used to store the instances read.
+            # print( "\n\n  > Reading the data ");
+                print("Reading the data");
+                tempSet = [[0] * 1000] * 10000;
+                line = parser.getLine();
+                while (line != None):
+                # System.out.println ("    > Data line: " + line );
+                    print( "> Data line: " + line)
+                newInstance = Instance(line, isTrain, tempSet.size());
+                tempSet.append(newInstance);
+
+                # The vector of instances is converted to an array of instances.
+                sizeInstance = tempSet.size();
+                print("    > Number of instances read: " + tempSet.size());
+                instanceSet = Instance[sizeInstance];
+                for i in range(0, sizeInstance):
+                    instanceSet[i] = Instance(tempSet[i]);
+
+                    print("After converting all instances");
+                 # System.out.println("The error logger has any error: "+errorLogger.getNumErrors());
+                    if (errorLogger.getNumErrors() > 0):
+                        print("There has been " + errorLogger.getAllErrors().size() + "errors in the Dataset format.");
+                        for k in range(0, errorLogger.getNumErrors()):
+                            errorLogger.getError(k).print();
         except Exception as e :
              print("Unexpected error :" + str(e))
 
