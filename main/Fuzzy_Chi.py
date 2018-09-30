@@ -30,15 +30,15 @@
 """
 from DataBase import DataBase
 from MyDataSet import MyDataSet
-from main import RuleBase
 
-'''
- * <p>It contains the implementation of the Chi algorithm</p>
- *
- * @author Written by Alberto Fern谩ndez (University of Granada) 02/11/2007
- * @version 1.0
- * @since JDK1.5
-'''
+
+
+ # * <p>It contains the implementation of the Chi algorithm</p>
+ # *
+ # * @author Written by Alberto Fern谩ndez (University of Granada) 02/11/2007
+ # * @version 1.0
+ # * @since JDK1.5
+
 class Fuzzy_Chi :
 
       train=MyDataSet()
@@ -88,11 +88,10 @@ class Fuzzy_Chi :
 
      #  Default constructor
 
-      """
-           * It reads the data from the input files (training, validation and test) and parse all the parameters
-           * from the parameters array.
-           * @param parameters parseParameters It contains the input files, output files and parameters
-      """
+           # * It reads the data from the input files (training, validation and test) and parse all the parameters
+           # * from the parameters array.
+           # * @param parameters parseParameters It contains the input files, output files and parameters
+
       def __init__(self,parameters):
 
             self.train = MyDataSet()

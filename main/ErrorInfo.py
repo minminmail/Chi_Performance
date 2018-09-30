@@ -1,221 +1,222 @@
-'''
-/***********************************************************************
 
-	This file is part of KEEL-software, the Data Mining tool for regression,
-	classification, clustering, pattern mining and so on.
+# /***********************************************************************
+#
+# 	This file is part of KEEL-software, the Data Mining tool for regression,
+# 	classification, clustering, pattern mining and so on.
+#
+# 	Copyright (C) 2004-2010
+#
+# 	F. Herrera (herrera@decsai.ugr.es)
+#     L. S谩nchez (luciano@uniovi.es)
+#     J. Alcal谩-Fdez (jalcala@decsai.ugr.es)
+#     S. Garc铆a (sglopez@ujaen.es)
+#     A. Fern谩ndez (alberto.fernandez@ujaen.es)
+#     J. Luengo (julianlm@decsai.ugr.es)
+#
+# 	This program is free software: you can redistribute it and/or modify
+# 	it under the terms of the GNU General Public License as published by
+# 	the Free Software Foundation, either version 3 of the License, or
+# 	(at your option) any later version.
+#
+# 	This program is distributed in the hope that it will be useful,
+# 	but WITHOUT ANY WARRANTY; without even the implied warranty of
+# 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# 	GNU General Public License for more details.
+#
+# 	You should have received a copy of the GNU General Public License
+# 	along with this program.  If not, see http://www.gnu.org/licenses/
+#
+# **********************************************************************/
+#
+# /*
+#  * Created on 28 de enero de 2005, 9:07
+#  */
+#
+# package keel.Dataset;
+#
+# /**
+#  * <p>
+#  * <b> ErrorInfo </b>
+#  * </p>
+#  * This class conatins the information about an error apperaed during the dataset
+#  * read.
+#  *
+#  * @author Albert Orriols Puig
+#  * @version keel0.1
+#  *
+#  */
 
-	Copyright (C) 2004-2010
+from Attribute import Attribute
+class ErrorInfo :
 
-	F. Herrera (herrera@decsai.ugr.es)
-    L. S谩nchez (luciano@uniovi.es)
-    J. Alcal谩-Fdez (jalcala@decsai.ugr.es)
-    S. Garc铆a (sglopez@ujaen.es)
-    A. Fern谩ndez (alberto.fernandez@ujaen.es)
-    J. Luengo (julianlm@decsai.ugr.es)
+    # /**
+    #  * Definitions of possible ERRORS
+    #  */
+      BadNumberOfValues             = 0
+      OutputMissingValue            = 1
+      BadNumericValue               = 2
+      TrainNominalOutOfRange        = 3
+      TestNominalOutOfRange         = 4
+      TrainNumberOutOfRange         = 5
+      TestNumberOutOfRange          = 6
+      TypeAlreadyFixed              = 7
+      AttributeNotDefinedInTrain    = 8
+      InputTrainAttributeNotDefined = 9
+      InputTestAttributeNotDefined  = 10
+      OutputTrainAttributeNotDefined= 11
+      OutputTestAttributeNotDefined = 12
+      InputsInTestNotEquals         = 13
+      OutputsInTestNotEquals        = 14
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+    # /**
+    #  * It stores the type of the error
+    #  */
+      typeOfError=0
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+    # /**
+    #  * It stores the instance number where the error has appeared.
+    #  */
+      instanceNum=0
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see http://www.gnu.org/licenses/
+    # /**
+    #  * It stores the file number where the error has appeared.
+    #  */
+      fileLineNum = 0
 
-**********************************************************************/
+    # /**
+    #  * It stores the attribute number where the error has appeared.
+    #  */
+      attributeNum = 0
 
-/*
- * Created on 28 de enero de 2005, 9:07
- */
+    # /**
+    #  * It keeps if the attribute is an input, output or non-defined attribute
+    #  */
+      attDirection = 0
 
-package keel.Dataset;
+    # /**
+    #  * It stores if the error has been in the train dataset. Otherwise
+    #  * it has been in the test dataset.
+    #  */
+      errorInTrain = None
 
-/**
- * <p>
- * <b> ErrorInfo </b>
- * </p>
- * This class conatins the information about an error apperaed during the dataset
- * read.
- *
- * @author Albert Orriols Puig
- * @version keel0.1
- *
- */
-public class ErrorInfo {
+    # /**
+    #  * Message to be writen when showing the error
+    #  */
+      __message="";
 
-/**
- * Definitions of possible ERRORS
- */
-  public final static int BadNumberOfValues             = 0;
-  public final static int OutputMissingValue            = 1;
-  public final static int BadNumericValue               = 2;
-  public final static int TrainNominalOutOfRange        = 3;
-  public final static int TestNominalOutOfRange         = 4;
-  public final static int TrainNumberOutOfRange         = 5;
-  public final static int TestNumberOutOfRange          = 6;
-  public final static int TypeAlreadyFixed              = 7;
-  public final static int AttributeNotDefinedInTrain    = 8;
-  public final static int InputTrainAttributeNotDefined = 9;
-  public final static int InputTestAttributeNotDefined  = 10;
-  public final static int OutputTrainAttributeNotDefined= 11;
-  public final static int OutputTestAttributeNotDefined = 12;
-  public final static int InputsInTestNotEquals         = 13;
-  public final static int OutputsInTestNotEquals        = 14;
+    # /**
+    #  * Creates a new instance of ErrorInfo
+    #  */
+      def __init__ErrorInfo(self):
+        typeOfError = -1
+        instanceNum = -1
+        fileLineNum = -1
+        attributeNum = -1
+        attDirection = Attribute.DIR_NOT_DEF
+        errorInTrain = False
+      # end ErrorInfo
 
+    #
+    # /**
+    #  * Creates a new instance with the parameters passed.
+    #  */
+      def __init__ErrorInfo(self,_type,  _iNum,  _lNum, _atNum,  _atDir,  _train,  _msg):
+        self.typeOfError = _type;
+        self.instanceNum = _iNum;
+        self.fileLineNum = _lNum;
+        self.attributeNum = _atNum;
+        self.attDirection = _atDir;
+        self.errorInTrain = _train;
+        self.message = _msg;
+        # end ErrorInfo
+    #
+    # /**
+    #  * It creates a new Error info with the message passed
+    #  * @param msg is the error message
+    #  */
+      def __init__(msg):
+        message = msg;
+        typeOfError = -1;
+        instanceNum = -1;
+        fileLineNum = -1;
+        attributeNum = -1;
+        attDirection = Attribute.DIR_NOT_DEF;
+        errorInTrain = False;
+      # end ErrorInfo
 
-/**
- * It stores the type of the error
- */
-  public int typeOfError;
+    # /**
+    #  * It does print an understable message about the error
+    #  */
+      def printHere(self):
+        dir = ["Output", "Input"]
+        if (self.typeOfError==self.BadNumberOfValues):
 
-/**
- * It stores the instance number where the error has appeared.
- */
-  public int instanceNum;
+            print("BadNumberOfValuesException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", Train DB: "+self.errorInTrain+"]")
+            print(self.message)
 
-/**
- * It stores the file number where the error has appeared.
- */
-  public int fileLineNum;
+        elif(self.typeOfError== self.OutputMissingValue):
+            print("OutputMissingValueException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]");
+            print(self.message)
 
-/**
- * It stores the attribute number where the error has appeared.
- */
-  public int attributeNum;
+        elif(self.typeOfError==  self.BadNumericValue):
+           print("BadNumericValueException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]");
+           print(self.message)
 
-/**
- * It keeps if the attribute is an input, output or non-defined attribute
- */
-  public int attDirection;
+        elif(self.typeOfError==  self.TrainNominalOutOfRange):
+             print("TrainNominalOutOfRangeException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]");
+             print(self.message);
 
-/**
- * It stores if the error has been in the train dataset. Otherwise
- * it has been in the test dataset.
- */
-  public boolean errorInTrain;
+        elif(self.typeOfError== self.TestNominalOutOfRange):
+             print("TestNominalOutOfRangeException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]");
+             print(self.message);
 
-/**
- * Message to be writen when showing the error
- */
-  private String message;
+        elif(self.typeOfError== self.TrainNumberOutOfRange):
+             print("TrainNumberOutOfRangeException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]");
+             print(self.message)
 
-/**
- * Creates a new instance of ErrorInfo
- */
-  public ErrorInfo() {
-    typeOfError = -1;
-    instanceNum = -1;
-    fileLineNum = -1;
-    attributeNum = -1;
-    attDirection = Attribute.DIR_NOT_DEF;
-    errorInTrain = false;
-  }//end ErrorInfo
+        elif(self.typeOfError==self.TestNumberOutOfRange):
+             print("TestNumberOutOfRangeException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]");
+             print(self.message)
 
+        elif(self.typeOfError==self.TypeAlreadyFixed):
+             print("TypeAlreadyFixedException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]");
+             print(self.message);
 
-/**
- * Creates a new instance with the parameters passed.
- */
-  public ErrorInfo(int _type, int _iNum, int _lNum, int _atNum, int _atDir, boolean _train, String _msg){
-    typeOfError = _type;
-    instanceNum = _iNum;
-    fileLineNum = _lNum;
-    attributeNum = _atNum;
-    attDirection = _atDir;
-    errorInTrain = _train;
-    message = _msg;
-  }//end ErrorInfo
+        elif(self.typeOfError == self.AttributeNotDefinedInTrain):
 
-/**
- * It creates a new Error info with the message passed
- * @param msg is the error message
- */
-  public ErrorInfo(String msg){
-    message = msg;
-    typeOfError = -1;
-    instanceNum = -1;
-    fileLineNum = -1;
-    attributeNum = -1;
-    attDirection = Attribute.DIR_NOT_DEF;
-    errorInTrain = false;
-  }//end ErrorInfo
+            print("AttributeNotDefinedInTrainException >> [line: "+self.fileLineNum+", attributeNum: "+self.attributeNum+", Train DB: "+self.errorInTrain+"]");
+            print(self.message);
+        elif (self.typeOfError == self.InputTrainAttributeNotDefined):
 
-/**
- * It does print an understable message about the error
- */
-  public void print(){
-    String [] dir = {"Output", "Input"};
-    switch (typeOfError){
-        case BadNumberOfValues:
-                System.err.println("BadNumberOfValuesException >> [line: "+fileLineNum+", instance: "+instanceNum+", Train DB: "+errorInTrain+"]");
-                System.err.println(message);
-                break;
-        case OutputMissingValue:
-                System.err.println("OutputMissingValueException >> [line: "+fileLineNum+", instance: "+instanceNum+", attributeNum: "+attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-attDirection]+" Train DB: "+errorInTrain+"]");
-                System.err.println(message);
-                break;
-        case BadNumericValue:
-                System.err.println("BadNumericValueException >> [line: "+fileLineNum+", instance: "+instanceNum+", attributeNum: "+attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-attDirection]+" Train DB: "+errorInTrain+"]");
-                System.err.println(message);
-                break;
-        case TrainNominalOutOfRange:
-                System.err.println("TrainNominalOutOfRangeException >> [line: "+fileLineNum+", instance: "+instanceNum+", attributeNum: "+attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-attDirection]+" Train DB: "+errorInTrain+"]");
-                System.err.println(message);
-                break;
-        case TestNominalOutOfRange:
-                System.err.println("TestNominalOutOfRangeException >> [line: "+fileLineNum+", instance: "+instanceNum+", attributeNum: "+attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-attDirection]+" Train DB: "+errorInTrain+"]");
-                System.err.println(message);
-                break;
-        case TrainNumberOutOfRange:
-                System.err.println("TrainNumberOutOfRangeException >> [line: "+fileLineNum+", instance: "+instanceNum+", attributeNum: "+attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-attDirection]+" Train DB: "+errorInTrain+"]");
-                System.err.println(message);
-                break;
-        case TestNumberOutOfRange:
-                System.err.println("TestNumberOutOfRangeException >> [line: "+fileLineNum+", instance: "+instanceNum+", attributeNum: "+attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-attDirection]+" Train DB: "+errorInTrain+"]");
-                System.err.println(message);
-                break;
-        case TypeAlreadyFixed:
-                System.err.println("TypeAlreadyFixedException >> [line: "+fileLineNum+", instance: "+instanceNum+", attributeNum: "+attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-attDirection]+" Train DB: "+errorInTrain+"]");
-                System.err.println(message);
-                break;
-        case AttributeNotDefinedInTrain:
-                System.err.println("AttributeNotDefinedInTrainException >> [line: "+fileLineNum+", attributeNum: "+attributeNum+", Train DB: "+errorInTrain+"]");
-                System.err.println(message);
-                break;
-        case InputTrainAttributeNotDefined:
-                System.err.println("InputTrainAttributeNotDefinedException >> [line: "+fileLineNum+", Train DB: "+errorInTrain+"]");
-                System.err.println(message);
-                break;
-        case InputTestAttributeNotDefined:
-                System.err.println("InputTestAttributeNotDefinedException >> [line: "+fileLineNum+", Train DB: "+errorInTrain+"]");
-                System.err.println(message);
-                break;
-        case OutputTrainAttributeNotDefined:
-                System.err.println("OutputTrainAttributeNotDefinedException >> [line: "+fileLineNum+", Train DB: "+errorInTrain+"]");
-                System.err.println(message);
-                break;
-        case OutputTestAttributeNotDefined:
-                System.err.println("OutputTestAttributeNotDefinedException >> [line: "+fileLineNum+", Train DB: "+errorInTrain+"]");
-                System.err.println(message);
-                break;
-        case InputsInTestNotEquals:
-                System.err.println("InputsInTestNotEqualsException >> [Train DB: "+errorInTrain+"]");
-                System.err.println(message);
-                break;
-        case OutputsInTestNotEquals:
-                System.err.println("OutputsInTestNotEqualsException >> [Train DB: "+errorInTrain+"]");
-                System.err.println(message);
-                break;
-    }
-  }//end print
+            print("InputTrainAttributeNotDefinedException >> [line: "+self.fileLineNum+", Train DB: "+self.errorInTrain+"]");
+            print(self.message);
+        elif (self.typeOfError == self.InputTestAttributeNotDefined):
 
+           print("InputTestAttributeNotDefinedException >> [line: "+self.fileLineNum+", Train DB: "+self.errorInTrain+"]");
+           print(self.message);
+        elif (self.typeOfError == self.OutputTrainAttributeNotDefined):
 
-}//end of Class ErrorInfo
+            print("OutputTrainAttributeNotDefinedException >> [line: "+self.fileLineNum+", Train DB: "+self.errorInTrain+"]");
+            print(self.message);
+        elif (self.typeOfError == self.OutputTestAttributeNotDefined):
+
+            print("OutputTestAttributeNotDefinedException >> [line: "+self.fileLineNum+", Train DB: "+self.errorInTrain+"]");
+            print(self.message);
+        elif (self.typeOfError == self.InputsInTestNotEquals):
+
+            print("InputsInTestNotEqualsException >> [Train DB: "+self.errorInTrain+"]");
+            print(self.message);
+        elif (self.typeOfError == self.OutputsInTestNotEquals):
+
+            print("OutputsInTestNotEqualsException >> [Train DB: "+self.errorInTrain+"]");
+            print(self.message);
 
 
+    # end print
+
+    #
+    # end of Class ErrorInfo
 
 
-'''
+
+

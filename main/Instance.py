@@ -44,7 +44,6 @@
 
 from Attribute import Attribute
 from Attributes import Attributes
-from InstanceSet import InstanceSet
 from InstanceParser import InstanceParser
 from ErrorInfo import ErrorInfo
 
