@@ -7,8 +7,6 @@
     getInstances
     Returns an array with all the instances of the Instance Set.
 '''
-
-
     # /***********************************************************************
     #
 	# This file is part of KEEL-software, the Data Mining tool for regression,
@@ -52,7 +50,6 @@
 #  * @see Instance
 #  * @see Attributes
 #
-
 from FormatErrorKeeper import FormatErrorKeeper
 from InstanceParser import InstanceParser
 from Attribute import Attribute
@@ -60,14 +57,13 @@ from Attributes import Attributes
 from InstanceAttributes import InstanceAttributes
 from Instance import Instance
 from ErrorInfo import ErrorInfo
-
+from pathlib import Path
 
 class InstanceSet:
 
    # /////////////////////////////////////////////////////////////////////////////
    # //////////////// ATTRIBUTES OF THE INSTANCESET CLASS ////////////////////////
    # /////////////////////////////////////////////////////////////////////////////
-
 
    # Attribute where all the instances of the DB are stored.
 
@@ -103,6 +99,8 @@ class InstanceSet:
     # /////////////////////////////////////////////////////////////////////////////
 
     # It instances a new instance of InstanceSet
+    data_folder = Path("simpleTest/datasets/iris/")
+    file_to_open= None
 
     def __init__(self,storeAttributesAsNonStatic=False, ins=None):
 
@@ -125,7 +123,6 @@ class InstanceSet:
         # if ( storeAttributesAsNonStatic ) Attributes.clearAll();
         attributes = None;
 
-
     def InstanceSetWithIns(self, ins):
         self.instanceSet = ins.instanSet.copy();
     
@@ -142,8 +139,7 @@ class InstanceSet:
      # * stored as non-static (nonStaticAttributes = true). Otherwise, if 
      # * nonStaticAttributes = false, using this constructor is equivalent to use
      # * the constructor by default.
-    
-    
+
      # * Creates a new InstanceSet with the header and Instances from the passed object
      # * It performs a deep (new allocated) copy.
      # * @param is Original InstanceSe
@@ -163,7 +159,6 @@ class InstanceSet:
 
         storeAttributesAsNonStatic = True;
 
-
     # end setAttributesAsNonStatic
     
     # /**
@@ -173,14 +168,10 @@ class InstanceSet:
     #  * 
     #  * @return InstanceAttributes contains the attribute's definitions.
 
-
-
     def getAttributeDefinitions(self):
         return self.attributes
 
-
     # end InstanceAttributes
-
 
      # * This method reads all the information in a DB and load it to memory.
      # * @param fileName is the database file name.
@@ -190,46 +181,48 @@ class InstanceSet:
      # * header of the input file
 
     def readSet(self,fileName, isTrain):
-        print("before try, fileName is :" + str(fileName) + ".")
-        try:
+        print("Before try in readSet of InstanceSet, fileName is :" + str(fileName) + ".")
+        print("Opening the file in readSet of InstanceSet: " + str(fileName) + ".")
+        for file in fileName:
+            try:
+                # Parsing the header of the DB.
+                errorLogger = FormatErrorKeeper()
+                self.file_to_open=self.data_folder/file
+                    # Declaring an instance parser
+                print("In readSet,file_to_open is:"+ str(self.file_to_open))
+                parser = InstanceParser(self.file_to_open, isTrain);
+                    # Reading information in the header, i.e., @relation, @attribute, @inputs and @outputs
+                print("In readSet finished read file " + str(self.file_to_open))
+                self.parseHeader(parser, isTrain);
+                print(" The number of output attributes is: " + Attributes.getOutputNumAttributes());
+                    # The attributes statistics are init if we are in train mode.
+                if (isTrain and Attributes.getOutputNumAttributes() == 1):
+                    Attributes.initStatistics();
+                    # A temporal vector is used to store the instances read.
+                    # print( "\n\n  > Reading the data ");
+                    print("Reading the data");
+                    tempSet = [[0] * 1000] * 10000;
+                    lines = parser.getLines();
+                    while (lines != None):
+                        print( "Data line: " + lines)
+                    newInstance = Instance(lines, isTrain, tempSet.size());
+                    tempSet.append(newInstance);
 
-            print("Opening the file: " + str(fileName) + ".")
-            # Parsing the header of the DB.
-            errorLogger = FormatErrorKeeper()
-            # Declaring an instance parser
-            parser = InstanceParser(fileName, isTrain);
-            # Reading information in the header, i.e., @relation, @attribute, @inputs and @outputs
-            self.parseHeader(parser, isTrain);
-            print(" The number of output attributes is: " + Attributes.getOutputNumAttributes());
-            # The attributes statistics are init if we are in train mode.
-            if (isTrain and Attributes.getOutputNumAttributes() == 1):
-                Attributes.initStatistics();
-            # A temporal vector is used to store the instances read.
-            # print( "\n\n  > Reading the data ");
-                print("Reading the data");
-                tempSet = [[0] * 1000] * 10000;
-                line = parser.getLine();
-                while (line != None):
-                # System.out.println ("    > Data line: " + line );
-                    print( "> Data line: " + line)
-                newInstance = Instance(line, isTrain, tempSet.size());
-                tempSet.append(newInstance);
+                        # The vector of instances is converted to an array of instances.
+                    sizeInstance = tempSet.size();
+                    print(" > Number of instances read: " + tempSet.size());
+                    instanceSet = Instance[sizeInstance];
+                    for i in range(0, sizeInstance):
+                        instanceSet[i] = Instance(tempSet[i]);
 
-                # The vector of instances is converted to an array of instances.
-                sizeInstance = tempSet.size();
-                print("    > Number of instances read: " + tempSet.size());
-                instanceSet = Instance[sizeInstance];
-                for i in range(0, sizeInstance):
-                    instanceSet[i] = Instance(tempSet[i]);
-
-                    print("After converting all instances");
-                 # System.out.println("The error logger has any error: "+errorLogger.getNumErrors());
-                    if (errorLogger.getNumErrors() > 0):
-                        print("There has been " + errorLogger.getAllErrors().size() + "errors in the Dataset format.");
-                        for k in range(0, errorLogger.getNumErrors()):
-                            errorLogger.getError(k).print();
-        except Exception as e :
-             print("Unexpected error :" + str(e))
+                        print("After converting all instances");
+                         # System.out.println("The error logger has any error: "+errorLogger.getNumErrors());
+                        if (errorLogger.getNumErrors() > 0):
+                            print("There has been " + errorLogger.getAllErrors().size() + "errors in the Dataset format.");
+                            for k in range(0, errorLogger.getNumErrors()):
+                                errorLogger.getError(k).print();
+            except Exception as e :
+                print("Unexpected error in readSet of InstanceSet class :" + str(e))
 
              #print("There has been " + errorLogger.getAllErrors().size() + " errors in the Dataset format",
         #           errorLogger.getAllErrors());
@@ -243,10 +236,7 @@ class InstanceSet:
         #
         # print("  >> File LOADED CORRECTLY!!");
 
-
         # end of InstanceSet constructor.
-
-
 
          # * It reads the information in the header of the file.
          # * It reads relation's name, attributes' names, and inputs and outputs.
@@ -255,8 +245,6 @@ class InstanceSet:
          # * @param isTrain is a boolean indicating if this is a train set (and so
          # * parameters information must be read) or a test set (parameters information
          # * has not to be read).
-
-
 
     def parseHeader(self,parser, isTrain):
         # 1. Declaration of variables
@@ -275,48 +263,52 @@ class InstanceSet:
 
         attHeader = None;
 
-        line = parser.getLine().trim();
-        while (line.equalsIgnoreCase("@data") == False):
-            line = line.trim();
-            # System.out.println ("  > Line read: " + line +"." );
-            lineCount += 1;
-            if (line.toLowerCase().indexOf("@relation") != -1):
-                if (isTrain):
-                    Attributes.setRelationName(line.replaceAll("@relation", ""));
+        print("Begin to call the InstanceParser.getLines(),parser.getLines().trim(), in InstanceSet.")
+        lines = parser.getLines().trim();
+        print("In parseHeader method of InstanceSet, the line is:" + str(line))
+        for line in lines:
+            if (line.equalsIgnoreCase("@data") == False):
+                break
+            else:
+                line = line.trim();
+                print("  Line read: " + str(line) +"." )
+                lineCount += 1;
+                if (line.toLowerCase().indexOf("@relation") != -1):
+                    if (isTrain):
+                        Attributes.setRelationName(line.replaceAll("@relation", ""));
 
-            if (line.toLowerCase().indexOf("@attribute") != -1):
-                if (isTrain):
-                    self.insertAttribute(line);
-                attCount += 1;
+                elif (line.toLowerCase().indexOf("@attribute") != -1):
+                    if (isTrain):
+                        self.insertAttribute(line);
+                        attCount += 1;
 
-            if (line.toLowerCase().indexOf("@inputs") != -1):
-                attHeader = header;
-                inputsDef = True;
+                elif (line.toLowerCase().indexOf("@inputs") != -1):
+                        attHeader = header;
+                        inputsDef = True;
 
-                aux = line.substring(8);
+                        aux = line.substring(8);
 
-                if (isTrain == True):
-                    self.insertInputOutput(aux, lineCount, inputAttrNames, "inputs", isTrain);
+                        if (isTrain):
+                            self.insertInputOutput(aux, lineCount, inputAttrNames, "inputs", isTrain);
 
-            if (line.toLowerCase().indexOf("@outputs") != -1):
-                if (attHeader == None):
-                    attHeader = header;
-                outputsDef = True;
-                # System.out.println ( " >>> Defining the output !!!");
+                elif (line.toLowerCase().indexOf("@outputs") != -1):
+                    if (attHeader == None):
+                        attHeader = header
+                        outputsDef = True
+                        print( "Defining the output !!!");
 
-                aux = line.substring(8);
-                if (isTrain == True):
-                    self.insertInputOutput(aux, lineCount, outputAttrNames, "outputs", isTrain);
+                        aux = line.substring(8);
+                        if (isTrain):
+                            self.insertInputOutput(aux, lineCount, outputAttrNames, "outputs", isTrain);
 
-                print(" >> Size of the output is: " + outputAttrNames.size());
+                        print(" >> Size of the output is: " + outputAttrNames.size());
 
-            header += line + "\n";
+                header += line + "\n";
 
         if (attHeader == None):
             attHeader = header;
 
         self.processInputsAndOutputs(isTrain, inputsDef, outputsDef, outputAttrNames, inputAttrNames);
-
 
     # end headerParse
 
@@ -432,10 +424,10 @@ class InstanceSet:
 
     # end of processInputsAndOutputs
 
-    '''
-     * Test if the output attribute has been infered.
-     * @return True if the output attribute has been infered. False if not.
-     '''
+    # '''
+    #  * Test if the output attribute has been infered.
+    #  * @return True if the output attribute has been infered. False if not.
+    #  '''
 
 
     def isOutputInfered(self):
@@ -622,7 +614,7 @@ class InstanceSet:
             if (self.storeAttributesAsNonStatic and self.attributes != None):
                 self.instanceSet[i].removeAttribute(self.attributes, attToDel, inputAtt, whichAtt);
             else:
-                instanceSet[i].removeAttribute(attToDel, inputAtt, whichAtt);
+                self.instanceSet[i].removeAttribute(attToDel, inputAtt, whichAtt);
 
         if (tSet != None):
             for i in range(0, tSet.instanceSet.length):

@@ -94,23 +94,23 @@ class Fuzzy_Chi :
 
       def __init__(self,parameters):
 
-            self.train = MyDataSet()
-            self.val = MyDataSet()
-            self.test = MyDataSet()
+            self.train_myDataSet = MyDataSet()
+            self.val_myDataSet = MyDataSet()
+            self.test_myDataSet = MyDataSet()
             try:
               print("Reading the training set: ")
               inputTrainingFiles= parameters.getInputTrainingFiles()
               for file in inputTrainingFiles:
                   print("File Name is :" + file);
-              self.train.readClassificationSet(inputTrainingFiles, True)
-            #   print("Reading the validation set: ")
-            #                      # did not see any parameters.getValidationInputFile()
+              self.train_myDataSet.readClassificationSet(inputTrainingFiles, True)
+              print("Reading the validation set: ")
+            #   # did not see any parameters.getValidationInputFile()
             #   #val.readClassificationSet(parameters.getValidationInputFile(), False);
-            #   print("Reading the test set: ")
+              print("Reading the test set: ")
             #   for file in parameters.getInputTestFiles():
             #       print("File Name is :" + file);
             #
-            #   self.test.readClassificationSet(parameters.getInputTestFiles(), False);
+              self.test_myDataSet.readClassificationSet(parameters.get, False);
             except IOError as ioError :
                 print ("I/O error: "+ str(ioError))
             except Exception as e:
@@ -181,13 +181,13 @@ class Fuzzy_Chi :
               print("Accuracy obtained in test: "+accTst);
               print("Algorithm Finished");
 
-      """
-         * It generates the output file from a given dataset and stores it in a file
-         * @param dataset myDataset input dataset
-         * @param filename String the name of the file
-         *
-         * @return The classification accuracy
-      """
+      # """
+      #    * It generates the output file from a given dataset and stores it in a file
+      #    * @param dataset myDataset input dataset
+      #    * @param filename String the name of the file
+      #    *
+      #    * @return The classification accuracy
+      # """
       def doOutput(self,dataset, filename) :
           output = "";
           hits = 0;

@@ -205,7 +205,7 @@ class MyDataSet:
               print("self.__instanceSet is Null")
           else :
               print("self.__instanceSet is not None")
-          self.__instanceSet.readSet(datasetFile, train)
+              self.__instanceSet.readSet(datasetFile, train)
      #      nData = self.__instanceSet.getNumInstances();
      #      nInputs = Attributes.getInputNumAttributes();
      #      nVars = nInputs + Attributes.getOutputNumAttributes();
@@ -258,7 +258,7 @@ class MyDataSet:
      #      nClasses+=1;
      #      print('Number of classes=' + nClasses);
      except Exception as error:
-           print("DBG: Exception in readSet");
+           print("DBG: Exception in readSet, in readClassificationSet");
      #
      # self.computeStatistics();
      # self.computeInstancesPerClass();

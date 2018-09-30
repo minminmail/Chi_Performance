@@ -31,6 +31,7 @@
 from ParseParameters import ParseParameters
 from Fuzzy_Chi import Fuzzy_Chi
 import sys
+from pathlib import Path
 """ 
  * <p>It reads the configuration file (data-set files and parameters) and launch the algorithm</p>
  *
@@ -40,6 +41,8 @@ import sys
 """
 class Main :
 
+       data_folder = Path("simpleTest/scripts/FARCHD/iris")
+       file_to_open = None
        # Default Constructor
        """
                * It launches the algorithm

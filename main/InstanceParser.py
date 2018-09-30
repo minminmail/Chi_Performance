@@ -63,15 +63,16 @@ class InstanceParser:
    #  * them is that a test DB doesn't modify any parameter definition.
    #  */
 
-    __isTrain = None;
+    __isTrain = None
     # It counts the attribute number.
-    __attributeCount = 0;
+    __attributeCount = 0
     # String where de file header is stored
-    __header = "";
+    __header = ""
     # String where the relation name is stored
-    __relation = "";
+    __relation = ""
     # Counter of the line
-    lineCounter = 0;
+    lineCounter = 0
+    file = None
 
     # /////////////////////////////////////////////////////////////////////////////
     # /////////////////// METHODS OF THE PARSER CLASS /////////////////////////////
@@ -85,12 +86,13 @@ class InstanceParser:
 
     def __init__(self,fileName, _isTrain):
         try:
-            file = open(fileName, "r");
-            br = file.read();
-            lineCounter = 0;
+            self.file = open(fileName, "r");
+            print("In init of InstanceParser, set file =" + str(self.file))
+            #print(self.file.read())
+            self.lineCounter = 0
         except Exception as error:
-            print("The exceptoin is " + format(error))
-            exit(1);
+            print("The exception in init of InstanceParse is: " + format(error))
+            exit(1)
 
         self.__isTrain = _isTrain;
         self.__attributeCount = 0
@@ -118,7 +120,7 @@ class InstanceParser:
     #  * @return an string with the instance.
 
     def getInstance(self):
-        return self.getLine();
+        return self.getLines();
 
     # end getInstance
      # * It returns the number of attributes
@@ -126,23 +128,32 @@ class InstanceParser:
     def getAttributeNum(self):
         return self.__attributeCount
 
-     # * This method reads one valid line of the file. So, it ingores the comments,
+     # * This method reads one valid line of the file. So, it ignores the comments,
      # * and empty lines.
      # * @return a string with the new line read.
 
-    def getLine(self):
-        st = None;
-        while True:
-            try:
-                st = self.br.readLine();
-                self.lineCounter += 1;
-            except Exception as error:
-                print("Exception is " + format(error));
-                exit(1);
+    def getLines(self):
+        try:
 
-            if (st != None and (st.startsWith("%") or st.equals(""))):
-                break;
-        return st;
+            file_lines = self.file.readlines()
+            file_first_line = file_lines[0]
+
+            for line in file_lines:
+                if not str(line): # line is not empty
+                    file_first_line = line
+
+            print("file_lines: "+ str(file_lines))
+            print("file_first_line: " + str(file_first_line))
+
+            if file_lines and file_first_line.startswith("%"):
+                file_lines = None # The file is not the file that we want.
+            self.lineCounter =len(file_lines)
+        except Exception as error:
+            print("Inside getLines of InstanceParser , Exception is: " + format(error));
+            exit(1);
+
+
+        return file_lines;
 
     # end getLine
 
