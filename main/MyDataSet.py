@@ -206,8 +206,8 @@ class MyDataSet:
           else :
               print("self.__instanceSet is not None")
               self.__instanceSet.readSet(datasetFile, train)
-     #      nData = self.__instanceSet.getNumInstances();
-     #      nInputs = Attributes.getInputNumAttributes();
+              nData = self.__instanceSet.getNumInstances();
+              nInputs = Attributes.getInputNumAttributes();
      #      nVars = nInputs + Attributes.getOutputNumAttributes();
      #
      #      # outputIntegerheck that there is only one output variable

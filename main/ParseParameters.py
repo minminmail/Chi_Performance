@@ -212,7 +212,7 @@ class ParseParameters :
      # """
 
      def getInputFiles(self):
-        return str (self.__inputFiles)
+        return str(self.__inputFiles)
 
      # """
      # * It returns the input training files

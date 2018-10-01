@@ -148,6 +148,7 @@ class InstanceParser:
             if file_lines and file_first_line.startswith("%"):
                 file_lines = None # The file is not the file that we want.
             self.lineCounter =len(file_lines)
+            print("In getLines, there are " + str(self.lineCounter) +" lines")
         except Exception as error:
             print("Inside getLines of InstanceParser , Exception is: " + format(error));
             exit(1);

@@ -1,26 +1,4 @@
 
-# Attributes is an static class which stores the definitions of the attributes represented in the data set. It contains an array of Attribute objects, and two additional arrays storing references about the input and output attributes. The order of the attributes stored is the same order than it was found in the input data file.
-#
-# Its public methods are:
-#
-# getInputAttributes
-# Returns an array containing all the input Attributes.
-# getOutputAttributes
-# Returns an array containing all the output Attributes.
-# getInputAttribute
-# Returns a single input attribute.
-# getOutputAttribute
-# Returns a single output attribute.
-# getAttribute
-# Returns a single attribute, defined neither as input nor as output attribute.
-# getNumInputAttributes
-# Returns the number of input attributes.
-# getNumOutputAttributes
-# Returns the number of output attributes.
-# getNumAttributes
-# Returns the number attributes, including input, output and undefined ones.
-
-#
 # /***********************************************************************
 #
 # 	This file is part of KEEL-software, the Data Mining tool for regression,
@@ -51,684 +29,646 @@
 # **********************************************************************/
 
 # /*
-#  * Attribute.java
+#  * Attributes.java
+#  *
+#  * Created on 20 de junio de 2004, 10:06
 #  */
+from Attribute import Attribute
 
 # /**
-#  * <p>
-#  * <b> Attribute </b>
-#  * </p>
-#  * It contains an attribute representation. The class attributes are enough to
-#  * descrive completly an attribute: name, type, possible values, minimums and
-#  * maximums, etc. It offers a collection of functions to get all this information.
-#  *
-#  * @author Albert Orriols Puig
-#  * @version keel0.1
+ # * <p>
+ # * <b> Attributes </b>
+ # * </p>
+ # *
+ # * This class is a static class that, basically, contains a Vector of defined
+ # * attributes in the train file. Although it keeps all the attributes, it divides
+ # * them in two groups, the input attributes and the output attributes. It could
+ # * be that, depending on the @inputs and @outputs defined in the train file, some
+ # * of the attributes are not valid, so, their values are not loaded to the API
+ # * dataset. Even in this case, the non-careful attributes information is mantained
+ # * in this static class.
+ # *
+ # * @author Albert Orriols Puig
+ # * @see Attribute
+ # * @version keel0.1
+ # */
 
 class Attributes:
+#
+# /////////////////////////////////////////////////////////////////////////////
+# /////////////// ATTRIBUTES OF THE ATTRIBUTES CLASS //////////////////////////
+# /////////////////////////////////////////////////////////////////////////////
+#
+# /**
+#  * It contains all the attributes definitions.
+#  */
+  attributes = []
+
+# /**
+#  * It contains a reference to all input attributes.
+#  */
+  inputAttr  = []
+
+# /**
+#  * It contains a reference to all output attributes.
+#  */
+  outputAttr = []
+
+# /**
+#  * It contains a reference to all undefined attributes.
+#  */
+  undefinedAttr = []
+
+# /**
+#  * A flag indicating if the vector contains any nominal attribute.
+#  */
+  hasNominal = False
+#
+# /**
+#  * A flag indicating if the vector contains any integer attribute.
+#  */
+  hasInteger = False
+
+# /**
+#  * A flag indicating if the vector contains any real attribute.
+#  */
+  hasReal = False
+
+# /**
+#  * It indicates if there are missing values
+#  */
+  hasMissing = False
+
+# /**
+#  * A vector containing the types of each attribute.
+#  */
+  #private static int []type;
+
+# /**
+#  * String that keeps the relation name
+#  */
+  relationName = ""
 
 # /////////////////////////////////////////////////////////////////////////////
-# //////////////// CONSTANTS OF THE ATTRIBUTE CLASS ///////////////////////////
+# ///////////////// METHODS OF THE ATTRIBUTES CLASS ///////////////////////////
 # /////////////////////////////////////////////////////////////////////////////
 
-
-#  * Label for NOMINAL values.
-
-    NOMINAL = 0;
-
-
-    #  * Label for INTEGER values.
-
-    INTEGER = 1;
-
-    #  * Label for REAL VALUES
-
-
-    REAL = 2;
-
-    # /**
-    #  * Label to identify INPUT attributes
-    #  */
-
-    INPUT = 1;
-    # /**
-    #  * Label to identify OUTPUT attributes
-    #  */
-    OUTPUT = 2;
-    # /**
-    #  * Label to identify attributes that hasn't been defined neither as input or output
-    #  */
-    DIR_NOT_DEF = -1;
-
-    # /////////////////////////////////////////////////////////////////////////////
-    # /////////////// ATTRIBUTES OF THE ATTRIBUTE CLASS ///////////////////////////
-    # /////////////////////////////////////////////////////////////////////////////
-    #
-    # /**
-    #  * It indicates if the attribute  is an input (0), an output (1) or has not been
-    #  * defined neither as input or output (-1)
-    #  */
-    __dirAttribute=0;
-
-    # /**
-    #  * It keeps the type of the attribute. It can be one of the following values:
-    #  * [Attribute.Nominal, Attribute.Integer, Attribute.Real]
-    #  */
-
-    __type=0;
-
-    # /**
-    #  * It stores the name of the attribute.
-    #  */
-
-    __name="";
-
-    # /**
-    #  * Vector where all the values that can take this nominal attribute are going
-    #  * to be stored.
-    #  */
-
-    __nominalValues=[];
-
-    # /**
-    #  * Minimum value that can take a real attribute.
-    #  */
-
-    __minNum=0.0;
-
-    # /**
-    #  * Maximum value that can take a real attribute.
-    #  */
-    __maxNum=0.0;
-
-    # /**
-    #  * Flag that indicates if it's the first time that an operation is made
-    #  * with the current attribute.
-    #  */
-
-    __firstTime=None;
-
-    # /**
-    #  * It indicates if the bounds of the attribute has been fixed in its definition.
-    #  */
-
-    __fixedBounds=None;
-
-    # /**
-    #  * It counts the number of values that can take a nominal attribute
-    #  */
-    __countValues=0;
-
-    # /**
-    #  * It informs that a nominal value not compresed in train list values has been
-    #  * read in test
-    #  */
-    __newValuesInTest=None;
-
-    # /**
-    #  * It keeps the new values in test
-    #  */
-
-    __newValuesList=[];
-
-    # /**
-    #  * It keeps the frequency of each class value
-    #  */
-     
-
-    __classFrequencies=[];
-
-    # /**
-    #  * It stores the most used value in a nominal attribute
-    #  */
-
-    __mostUsedValue=[];
-
-     # * It stores the integer/real mean for this attribute
-
-    __meanValue=[];
-
-     # * It keeps the number of updates per class
-
-    __numStatUpdates=[] ;
-
-     # * It says if statistics has to be made
-
-    __makeStatistics=None;
-
-    # /////////////////////////////////////////////////////////////////////////////
-    # ///////////////// METHODS OF THE ATTRIBUTE CLASS ////////////////////////////
-    # /////////////////////////////////////////////////////////////////////////////
-    #
-    # /**
-    #  * Attribute Constructor. It instances a new Attribute instance.
-    #  */
-
-    def __init__(self) :
-       self.__type = -1;
-       self.__countValues=0;
-       self.__dirAttribute  = self.DIR_NOT_DEF;
-       self.__makeStatistics = False;
-       #end Attribute
-
-    # /**
-    #  * It sets the attribute type.
-    #      * @param _type given attribute type
-
-    def setType(self,_type):
-        if(type!=-1):
-            print("Type already fixed !!");
-            exit(1);
-
-        type=_type;
-        firstTime=True;
-
-        #If type is nominal, a new vector has to be created to store the list of
-        #values that it can take.
-        if(type==self.NOMINAL) :
-            nominalValues=[];
-            newValuesList = [];
-
-        #In all cases, the fixedBounds flag is set to false.
-        fixedBounds=False;
-      #end setType
-
-    # /**
-    #  * It does return the type of the attribute
-    #  * @return an int that contains the type of the attribute.
-    #  */
-    def getType(self):
-        return self.__type
-      #end getType
-
-    # /**
-    #  * It sets the attribute name
-    #  * @param _name is the name to be set.
-
-    def setName(_name):
-        name = _name;
-      #end setName
-
-    # /**
-    #  * It gets the attribute name
-    #  * @return a String with the attribute name.
-    #  */
-
-    def getName(self):
-       return self.name;
-      #end setName
-
-    # /**
-    #  * It sets the bound of the integer or real attribute.
-    #  * @param _min is the minimum value that the attribute can take.
-    #  * @param _max is the maximum value that the attribute can take.
-    #  */
-
-    def setBounds( self,_minNum, _maxNum):
-        if(type != self.REAL and type != self.INTEGER) :
-            return;
-        fixedBounds=True;
-        minNum=_minNum;
-        maxNum=_maxNum;
-      #end setBounds
-
-    # /**
-    #  * It returns the variable fixedBounds.
-    #  * @return a boolean that indicates if the bounds are fixed.
-
-    def getFixedBounds(self):
-        return self.fixedBounds;
-      #end getFixedBounds
-
-
-    # /**
-    #  * It sets the fixedBounds value
-    #  * @param fBounds is the value that has to be fixed to fixedBounds.
-    #  */
-
-    def setFixedBounds( fBounds):
-          fixedBounds = fBounds;
-      #end setFixedBounds
-
-    # /**
-    #  * It does enlarge the attribute bounds
-    #  * @param value is the value read from the BD file
-    #  */
-
-    def enlargeBounds(self, value) :
-        if(type!=self.REAL and type!=self.INTEGER) :
-            return;
-
-        if(self.firstTime) :
-            #If it's the first attribute update and the bounds are not fixed in its
-            #specification, the min and max values are initialized.
-            if(self.fixedBounds==False) :
-                minNum=value;
-                maxNum=value;
-
-            firstTime=False;
-
-        #valueMeans[instanceClass]+=value;
-            self.countValues+=1;
-
-        if(self.fixedBounds) :
-            return;
-
-        if(value<minNum)  :
-            minNum=value;
-        if(value>maxNum)   :
-            maxNum=value;
-      #end enlargeBounds
-
-    # /**
-    #  * It update an integer or real value read for an attribute in the test
-    #  * set if it doesn't match with the bounds defined in the train set. In
-    #  * this case, it replaces the value read for the nearliest bound (the
-    #  * minimum or the maximim bound respectively)
-    #  * @param value is the value read from the test file.
-    #  * @return a double with the rectified value.
-    #  */
-
-    def rectifyValueInBounds (self, value):
-        if (value < self.minNum) :
-            return self.minNum;
-        if (value > self.maxNum) :
-            return self.maxNum;
-        return value;
-      #end rectifyValueInBounds
-
-    # /**
-    #  * It does check if the value passed as an argument is bounded by
-    #  * the [min, max] interval.
-    #      * @param val value to check.
-    #  * @return a boolean that indicates if the value is bounded.
-    #  */
-
-    def isInBounds(self,val):
-          return (val>=self.minNum and val<=self.maxNum);
-      #end isInBounds
-
-    # /**
-    #  * It returns if the value passed is in the list of nominal values
-    #  * @param val is the value to be checked.
-    #  * @return a boolean indicating if the value is a possible nominal.
-    #  */
-
-    def isNominalValue(self,val):
-          return self.nominalValues.contains(val);
-      #end isNominalValue
-
-    # /**
-    #  * It returns the minimum possible value in a integer or real attribute
-    #  * @return a double with the minimum value
-    #  */
-
-    def getMinAttribute(self) :
-        return self.minNum;
-      #end minAttribute
-
-     # * It returns the maximum possible value in a integer or real attribute
-     # * @return a double with the maximum value
-     # */
-    def getMaxAttribute(self):
-        return self.maxNum;
-      #end maxAttribute
-
-
-    #  * This method add a new value to the list of possible values in a nominal
-    #  * attribute.
-    #  * @param value is the new value to be added.
-
-    def addNominalValue(self, value) :
-        if(type!=self.NOMINAL):
-            return;
-        if (value not in self.nominalValues):
-            self.nominalValues.addElement(str(value));
-
-      #end addNominalValue
-
-    # /**
-    #  * It does return the value most frequent for the class
-    #  * @param whichClass is the class which is wanted to know the most
-    #  *        frequent value.
-    #  * @return a String with the most used value.
-    #  */
-
-    def getMostFrequentValue( self,whichClass):
-          if (self.makeStatistics==False or type != self.NOMINAL or self.mostUsedValue == None):
-              return None;
-          if (whichClass <0 or whichClass >= self.mostUsedValue.length):
-              return None;
-          return self.mostUsedValue[whichClass];
-      #end getMostFrequentValue
-
-    #  * Does return the mean value for that attribute.
-    #  * @param whichClass is the integer value for the class
-    #  * @return a double with the mean value.
-
-    def getMeanValue(self,whichClass):
-          if (self.makeStatistics==False or (type != self.REAL and type!=self.INTEGER) or self.meanValue == None):
-            return 0;
-          if(whichClass<0 or whichClass >= self.meanValue.length) :
-              return 0;
-
-          return self.meanValue[whichClass];
-      #end getMeanValue
-
-    # /**
-    #  * It does initializes the variables to make statistics
-    #  * @param classNumber is the number of classes.
-    #  */    '''
-    def initStatistics(self,classNumber):
-        makeStatistics = True;
-        if (type == self.NOMINAL):
-            classFrequencies = int [classNumber];
-            numStatUpdates = int[classNumber];
-            for i in range(0, classNumber):
-                numStatUpdates[i] = 0;
-                classFrequencies[i] = int[self.nominalValues.size()];
-                for j in range(0, self.nominalValues.size()):
-                    classFrequencies[i][j] = 0;
-
+# /**
+#  * clearAll
+#  * This method clears all the static members of the class.
+#  * It is used when another dataset is wanted to be loaded
+#  */
+  def clearAll(self):
+      self.attributes = []
+      self.inputAttr  = []
+      self.outputAttr = []
+      self.undefinedAttr = []
+      self.hasNominal = False
+      self.hasInteger = False
+      self.hasReal = False
+      self.hasMissing = False
+      self.relationName = None
+   #end clearAll
+
+# /**
+#  * This method adds an attribute definition.
+#  * @param attr is the new attribute to be added.
+#  */
+  def addAttribute(self, attr):
+    self.attributes.addElement(attr)
+    if(attr.getType()==Attribute.NOMINAL):
+        hasNominal= True
+    if(attr.getType()==Attribute.INTEGER) :
+        hasInteger= True
+    if(attr.getType()==Attribute.REAL):
+        hasReal = True
+   #end addAttribute
+
+
+# /**
+#  * The function returns if there is any nominal attribute
+#      * @return True if there is any nominal attribute, False otherwise.
+#  */
+  def  hasNominalAttributes(self):
+    return self.hasNominal
+   #end hasNominalAttributes
+
+
+# /**
+#  * The function returns if there is any integer attribute.
+#      * @return True if there is any integer attribute, False otherwise.
+#  */
+  def hasIntegerAttributes(self):
+    return self.hasInteger;
+   #end hasIntegerAttributes
+
+# /**
+#  * The function returns if there is any real attribute.
+#      * @returnTrue if there is any real attribute, False otherwise.
+#  */
+  def  hasRealAttributes(self):
+    return self.hasReal
+   #end hasRealAttributes
+
+# /**
+#  * The function returns if there is any missing value
+#      * @return if there is any missing value, False otherwise.
+#  */
+  def hasMissingValues(self):
+    return self.hasMissing
+
+    #end hasMissingValues
+
+# /**
+#  * It returns the attribute requested.
+#  * @param _name is the name of the attribute.
+#      * @return the attribute requested.
+#  */
+  def getAttribute(self,_name):
+    for i in range (0,len(self.attributes)):
+        attribute = self.attributes.elementAt(i)
+        if  (self.attribute).getName()==_name:
+            break;
+
+    if (i == self.attributes.size()) :
+        return None;
+    return attribute
+   #end getAttribute
+
+
+# /**
+#  * It does return an array with all attributes
+#      * @return an array with all attributes
+#  */
+  def  getAttributes(self):
+    if (len(self.attributes) == 0):
+        return None
+    attr = self.attributes
+    for i in range(0, len(attr)):
+      attr[i] = self.attributes.elementAt(i)
+
+    return attr;
+   #end getAttribute
+
+# /**
+#  * It returns the input attribute being int the position passed as an argument.
+#  * @param pos is the position of the attribute wanted.
+#      * @return the input attribute being int the position passed as an argument.
+#  */
+  def getInputAttribute(self, pos):
+    if pos<0 or pos >= len(self.inputAttr):
+        return None;
+    return self.inputAttr.elementAt(pos);
+   #end getInputAttribute
+
+# /**
+#  * It does return all the input attributes
+#      * @return all the input attributes
+#  */
+  def getInputAttributes(self):
+    if (self.inputAttr.size() == 0) :
+        return None;
+    attr = self.inputAttr;
+    for i in range (0, attr.length):
+      attr[i] = self.inputAttr.elementAt(i);
+
+    return attr;
+   #end getInputAttribute
+
+# /**
+#  * It does return an String with the @inputs in keel format.
+#  * @return an string with the @inputs definition  .
+#  */
+  def getInputHeader(self):
+    aux = "@inputs ";
+    ending = ",";
+    for i in range(0, self.inputAttr.size()):
+      if (i == self.inputAttr.size() - 1):
+          ending = "";
+      attribute=self.inputAttr.elementAt(i)
+      aux += (attribute).getName() + ending;
+    return aux;
+  #end getInputHeader
+
+# /**
+#  * It does return a String with all the input attributes definition in keel
+#  * format. The order of the attributes is the order of lecture.
+#  * @return a String with the input attributes definition.
+#  */
+  def getInputAttributesHeader(self):
+    aux = "";
+    for i in range (0, self.inputAttr.size()):
+        #Writting the name and type of the attribute
+        aux += (self.inputAttr.elementAt(i)).toString()+"\n";
+
+    return aux;
+  #end getInputAttributesHeader
+
+#
+# /**
+#  * It does return all the output attributes.
+#      * @return all the output attributes.
+#  */
+  def getOutputAttributes(self):
+    if (self.outputAttr.size() == 0):
+        return None;
+    attr = Attribute[self.outputAttr.size()]
+    for i in range (0,attr.length):
+      attr[i] = self.outputAttr.elementAt(i)
+
+    return attr;
+  #end outputAttributes
+# /*
+#  * It returns the output attribute being int the position passed as an argument.
+#  * @param pos is the position of the attribute wanted.
+#      * @return the output attribute being int the position passed as an argument.
+#  */
+  def getOutputAttribute(self,pos):
+    if pos<0 or pos >= len(self.outputAttr):
+        return None;
+    return self.outputAttr.elementAt(pos);
+  #end getOutputAttribute
+
+# /**
+#  * It does return an String with the @outputs in keel format.
+#  * @return an string with the @outputs definition  .
+#  */
+  def getOutputHeader(self):
+    aux = "@outputs ";
+    ending = ",";
+    for i in range (0, len(self.outputAttr)):
+      if (i == len(self.outputAttr) - 1):
+          ending = "";
+      aux += (self.outputAttr.elementAt(i)).getName() + ending;
+
+    return aux;
+  #end getOutputHeader
+
+# /**
+#  * It does return a String with all the output attributes definition in keel
+#  * format. The order of the attributes is the order of lecture.
+#  * @return a String with the output attributes definition.
+#  */
+  def  getOutputAttributesHeader(self):
+    aux = "";
+    for i in range (0, len(self.outputAttr)):
+        #Writting the name and type of the attribute
+        aux += (self.outputAttr.elementAt(i)).toString()+"\n";
+
+    return aux;
+  #end getOutputAttributesHeader
+
+
+# /**
+#  * It returns the undefined attribute being int the position passed as an argument.
+#  * @param pos is the position of the attribute wanted.
+#      * @return the undefined attribute being int the position passed as an argument.
+#  *
+#  */
+  def  getUndefinedAttribute( self,pos):
+   if (pos<0 or pos >= len(self.undefinedAttr)):
+       return None;
+   return self.undefinedAttr.elementAt(pos);
+  #end getUndefinedAttribute
+
+# /**
+#  * It does return all the undefined attributes
+#      * @return all the undefined attributes
+#  */
+  def  getUndefinedAttributes(self):
+    if (self.undefinedAttr.size() == 0):
+        return None;
+    attr = self.undefinedAttr;
+    for i in range(0,attr.length):
+      attr[i] = self.undefinedAttr.elementAt(i);
+
+    return attr;
+  #end getUndefinedAttributes
+
+# /**
+#  * It does return a String with all the undefined attributes definition
+#  * in keel format. The order of the attributes is the order of lecture.
+#  * @return a String with the input attributes definition.
+#  */
+  def getUndefinedAttributesHeader(self):
+    aux = "";
+    for i in range (0, undefinedAttr.size()):
+        #Writting the name and type of the attribute
+        aux += (self.undefinedAttr.elementAt(i)).toString()+"\n";
+
+    return aux;
+  #end getUndefinedAttributesHeader
+
+# /**
+#  * It returns the attribute being int the position passed as an argument.
+#  * @param pos is the position of the attribute wanted.
+#      * @return the attribute being int the position passed as an argument.
+#  *
+
+  def getAttribute(self, pos):
+   return self.attributes.elementAt(pos);
+  #end getAttribute
+
+# /**
+#  * It return the total number of attributes in the API
+#  * @return an int with the number of attributes
+#  */
+  def getNumAttributes(self):
+    return len(self.attributes)
+  #end getNumAttributes
+
+
+# /**
+#  * It return the  number of input attributes in the API
+#  * @return an int with the number of attributes
+#  */
+  def getInputNumAttributes(self):
+    return len(self.inputAttr)
+  #end getInputNumAttributes
+
+# /**
+#  * It return the number of output attributes in the API
+#  * @return an int with the number of attributes
+#  */
+  def getOutputNumAttributes(self):
+    return len(self.outputAttr)
+  #end getOutputNumAttributes
+
+# /**
+#  * It return the number of undefined attributes in the API
+#  * @return an int with the number of attributes
+#  */
+  def getUndefinedNumAttributes(self):
+    return self.undefinedAttr.size();
+  #end getUndefinedNumAttributes
+
+# /**
+#  * It returns all the attribute names in the dataset except these ones
+#  * that are already in the vector v.
+#  * @param v is a vector with the exceptions
+#  * @return a Vector with the rest of attribute names.
+#  */
+  def getAttributesExcept(self,vector):
+      restAt = []
+      for i in (0, len(self.attributes)):
+          attName = self.attributes.get(i).getName();
+          if (attName not in vector):
+              restAt.add(attName);
+
+      return restAt;
+  #end getAttributesExcept
+
+
+# /**
+#  * It organizes the whole number of attributes to input, output, and
+#  * "no-direction" attributes.
+#  * @param inAttNames  is a vector with the names of all input  attributes.
+#  * @param outAttNames is a vector with the names of all output attributes.
+#  */
+  def setOutputInputAttributes(self,inAttNames, outAttNames):
+
+    attName=""
+    att=None
+
+    for i in range (0, len(self.attributes)):
+        att = self.attributes.get(i);
+        attName = att.getName();
+        if (attName in inAttNames):
+            att.setDirectionAttribute(Attribute.INPUT);
+            self.inputAttr.append(self.attributes.get(i));
+        elif outAttNames.contains(attName):
+            att.setDirectionAttribute(Attribute.OUTPUT);
+            self.outputAttr.append(self.attributes.get(i));
         else:
-            meanValue = float [classNumber];
-            numStatUpdates = int[classNumber];
-            for i in range(0,classNumber):
-             meanValue[i] = 0;
-             numStatUpdates[i] = 0;
+            self.undefinedAttr.append(self.attributes.get(i));
+
+    #Finally, making some statistics
+    hasNominal = False;
+    hasInteger = False;
+    hasReal    = False;
+
+    for index in range (0 ,2):
+        if (self.index == 0):
+            iterations = len(self.inputAttr)
+        else:
+            iterations = len(self.outputAttr)
+
+        for i in range (0,iterations):
+            if (index== 0):
+                att = self.inputAttr.elementAt(i)
+            else:
+                att = self.outputAttr.elementAt(i)
+
+            type = att.getType()
+            if type==Attribute.NOMINAL:
+                hasNominal = True;
+            elif type==Attribute.INTEGER:
+                hasInteger = True;
+            elif type == Attribute.REAL:
+                hasReal = True;
+
+  #end setOutputInputAttributes
+
+# /**
+#  * This method checks if all the input names vector corresponds with
+#  * all the attributes in input vector. If not, it returns a false. It
+#  * is used in a test to check that the definition of input attributes
+#  * is the same as the definition made in train.
+#  * @param outputNames is a vector with all input attribute names.
+#  */
+  def areAllDefinedAsInputs(self,inputNames):
+    if len(inputNames) != len(self.inputAttr):
+        return False
+    for i in range (0 ,len(self.inputAttr)):
+        name = self.inputAttr.elementAt(i).getName()
+        if name not in inputNames:
+            return False;
+
+    return True;
+  #end areAllDefinedAsInputs
+
+
+# /**
+#  * This method checks if all the output names vector corresponds with
+#  * all the attributes in output vector. If not, it returns a false. It
+#  * is used in a test to check that the definition of output attributes
+#  * is the same as the definition made in train.
+#  * @param outputNames is a vector with all output attribute names.
+#      * @return True if all the output names vector corresponds with
+#  * all the attributes in output vector.
+#  */
+
+  def areAllDefinedAsOutputs(self,outputNames):
+    if len(outputNames) != len(self.outputAttr):
+        return False;
+
+    for i in range (0, len(self.outputAttr)):
+        name = self.outputAttr.elementAt(i).getName()
+        if ( name not in outputNames ):
+            return False;
+
+    return True;
+  #end areAllDefinedAsOutputs
+
+
+# /**
+#  * It sets the relation name.
+#  * @param rel is the name to be set to the relationName
+#  */
+  def setRelationName(self,rel):
+      self.relationName = rel;
+  #end setRelationName
+
+# /**
+#  * It gets the relation name.
+#  * @return an String with the realtion name.
+#  */
+  def getRelationName(self):
+      return self.relationName;
+  #end relationName
+
+# /**
+#  * It does remove an attribute. Removing an attribute only implies, in terms
+#  * of Attribute static class, to take it out from the input/output attributes
+#  * list, but it will never be removed from the attributes general list. So
+#  * it will be placed as a NON-SPECIFIED attribute, as it wasn't declared in
+#  * neither @inputs and @outputs definition.
+#  * @param inputAtt is a boolean that indicates if the attribute to be removed
+#  * is an input attribute
+#  * @param whichAtt is an integer that indicates the position of the attribute
+#  * to be removed.
+#  * @return a boolean that will be false if the attribute hasn't been found.
+#  */
+  def removeAttribute( self,inputAtt, whichAtt):
+    atToDel = None
+    if ( inputAtt and (whichAtt >=  len(self.inputAttr) or whichAtt < 0)):
+        return False;
+    if (not inputAtt and (whichAtt >= len(self.outputAttr) or whichAtt < 0)):
+        return False;
+    if (inputAtt):
+        #inputAttribute
+        atToDel =  self.inputAttr.elementAt(whichAtt);
+        atToDel.setDirectionAttribute(Attribute.DIR_NOT_DEF);
+        self.inputAttr.removeElementAt(whichAtt);
+
+    else :# output attribute
+        atToDel = self.outputAttr.elementAt(whichAtt);
+        atToDel.setDirectionAttribute(Attribute.DIR_NOT_DEF);
+        self.outputAttr.removeElementAt(whichAtt);
+
+    #We get the position where it has to go in the undefined attributes vector.
+    self.undefPosition = self.searchUndefPosition(atToDel)
+    self.undefinedAttr.insertElementAt(atToDel, self.undefPosition)
+
+    self.hasNominal = False;
+    self.hasInteger = False;
+    self.hasReal    = False;
+    for index in range (0, 2):
+        if index == 0:
+            iterations = len(self.inputAttr)
+        else:
+            iterations = len(self.outputAttr)
+
+        for i in range (0,iterations):
+            if index == 0:
+                att = self.inputAttr.elementAt(i)
+            else:
+                self.outputAttr.elementAt(i)
+            if self.index == 0:
+                att = self.inputAttr.elementAt(i)
+            else:
+                att = self.outputAttr.elementAt(i)
+
+            type=att.getType()
+            if type==Attribute.NOMINAL:
+                hasNominal = True;
+            elif type == Attribute.INTEGER:
+                hasInteger = True;
+
+            elif type ==  Attribute.REAL:
+                hasReal = True;
+
+    return True;
+  #end removeAttribute
+
+#
+# /**
+#  * It does search the relative position of the input/output attribute
+#  * 'whichAtt' in the list of indefined attributes.
+#  * @param attToDel is an Attribute reference to the attribute that has to
+#  * be deleted.
+#  * @return an int with the relative position.
+#  */
+  def searchUndefPosition( self,attToDel):
+      undefCount=0
+      count = 0
+
+      att_aux = self.attributes.elementAt(count);
+      while (attToDel != att_aux):
+         if (att_aux.getDirectionAttribute() == Attribute.DIR_NOT_DEF):
+             undefCount+=1
+
+         count+=1
+         att_aux = self.attributes.elementAt(count);
+
+      return undefCount;
+  #end searchUndefPosition
+#
+# /**
+#  * It does initializes the statistics to make the statistics. It only
+#  * works for classifier Datasets (only one output).
+#  */
+
+  def initStatistics(self):
+    if (self.outputAttr.size() != 1):
+        return;
+
+    classNumber = self.outputAttr.elementAt(0).getNumNominalValues()
+    #If the output attribute has not been defined as a nominal or it has not
+    #any value in the nominal list, the initalization is aborted.
+    if classNumber<=0:
+        return;
+
+    for i in range (0, len(self.inputAttr)):
+        (self.inputAttr.elementAt(i)).initStatistics(classNumber);
 
     #end initStatistics
 
-    # /**
-    #  * It does finish the statistics process.
-    #  */
 
-    def finishStatistics(self):
-         if (self.makeStatistics==False) :
-             return;
-         if (type == self.NOMINAL):
-            mostUsedValue = str[len(self.classFrequencies)];
-            for i in range(0,len(mostUsedValue)):
-                maxNum = self.classFrequencies[i][0];
-                pos = 0;
-                for j in range(1,len(self.classFrequencies[i])):
-                    if (self.classFrequencies[i][j] > maxNum):
-                        maxNum = self.classFrequencies[i][j];
-                        pos = j;
+# /**
+#  * It does finish the statistics
+#  */
+  def finishStatistics(self):
+    if (self.outputAttr.size() != 1):
+        return;
 
+    for i in range (0,len(self.inputAttr)):
+        (self.inputAttr.elementAt(i)).finishStatistics();
 
-                mostUsedValue[i] = str(self.nominalValues.elementAt(pos));
+   #end finishStatistics
 
-         else:
-              for  i in range(0, len(self.meanValue)):
-                  self.meanValue[i] /= float(self.numStatUpdates[i]);
+# /**
+#  * It does print the attributes information
+#  */
+  def  printHere(self):
+    print("@relation = "+ self.relationName)
+    for i in range(0,self.attributes.size()):
+        att = self.attributes.elementAt(i);
+        if (att.getDirectionAttribute() == Attribute.INPUT):
+            print("INPUT ATTRIBUTE:");
+        elif (att.getDirectionAttribute() == Attribute.OUTPUT):
+            print("OUTPUT ATTRIBUTE:");
+        else:
+            print("UNDEFINED ATTRIBUTE:");
 
-      #end finishStatistics
+        att.print();
 
-    # /**
-    #  * It does increment the frequency that a value of a class has been used.
-    #  * It's called when a new value is read.
-    #  * @param whichClass is the class which frequency has to be increased
-    #  * @param value is the nominal value which frequency has to be increased.
-    #  */
+   #end print
 
-    def increaseClassFrequency( self,whichClass,  value):
-         if (self.makeStatistics and self.classFrequencies != None and self.classFrequencies[whichClass] != None and self.classFrequencies[whichClass] != None):
-             self.classFrequencies[whichClass] [self.convertNominalValue(value)]+=1;
-             self.numStatUpdates[whichClass]+=1;
 
-      #end increaseClassFrequency
+  #end of Attributes class
 
-    # /**
-    #  * It adds the new value to the mean values vector
-    #  * @param whichClass is the class where to add the new value
-    #  * @param value is the value to be added.
-    #  */
 
-    def addInMeanValue( self,whichClass,  value):
-          if (self.makeStatistics==True):
-              self.numStatUpdates [whichClass]+=1;
-              self.meanValue[whichClass] += value;
-
-      #en addInMeanValue
-
-
-    # /**
-    #  * Adds a new value for a nominal that has been read in the test file.
-    #  * @param value is the new value to be added.
-    #  * @return a boolean indicating if value didn't exist in the list.
-    #  */
-
-    def addTestNominalValue( self,value):
-        if (type != self.NOMINAL) :
-            return False;
-
-        if (value not in (self.nominalValues)):
-            self.nominalValues.append(str(value));
-            self.newValuesList.append(str(value));
-            self.newValuesInTest = True;
-            return True;
-
-        return False;
-      #end addTestNominalValue
-
-    # /**
-    #  * It returns a vector with all new nominal values read in test.
-    #  * @return a Vector with all new nominal values.
-    #  */
-
-    def getNewValuesInTest(self):
-          return self.newValuesList;
-      #end newValuesList
-
-
-    # /**
-    #  * It returns true if in test have appeared new values.
-    #  * @return a boolean indicating if new values have been read in test.
-    #  */
-
-    def areNewNominalValuesInTest(self):
-          return self.newValuesInTest;
-      #return areNewValuesInTest
-
-    # /**
-    #  * It returns the number of different values that can take a nominal attribute.
-    #  * @return an int with the number of different values that can take a nominal
-    #  *         attribute.
-    #  */
-
-    def getNumNominalValues(self) :
-        if(type!=self.NOMINAL) :
-             return -1;
-        return self.nominalValues.size();
-      #end getNumNominalValues
-
-     # * Returns all the possible nominal values
-     # * @return a Vector with the possible values that the nominal can take
-
-    def getNominalValuesList(self):
-          return self.nominalValues;
-      #end getNominalValuesList
-
-    # /**
-    #  * It returns de ith value of that nominal attribute
-    #  * @param pos indicate which attribute value is wanted.
-    #  * @return a string with the value.
-    #  */
-
-    def getNominalValue(self, pos) :
-        if(type!=self.NOMINAL) :
-            return None;
-        return str(self.nominalValues.elementAt(pos));
-      #end getNominalValue
-
-    # /**
-    #  * It converts a nominal value to a integer
-    #  * @param value is the value that is wanted to be converted
-    #  * @return an int with the converted value.
-    #  */
-
-    def convertNominalValue(self,value) :
-        return self.nominalValues.indexOf(value);
-      #end convertNominalValue
-
-    # /**
-    #  * It compares two attributes.
-    #  * @param attr is the second attribute of the comparation.
-    #  * @return a boolean that indicates if the attributes are equal.
-    #  */
-
-    def equals(self, attr) :
-        if((self.name==attr.name)==False):
-           return False;
-        if(attr.type!=type) :
-            return False;
-        if(type==self.NOMINAL) :
-                if((self.nominalValues==(attr.nominalValues))==False):
-                        return False;
-
-        return True;
-       #end equals
-
-
-    # /**
-    #  * It sets if the attribute is an input or an output attribute
-    #  * @param _dirAtt is the direction (input/output) of the attribute.
-    #  */
-
-    def setDirectionAttribute( _dirAtt):
-          dirAttribute = _dirAtt;
-      #end setInputAttribute
-
-
-    # /**
-    #  * It returns if the attribute is an input attribute
-    #  * @return a int that indicates if it's an input or output attribute
-    #  */
-
-    def getDirectionAttribute(self):
-          return self.dirAttribute;
-      #end getDirectionAttribute
-
-    # /**
-    #  * It does normalize a value.
-    #  * @param val is the value to be normalized.
-    #  * @return a double with the normalized value.
-    #  */
-
-    def normalizeValue (self,val):
-          if (type == self.NOMINAL)  :
-              return val;
-
-          if (type == self.INTEGER):
-              return val-min;
-          if (type == self.REAL) :
-              return (val-self.minNum)/(self.maxNum-self.minNum);
-          return val;
-      #end normalizeValue
-
-
-    # /**
-    #  * It returns a String with the attribute information in keel format
-    #  * @return an String with the attribute information.
-    #  */
-
-    def toString(self):
-        typeNames = {"","integer","real"};
-        aux = "@attribute " + self.name;
-
-        if (type =="NOMINAL"):
-              aux=self.toStringNOMINAL(aux);
-        elif (type == "INTEGER"):
-            aux=self.toStringINTEGER(aux);
-        elif(type=="REAL")   :
-            aux = self.toStringREAL(aux);
-
-      #end toString
-
-    def toStringNOMINAL(self,aux):
-        aux += "{";
-        ending = ",";
-        for i in range(0, self.nominalValues.size()):
-            if (i == self.nominalValues.size() - 1):
-                ending = "";
-            aux += str(self.nominalValues.elementAt(i)) + ending;
-            return aux;
-
-    def toStringINTEGER(self, aux):
-            aux += "{";
-            ending = ",";
-            aux += " integer[" + str(int(self.minNum));
-            aux += "," + str(int(self.maxNum)) + "]";
-            return aux;
-
-    def toStringREAL(self, aux):
-            aux += " real[" + str(float(self.minNum));
-            aux += "," + str(float(self.maxNum)) + "]";
-            return aux;
-
-    # /**
-    #  * This method prints the attribute information.
-    #  */
-
-    def printInfo(self):
-          typesConv = {"Nominal","Integer","Real"};
-          print("    > Name: "+self.name+".");
-          print("    > Type: "+type );
-          print("    > Type: "+typesConv[type]+".");
-          print ("    > Input/Output: ");
-          switcher={
-
-              "INPUT":print("INPUT"),
-              "OUTPUT":print("OUTPUT"),
-          }
-          return switcher.get(self.dirAttribute,"NOT DEFINED")
-
-
-          print(" > Range: ");
-
-          switcher2={
-              "NOMINAL": printNOMINAL(self),
-              "INTEGER": print("["+int(self.minNum)+","+int(self.maxNum)+"]")
-          }
-          return switcher2.get(self.dirAttribute,"NOT DEFINED")
-
-
-
-          switcher3 = {
-              "NOMINAL": printTypeNOMINAL(self),
-              "INTEGER": print("["+int(self.minNum)+","+int(self.maxNum)+"]")
-          }
-          return switcher3.get(type, print("["+self.minNum+","+self.maxNum+"]"))
-
-
-          if (type == self.NOMINAL):
-              if (mostUsedValue != None):
-                  print("\n    > Most used value: ");
-                  for i in range(0, mostUsedValue.length):
-                      print("       > class "+i+":"+mostUsedValue[i]);
-                      print("  ("+classFrequencies[i][convertNominalValue(mostUsedValue[i])]+")." );
-          else :
-             if (meanValue != None):
-              print("\n    > Mean used value: ");
-              for i in range(0,len(self.meanValue)):
-                print("   > class "+i+": "+self.meanValue[i]);
-
-          printInfo(self);
-      #end print
-
-    def printNOMINAL(self):
-        print("{");
-        for i in range(0, self.nominalValues.size()):
-            print((str)(self.nominalValues.elementAt(i)) + "  ");
-            print("}");
-
-    def printTypeNOMINAL(self):
-        print("{");
-        for i in range(0, self.nominalValues.size()):
-         print(str(self.nominalValues.elementAt(i)) + "  ");
-
-       #end of class Attribute
 
 
 

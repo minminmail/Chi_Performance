@@ -205,19 +205,19 @@ class InstanceSet:
                     lines = parser.getLines();
                     while (lines != None):
                         print( "Data line: " + lines)
-                    newInstance = Instance(lines, isTrain, tempSet.size());
+                    newInstance = Instance(lines, isTrain, len(tempSet));
                     tempSet.append(newInstance);
 
                         # The vector of instances is converted to an array of instances.
-                    sizeInstance = tempSet.size();
-                    print(" > Number of instances read: " + tempSet.size());
+                    sizeInstance = len(tempSet)
+                    print(" Number of instances read: " + str(sizeInstance));
                     instanceSet = Instance[sizeInstance];
                     for i in range(0, sizeInstance):
                         instanceSet[i] = Instance(tempSet[i]);
 
                         print("After converting all instances");
                          # System.out.println("The error logger has any error: "+errorLogger.getNumErrors());
-                        if (errorLogger.getNumErrors() > 0):
+                        if errorLogger.getNumErrors() > 0:
                             print("There has been " + errorLogger.getAllErrors().size() + "errors in the Dataset format.");
                             for k in range(0, errorLogger.getNumErrors()):
                                 errorLogger.getError(k).print();
@@ -263,26 +263,27 @@ class InstanceSet:
 
         attHeader = None;
 
-        print("Begin to call the InstanceParser.getLines(),parser.getLines().trim(), in InstanceSet.")
-        lines = parser.getLines().trim();
-        print("In parseHeader method of InstanceSet, the line is:" + str(line))
+        print("Begin to call the InstanceParser.getLines(),parser.getLines(), in InstanceSet.")
+        lines = parser.getLines()
+
         for line in lines:
-            if (line.equalsIgnoreCase("@data") == False):
+            print("In parseHeader method of InstanceSet, the line is:" + str(line))
+            if (str(line).lower()!="@data".lower()):
                 break
             else:
-                line = line.trim();
+                line = str(line).trim();
                 print("  Line read: " + str(line) +"." )
                 lineCount += 1;
-                if (line.toLowerCase().indexOf("@relation") != -1):
+                if (str(line).lower().indexOf("@relation") != -1):
                     if (isTrain):
                         Attributes.setRelationName(line.replaceAll("@relation", ""));
 
-                elif (line.toLowerCase().indexOf("@attribute") != -1):
+                elif (str(line).lower().indexOf("@attribute") != -1):
                     if (isTrain):
                         self.insertAttribute(line);
                         attCount += 1;
 
-                elif (line.toLowerCase().indexOf("@inputs") != -1):
+                elif (str(line).lower().indexOf("@inputs") != -1):
                         attHeader = header;
                         inputsDef = True;
 
@@ -291,7 +292,7 @@ class InstanceSet:
                         if (isTrain):
                             self.insertInputOutput(aux, lineCount, inputAttrNames, "inputs", isTrain);
 
-                elif (line.toLowerCase().indexOf("@outputs") != -1):
+                elif (str(line).lower().indexOf("@outputs") != -1):
                     if (attHeader == None):
                         attHeader = header
                         outputsDef = True
@@ -301,7 +302,7 @@ class InstanceSet:
                         if (isTrain):
                             self.insertInputOutput(aux, lineCount, outputAttrNames, "outputs", isTrain);
 
-                        print(" >> Size of the output is: " + outputAttrNames.size());
+                        print("Size of the output is: " + outputAttrNames.size());
 
                 header += line + "\n";
 
@@ -362,7 +363,7 @@ class InstanceSet:
             indexL = line.indexOf("[");
             indexR = line.indexOf("]");
 
-            if (indexL != -1 and indexR != - 1):
+            if (indexL is not -1 and indexR is not - 1):
                 # System.out.println ( "      > The real values are: " + line.substring( indexL+1, indexR) );
                 lineSub = line.substring(indexL + 1, indexR);
                 st2 = lineSub(",");
@@ -404,13 +405,14 @@ class InstanceSet:
     # end insertInputOutput
 
 
-    def processInputsAndOutputs(isTrain, inputsDef, outputsDef, outputAttrNames, inputAttrNames):
+    def processInputsAndOutputs(self,isTrain, inputsDef, outputsDef, outputAttrNames, inputAttrNames):
         # Afteer parsing the header, the inputs and the outputs are prepared.
-        print(" >> Processing inputs and outputs");
+        print("Processing inputs and outputs");
         outputInfered = False;
         if (isTrain == True):
             if (inputsDef == False and outputsDef == False):
-                outputAttrNames.add(Attributes.getAttribute(Attributes.getNumAttributes() - 1).getName());
+                posHere = Attributes.getNumAttributes(self) - 1
+                outputAttrNames.append(Attributes.getAttribute(self,posHere).getName());
                 inputAttrNames = Attributes.getAttributesExcept(outputAttrNames);
                 outputInfered = True;
             elif (inputsDef == False and outputsDef == True):
