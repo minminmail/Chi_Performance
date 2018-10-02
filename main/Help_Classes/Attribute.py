@@ -87,41 +87,40 @@ class Attribute:
  #  * defined neither as input or output (-1)
  # '''
 
- _dirAttribute=0;
+ __dirAttribute=0;
 
  # '''
  #  * It keeps the type of the attribute. It can be one of the following values:
  #  * [Attribute.Nominal, Attribute.Integer, Attribute.Real]
  # '''
 
- _type=0;
+ __type=0;
 
  #It stores the name of the attribute.
 
-
- _name='';
+ __name='';
  # '''
  #  * Vector where all the values that can take this nominal attribute are going
  #  * to be stored.
  #  '''
 
- _nominalValues=[];
+ __nominalValues=[];
  # '''
  #  * Minimum value that can take a real attribute.
  #  '''
 
- _min=0.0;
+ __min=0.0;
  # '''
  #  * Maximum value that can take a real attribute.
  #  '''
 
- _max=0.0;
+ __max=0.0;
  # '''
  #  * Flag that indicates if it's the first time that an operation is made
  #  * with the current attribute.
  #  '''
 
- _firstTime=None;
+ __firstTime=None;
  # '''
  #  * It indicates if the bounds of the attribute has been fixed in its definition.
  #  '''
@@ -131,19 +130,19 @@ class Attribute:
  #  * It counts the number of values that can take a nominal attribute
  #  '''
 
- _countValues=0;
+ __countValues=0;
 
  # '''
  #  * It informs that a nominal value not compresed in train list values has been
  #  * read in test
  #  '''
 
- _newValuesInTest=None;
+ __newValuesInTest=None;
  # '''
  #  * It keeps the new values in test
  #  '''
 
- _newValuesList=[];
+ __newValuesList=[];
  # '''
  #  It keeps the frequency of each class value
  # '''
@@ -156,7 +155,7 @@ class Attribute:
  # '''
  w=0;
  h=0;
- _classFrequencies = [[0 for x in range(w)] for y in range(h)]
+ __classFrequencies = [[0 for x in range(w)] for y in range(h)]
 
  # '''
  #  * It stores the most used value in a nominal attribute
@@ -166,23 +165,23 @@ class Attribute:
  # '''
  # strs = ["" for x in range(size)]
  # '''
- _mostUsedValue=["" for x in range(0)];
+ __mostUsedValue=["" for x in range(0)];
  # '''
  #  * It stores the integer/real mean for this attribute
  #  '''
 
- _meanValue=[];
+ __meanValue=[];
  # '''
  #  * It keeps the number of updates per class
  #  '''
 
- _numStatUpdates=[];
+ __numStatUpdates=[];
 
  # '''
  #  * It says if statistics has to be made
  #  '''
 
- _makeStatistics=None;
+ __makeStatistics=None;
  # '''
  # /////////////////////////////////////////////////////////////////////////////
  # ///////////////// METHODS OF THE ATTRIBUTE CLASS ////////////////////////////
@@ -193,10 +192,10 @@ class Attribute:
  #  '''
 
  def _init_(self):
-     _type=-1;
-     countValues=0;
-     _dirAttribute = DIR_NOT_DEF;
-     makeStatistics = False;
+     self.__type=-1;
+     self.__countValues=0;
+     self.__dirAttribute = self.DIR_NOT_DEF;
+     self.__makeStatistics = False;
 
  #//end Attribute
 
@@ -205,24 +204,23 @@ class Attribute:
  #      * @param _type given attribute type
  #  '''
 
- def setType(type) :
+ def setType(self,type) :
   if(type!=-1) :
    print("Type already fixed !!")
    exit(1);
 
-  type=_type;
-  _firstTime=True;
+   self.__type= type;
+   self.__firstTime=True;
  # '''
  #     //If type is nominal, a new vector has to be created to store the list of
  #     //values that it can take.
  # '''
- if(type==NOMINAL) :
-  nominalValues=[];
-  newValuesList = [];
-
+  if(type==self.NOMINAL) :
+   self.__nominalValues=[];
+   self.__newValuesList = [];
 
   #//In all cases, the fixedBounds flag is set to false.
-  fixedBounds=False;
+   self.__fixedBounds=False;
   #end setType
 
  # '''
@@ -230,8 +228,8 @@ class Attribute:
  #  * @return an int that contains the type of the attribute.
  #  '''
 
- def getType() :
-  return _type;
+ def getType(self) :
+  return self.__type
  #//end getType
 
  # '''
@@ -239,8 +237,8 @@ class Attribute:
  #  * @param _name is the name to be set.
  #  '''
 
- def setName(name) :
-  name = _name;
+ def setName(self,name) :
+  self.__name = name
  #end setName
 
  #
@@ -249,8 +247,8 @@ class Attribute:
  #  * @return a String with the attribute name.
  #  '''
 
- def getName() :
-  return name;
+ def getName(self) :
+  return self.__name
  #end setName
 
 
@@ -260,12 +258,12 @@ class Attribute:
  #  * @param _max is the maximum value that the attribute can take.
  #  '''
 
- def setBounds(_min,_max) :
-  if(_type != REAL and _type != INTEGER):
+ def setBounds(self,minBound,maxBound) :
+  if(self.__type != self.REAL and self.__type != self.INTEGER):
    return;
-  fixedBounds=True;
-  min=_min;
-  max=_max;
+   self.fixedBounds=True;
+   self.min=minBound
+   self.max=maxBound
  #end setBounds
 
  # '''
@@ -273,8 +271,8 @@ class Attribute:
  #  * @return a boolean that indicates if the bounds are fixed.
  #  '''
 
- def getFixedBounds():
-  return fixedBounds;
+ def getFixedBounds(self):
+  return self.__fixedBounds
  #end getFixedBounds
 
  #
@@ -283,8 +281,8 @@ class Attribute:
  #  * @param fBounds is the value that has to be fixed to fixedBounds.
  #  '''
 
- def setFixedBounds( fBounds):
-  fixedBounds = fBounds;
+ def setFixedBounds( self,fBounds):
+  self.__fixedBounds = fBounds;
  #end setFixedBounds
 
  # '''
@@ -292,29 +290,27 @@ class Attribute:
  #  * @param value is the value read from the BD file
  #  '''
 
- def enlargeBounds( value) :
-  if(_type!=REAL and _type!=INTEGER) :
+ def enlargeBounds(self, value) :
+  if(self.__type!=self.REAL and self.__type!=self.INTEGER) :
    return;
 
-  if(_firstTime==True) :
+  if(self.__firstTime==True) :
    #//If it's the first attribute update and the bounds are not fixed in its
    #//specification, the min and max values are initialized.
-   if(_fixedBounds==False) :
-    min=value;
-    max=value;
+    if (not self.__fixedBounds):
+      self.__min=value
+      self.__max=value
 
-   _firstTime=False;
+    self.__firstTime = False
+  # //valueMeans[instanceClass]+=value;
+  self.__countValues += 1
 
-
-  #//valueMeans[instanceClass]+=value;
-  countValues+=1;
-
-  if(_fixedBounds):
+  if self.__fixedBounds:
    return;
-  if(value<_min):
-   _min=value;
-  if(value>_max) :
-   _max=value;
+  if(value<self.__min):
+    self.__min=value
+  if(value>self.__max) :
+    self.__max=value
  #end enlargeBounds
 
  # '''
@@ -326,12 +322,12 @@ class Attribute:
  #  * @return a double with the rectified value.
  #  '''
 
- def rectifyValueInBounds ( value):
-  if (value < min) :
-   return min;
-  if (value > max):
-   return max;
-  return value;
+ def rectifyValueInBounds (self, value):
+  if (value < self.__min) :
+   return self.__min;
+  if (value > self.__max):
+   return self.__max;
+  return value
  #end rectifyValueInBounds
 
  # '''
@@ -341,8 +337,8 @@ class Attribute:
  #  * @return a boolean that indicates if the value is bounded.
  #  '''
 
- def isInBounds( val):
-  return (val>=_min and val<=_max);
+ def isInBounds(self, val):
+  return (val>=self.__min and val<=self.__max)
  #end isInBounds
 
  # '''
@@ -351,8 +347,8 @@ class Attribute:
  #  * @return a boolean indicating if the value is a possible nominal.
  #  '''
 
- def isNominalValue( val):
-  return nominalValues.contains(val);
+ def isNominalValue(self, val):
+  return (val in self.__nominalValues)
  #end isNominalValue
 
  #
@@ -361,8 +357,8 @@ class Attribute:
  #  * @return a double with the minimum value
  #  '''
 
- def getMinAttribute() :
-  return min;
+ def getMinAttribute(self) :
+  return self.__min
  #end minAttribute
 
  #
@@ -370,8 +366,8 @@ class Attribute:
  #  * It returns the maximum possible value in a integer or real attribute
  #  * @return a double with the maximum value
  #  '''
- def getMaxAttribute() :
-  return max;
+ def getMaxAttribute(self) :
+  return self.__max
  #end maxAttribute
 
 
@@ -380,11 +376,11 @@ class Attribute:
  #  * attribute.
  #  * @param value is the new value to be added.
  #  '''
- def addNominalValue( value) :
-  if(_type!=NOMINAL) :
+ def addNominalValue(self, value) :
+  if(self.__type!=self.NOMINAL) :
    return;
-  if (nominalValues.contains(value)==False):
-   nominalValues.addElement(str(value));
+  if (value not in self.__nominalValues):
+   self.__nominalValues.append(str(value));
 
  #end addNominalValue
 
@@ -396,12 +392,12 @@ class Attribute:
  #  *        frequent value.
  #  * @return a String with the most used value.
  #  '''
- def getMostFrequentValue( whichClass):
-  if (_makeStatistics==False or _type != NOMINAL or _mostUsedValue == None):
+ def getMostFrequentValue(self, whichClass):
+  if (self.__makeStatistics==False or self.__type != self.NOMINAL or self.__mostUsedValue == None):
    return None;
-  if (whichClass <0 or whichClass >= _mostUsedValue.length) :
+  if (whichClass <0 or whichClass >= self.__mostUsedValue.length) :
    return None;
-  return _mostUsedValue[whichClass];
+  return self.__mostUsedValue[whichClass];
  #end getMostFrequentValue
 
 
@@ -411,21 +407,21 @@ class Attribute:
  #  * @param whichClass is the integer value for the class
  #  * @return a double with the mean value.
  #  '''
- def getMeanValue( whichClass):
-  if (_makeStatistics==False or (_type != REAL and _type!=INTEGER) or _meanValue == None):
+ def getMeanValue(self, whichClass):
+  if (self.__makeStatistics==False or (self.__type != self.REAL and self.__type!=self.INTEGER) or self.__meanValue == None):
    return 0;
-  if(whichClass<0 or whichClass >= _meanValue.length):
+  if(whichClass<0 or whichClass >= self.__meanValue.length):
    return 0;
-  return _meanValue[whichClass];
+  return self.__meanValue[whichClass];
  #end getMeanValue
 
  # '''
  #  * It does initializes the variables to make statistics
  #  * @param classNumber is the number of classes.
  #  '''
- def initStatistics( classNumber):
+ def initStatistics(self, classNumber):
   makeStatistics = True;
-  if (_type == NOMINAL):
+  if (self.__type == self.NOMINAL):
    #w, h = 8, 5;
    #Matrix = [[0 for x in range(w)] for y in range(h)]
    w,h=classNumber,0;
@@ -433,9 +429,10 @@ class Attribute:
    numStatUpdates = int[classNumber];
    for i in range(0, classNumber):
     numStatUpdates[i] = 0;
-    classFrequencies[i] = int[nominalValues.size()];
-    for j in range(0,nominalValues.size()):
-     classFrequencies[i][j] = 0;
+    nominalValueLen=len(self.__nominalValues)
+    classFrequencies[i] = int[nominalValueLen];
+    for j in range(0,nominalValueLen):
+     classFrequencies[i][j] = 0
 
 
   else:
@@ -452,24 +449,24 @@ class Attribute:
  # '''
  #  * It does finish the statistics process.
  #  '''
- def finishStatistics():
-  if (_makeStatistics==False):
+ def finishStatistics(self):
+  if (self.__makeStatistics==False):
    return;
-  if (_type == NOMINAL):
-   mostUsedValue = str [_classFrequencies.length];
+  if (self.__type == self.NOMINAL):
+   mostUsedValue = str [self.__classFrequencies.length];
    for i in range(0,mostUsedValue.length):
-    max = _classFrequencies[i][0];
+    max = self.__classFrequencies[i][0];
     pos = 0;
-    for j in range(1,_classFrequencies[i].length):
-     if (_classFrequencies[i][j] > max):
+    for j in range(1,self.__classFrequencies[i].length):
+     if (self.__classFrequencies[i][j] > max):
       max = _classFrequencies[i][j];
       pos = j;
 
-    mostUsedValue[i] = str(nominalValues.elementAt(pos));
+    mostUsedValue[i] = str(self.__nominalValues[pos]);
 
   else:
-   for i in range(0,_meanValue.length):
-    _meanValue[i] /= float(_numStatUpdates[i]);
+   for i in range(0,self.__meanValue.length):
+    self.__meanValue[i] /= float(self.__numStatUpdates[i]);
 
 
  #end finishStatistics
@@ -481,8 +478,8 @@ class Attribute:
  #  * @param whichClass is the class which frequency has to be increased
  #  * @param value is the nominal value which frequency has to be increased.
  #  '''
- def increaseClassFrequency( whichClass,  value):
-  if (_makeStatistics and _classFrequencies != None and _classFrequencies[whichClass] != None and _classFrequencies[whichClass] != None):
+ def increaseClassFrequency(self, whichClass,  value):
+  if (self.__makeStatistics and self.__classFrequencies != None and self.__classFrequencies[whichClass] != None and self.__classFrequencies[whichClass] != None):
    _classFrequencies[whichClass] [convertNominalValue(value)]+=1;
    _numStatUpdates[whichClass]+=1;
 
@@ -494,10 +491,10 @@ class Attribute:
  #  * @param whichClass is the class where to add the new value
  #  * @param value is the value to be added.
  #  '''
- def addInMeanValue( whichClass,  value):
-  if (_makeStatistics):
-   _numStatUpdates [whichClass]+=1;
-   _meanValue[whichClass] += value;
+ def addInMeanValue(self, whichClass,  value):
+  if (self.__makeStatistics):
+   self.__numStatUpdates [whichClass]+=1;
+   self.__meanValue[whichClass] += value;
 
  #en addInMeanValue
 
@@ -507,13 +504,13 @@ class Attribute:
  #  * @param value is the new value to be added.
  #  * @return a boolean indicating if value didn't exist in the list.
  #  '''
- def addTestNominalValue( value):
-  if (_type != NOMINAL) :
+ def addTestNominalValue(self, value):
+  if (self.__type != self.NOMINAL) :
    return False;
 
-  if (_nominalValues.contains(value)==False):
-   nominalValues.addElement(str(value));
-   newValuesList.addElement(str(value));
+  if (value in self.__nominalValues==False):
+   self.__nominalValues.append(str(value));
+   self.__newValuesList.append(str(value));
    newValuesInTest = True;
    return True;
 
@@ -526,8 +523,8 @@ class Attribute:
  #  * It returns a vector with all new nominal values read in test.
  #  * @return a Vector with all new nominal values.
  #  '''
- def  getNewValuesInTest():
-  return newValuesList;
+ def  getNewValuesInTest(self):
+  return self.__newValuesList
  #end newValuesList
 
  #
@@ -535,8 +532,8 @@ class Attribute:
  #  * It returns true if in test have appeared new values.
  #  * @return a boolean indicating if new values have been read in test.
  #  '''
- def areNewNominalValuesInTest():
-  return newValuesInTest;
+ def areNewNominalValuesInTest(self):
+  return self.__newValuesInTest
  #return areNewValuesInTest
 
 
@@ -545,10 +542,10 @@ class Attribute:
  #  * @return an int with the number of different values that can take a nominal
  #  *         attribute.
  #  '''
- def getNumNominalValues() :
-  if(_type!=NOMINAL):
+ def getNumNominalValues(self) :
+  if(self.__type!=self.NOMINAL):
    return -1;
-  return nominalValues.size();
+  return len(self.__nominalValues)
  #end getNumNominalValues
 
  #
@@ -556,8 +553,8 @@ class Attribute:
  #  * Returns all the possible nominal values
  #  * @return a Vector with the possible values that the nominal can take
  #  '''
- def getNominalValuesList():
-  return nominalValues;
+ def getNominalValuesList(self):
+  return self.__nominalValues
  #end getNominalValuesList
 
 
@@ -567,10 +564,10 @@ class Attribute:
  #  * @param pos indicate which attribute value is wanted.
  #  * @return a string with the value.
  #  '''
- def getNominalValue( pos) :
-  if(_type!=NOMINAL):
+ def getNominalValue(self, pos) :
+  if(self.__type!=self.NOMINAL):
    return None;
-  return str(nominalValues.elementAt(pos));
+  return str(self.__nominalValues[pos]);
  #end getNominalValue
 
 
@@ -580,8 +577,8 @@ class Attribute:
  #  * @param value is the value that is wanted to be converted
  #  * @return an int with the converted value.
  #  '''
- def convertNominalValue( value) :
-  return nominalValues.indexOf(value);
+ def convertNominalValue(self, value) :
+  return self.__nominalValues.index(value);
  #end convertNominalValue
 
 
@@ -591,8 +588,8 @@ class Attribute:
  #  * @param attr is the second attribute of the comparation.
  #  * @return a boolean that indicates if the attributes are equal.
  #  '''
- def equals( attr) :
-  if(_name.equals(attr.name)==False):
+ def equals( self,attr) :
+  if(not self.__name==attr.name):
    return False;
   if(attr.type!=_type) :
    return False;

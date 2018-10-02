@@ -6,8 +6,8 @@
 #  * @version 1.1
 #  * @since JDK1.5
 # '''
-from InstanceSet import InstanceSet
-from main import Attributes
+from Help_Classes.InstanceSet import InstanceSet
+from Help_Classes.Attributes import Attributes
 import math
 import sys
 class MyDataSet:
@@ -186,7 +186,6 @@ class MyDataSet:
     # '''
     def isMissing(self, i, j):
       return self.missing[i][j];
-
 
     # '''
     #  * It reads the whole input data-set and it stores each example and its associated output value in
@@ -522,7 +521,7 @@ class MyDataSet:
       for i in range( 0, self.getnInputs()):
         if (Attributes.getInputAttribute(i).getNumNominalValues() > 0):
           rangos[i][0] = 0;
-          rangos[i][1] = Attributes.getInputAttribute(i).getNumNominalValues() -1;
+          rangos[i][1] = Attributes.getInputAttribute(i).getNumNominalValues() - 1;
 
         else:
           rangos[i][0] = Attributes.getInputAttribute(i).getMinAttribute();

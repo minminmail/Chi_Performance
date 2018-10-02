@@ -33,7 +33,7 @@
 #  *
 #  * Created on 20 de junio de 2004, 10:06
 #  */
-from Attribute import Attribute
+from Help_Classes.Attribute import Attribute
 
 # /**
  # * <p>
@@ -516,7 +516,7 @@ class Attributes:
 #  * @param rel is the name to be set to the relationName
 #  */
   def setRelationName(self,rel):
-      self.relationName = rel;
+      self.relationName = rel
   #end setRelationName
 
 # /**
@@ -524,7 +524,7 @@ class Attributes:
 #  * @return an String with the realtion name.
 #  */
   def getRelationName(self):
-      return self.relationName;
+      return self.relationName
   #end relationName
 
 # /**

@@ -46,7 +46,7 @@
 #  *
 #  */
 
-from Attribute import Attribute
+from Help_Classes.Attribute import Attribute
 class ErrorInfo :
 
     # /**

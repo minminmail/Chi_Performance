@@ -50,13 +50,13 @@
 #  * @see Instance
 #  * @see Attributes
 #
-from FormatErrorKeeper import FormatErrorKeeper
-from InstanceParser import InstanceParser
-from Attribute import Attribute
-from Attributes import Attributes
-from InstanceAttributes import InstanceAttributes
-from Instance import Instance
-from ErrorInfo import ErrorInfo
+from Help_Classes.FormatErrorKeeper import FormatErrorKeeper
+from Help_Classes.InstanceParser import InstanceParser
+from Help_Classes.Attribute import Attribute
+from Help_Classes.Attributes import Attributes
+from Help_Classes.InstanceAttributes import InstanceAttributes
+from Help_Classes.Instance import Instance
+from Help_Classes.ErrorInfo import ErrorInfo
 from pathlib import Path
 
 class InstanceSet:
@@ -254,36 +254,38 @@ class InstanceSet:
         inputsDef = False;
         outputsDef = False;
 
-        line = "";
-        aux = "";
-        header = "";
+        aux = ""
+        header = ""
 
-        attCount = 0;
-        lineCount = 0;
+        attCount = 0
+        lineCount = 0
 
-        attHeader = None;
+        attHeader = None
 
         print("Begin to call the InstanceParser.getLines(),parser.getLines(), in InstanceSet.")
         lines = parser.getLines()
 
         for line in lines:
-            print("In parseHeader method of InstanceSet, the line is:" + str(line))
-            if (str(line).lower()!="@data".lower()):
+            line = str(line).strip().lower()
+            print("In parseHeader method of InstanceSet, the line is:" + line)
+            if (line=="@data".lower()):
                 break
             else:
-                line = str(line).trim();
-                print("  Line read: " + str(line) +"." )
+                print("  Line read: " + line +"." )
                 lineCount += 1;
-                if (str(line).lower().indexOf("@relation") != -1):
+                if ("@relation" in line):
                     if (isTrain):
-                        Attributes.setRelationName(line.replaceAll("@relation", ""));
+                        relationName = str(line.replace("@relation", "")).strip()
+                        print("set Relation name :" + str(relationName))
+                        Attributes.setRelationName(self,relationName)
 
-                elif (str(line).lower().indexOf("@attribute") != -1):
+                elif ("@attribute" in line):
                     if (isTrain):
+                        print("insert Attribute name :")
                         self.insertAttribute(line);
                         attCount += 1;
 
-                elif (str(line).lower().indexOf("@inputs") != -1):
+                elif ("@inputs" in line):
                         attHeader = header;
                         inputsDef = True;
 
@@ -313,67 +315,80 @@ class InstanceSet:
 
     # end headerParse
 
-    def insertAttribute(line):
+    def insertAttribute(self,line):
+        print("Insert attribute begin :")
         indexL = 0,
         indexR = 0;
         type = "";
 
         # Treating string and declaring a string tokenizer
-        line.replace("{", " {");
-        # line.replace ("["," [");
+        if "{" in line:
+            token_str = "{"
+            token_str_right="}"
+        elif "[" in line:
+            token_str = "["
+            token_str_right = "]"
+        token_withT= "\t" + token_str
 
+        line=line.replace (token_str,token_withT);
+        print("line with token_double:" + token_withT + "line:" + line)
         # System.out.println ("  > Processing line: "+  line );
-        st = line.split(" [{\t");
+        #st = line.split(" [{\t");
+        st = line.split("\t")
 
+        print("st after split is :" + str(st))
         # Disregarding the first token. It is @attribute
-        st.nextToken();
-
-        at = Attribute();
-        at.setName(st.nextToken().trim());
+        st[0] = st[0].replace("@attribute","").strip()
+        print("str[0] is:" + st[0])
+        at = Attribute()
+        at.setName(st[0])
         # System.out.println ( "   > Attribute name: "+ at.getName() );
 
         # Next action depends on the type of attribute: continuous or nominal
-        if (st.hasMoreTokens() == False):  # Parsing a nominal attribute with no definition of values
+        if (len(st)==1):  # Parsing a nominal attribute with no definition of values
             # System.out.println ("    > Parsing nominal attribute without values ");
-            at.setType(Attribute.NOMINAL);
+            at.setType(Attribute.NOMINAL)
 
-        elif (line.indexOf("{") != -1):  # Parsing a nominal attribute
+        elif (token_str in line):  # Parsing a nominal attribute
             # System.out.println ("    > Parsing nominal attribute with values: "+line );
-            at.setType(Attribute.NOMINAL);
-            at.setFixedBounds(True);
+            at.setType(Attribute.NOMINAL)
+            at.setFixedBounds(True)
 
-            indexL = line.indexOf("{");
-            indexR = line.indexOf("}");
+            indexL = line.index(token_str)
+            indexR = line.index(token_str_right)
 
-            # System.out.println ( "      > The Nominal values are: " + line.substring( indexL+1, indexR) );
-            lineSub = line.substring(indexL + 1, indexR);
-            st2 = lineSub.split(",");
+            print( "The Nominal values are: " + line[indexL, indexR]);
+            lineSub = line[indexL, indexR]
+            print("The lineSub : " + lineSub)
+            st2 = lineSub.split(",")
 
             while (st2.hasMoreTokens()):
-                at.addNominalValue(st2.nextToken().trim());
+                at.addNominalValue(st2.nextToken().strip())
 
 
         else:  # Parsing an integer or real
-            type = st.nextToken().trim();
+            type = st.nextToken().strip()
 
             # System.out.println ("    > Parsing "+ type + " attributes");
-            if (type.equalsIgnoreCase("integer")): at.setType(Attribute.INTEGER);
-            if (type.equalsIgnoreCase("real")):   at.setType(Attribute.REAL);
+            if (type.lower() == "integer"):
+                at.setType(Attribute.INTEGER);
+            if (type.lower() == "real"):
+                at.setType(Attribute.REAL);
 
             indexL = line.indexOf("[");
             indexR = line.indexOf("]");
 
             if (indexL is not -1 and indexR is not - 1):
                 # System.out.println ( "      > The real values are: " + line.substring( indexL+1, indexR) );
-                lineSub = line.substring(indexL + 1, indexR);
-                st2 = lineSub(",");
+                lineSub = line.substring(indexL + 1, indexR)
+                st2 = lineSub(",")
 
-                min = float(st2.nextToken().trim());
-                max = float(st2.nextToken().trim());
+                min = float(st2.nextToken().strip())
+                max = float(st2.nextToken().strip())
 
-                at.setBounds(min, max);
-
-                Attributes.addAttribute(at);
+                at.setBounds(min, max)
+                print("Before add attribute : at"+str(at))
+                Attributes.addAttribute(at)
 
 
     # end insertAttribute
@@ -382,7 +397,7 @@ class InstanceSet:
     def insertInputOutput(line, lineCount, collection, type, isTrain):
         attName = "";
 
-        print(" >> processing: " + line);
+        print(" processing: " + line);
 
         # Declaring StringTokenizer
         st = line.split(",");
@@ -408,19 +423,23 @@ class InstanceSet:
     def processInputsAndOutputs(self,isTrain, inputsDef, outputsDef, outputAttrNames, inputAttrNames):
         # Afteer parsing the header, the inputs and the outputs are prepared.
         print("Processing inputs and outputs");
-        outputInfered = False;
+        self.outputInfered = False;
         if (isTrain == True):
+            print("isTrain == True")
             if (inputsDef == False and outputsDef == False):
+                print("inputsDef == False and outputsDef == False")
                 posHere = Attributes.getNumAttributes(self) - 1
                 outputAttrNames.append(Attributes.getAttribute(self,posHere).getName());
                 inputAttrNames = Attributes.getAttributesExcept(outputAttrNames);
-                outputInfered = True;
+                self.outputInfered = True;
             elif (inputsDef == False and outputsDef == True):
+                print("inputsDef == False and outputsDef == True")
                 inputAttrNames = Attributes.getAttributesExcept(outputAttrNames);
             elif (inputsDef == True and outputsDef == False):
+                print("inputsDef == True and outputsDef == False")
                 outputAttrNames = Attributes.getAttributesExcept(inputAttrNames);
-                outputInfered = True;
-
+                self.outputInfered = True;
+            print("setOutputInputAttributes begin: ")
             Attributes.setOutputInputAttributes(inputAttrNames, outputAttrNames);
 
 

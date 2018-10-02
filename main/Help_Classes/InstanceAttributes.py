@@ -50,8 +50,8 @@
  */
 '''
 
-from main import Attribute;
-from main import Attributes;
+from main.Help_Classes import Attribute, Attributes
+
 
 class InstanceAttributes :
 
@@ -156,14 +156,14 @@ def copyStaticAttributes (self) :
   undefinedAttr = [];
 
   for i in range (0, Attributes.attributes.size()) :
-    self.attributes.add ( Attributes.attributes.elementAt(i) );
-  for  i in range (0,Attributes.inputAttr.size()):
-    self.inputAttr.add ( Attributes.inputAttr.elementAt(i) );
+    self.attributes.add (Attributes.attributes.elementAt(i));
+  for  i in range (0, Attributes.inputAttr.size()):
+    self.inputAttr.add (Attributes.inputAttr.elementAt(i));
 
-  for i in range(0,Attributes.outputAttr.size()):
-       outputAttr.add ( Attributes.outputAttr.elementAt(i) );
-  for i in range (0,Attributes.undefinedAttr.size()):
-      undefinedAttr.add ( Attributes.undefinedAttr.elementAt(i) );
+  for i in range(0, Attributes.outputAttr.size()):
+       outputAttr.add (Attributes.outputAttr.elementAt(i));
+  for i in range (0, Attributes.undefinedAttr.size()):
+      undefinedAttr.add (Attributes.undefinedAttr.elementAt(i));
 
 
   hasNominal	= Attributes.hasNominal;
@@ -180,17 +180,17 @@ def copyStaticAttributes (self) :
 '''
 def addAttribute(self, attr) :
     attributes.addElement(attr);
-    if(attr.getDirectionAttribute()==Attribute.INPUT):
+    if(attr.getDirectionAttribute()== Attribute.INPUT):
         self.inputAttr.add(attr);
-    if(attr.getDirectionAttribute()==Attribute.OUTPUT):
+    if(attr.getDirectionAttribute()== Attribute.OUTPUT):
         self.outputAttr.add(attr);
-    if(attr.getDirectionAttribute()==Attribute.DIR_NOT_DEF):
+    if(attr.getDirectionAttribute()== Attribute.DIR_NOT_DEF):
         self.undefinedAttr.add(attr);
-    if(attr.getType()==Attribute.NOMINAL):
+    if(attr.getType()== Attribute.NOMINAL):
         hasNominal=True;
-    if(attr.getType()==Attribute.INTEGER):
+    if(attr.getType()== Attribute.INTEGER):
         hasInteger=True;
-    if(attr.getType()==Attribute.REAL):
+    if(attr.getType()== Attribute.REAL):
         hasReal=True;
   #end addAttribute
 
@@ -300,7 +300,7 @@ def getInputAttributesHeader():
     aux = "";
     for i in range (0, _inputAttr.size()):
         #Writting the name and type of the attribute
-        aux += Attribute(_inputAttr.elementAt(i)).toString()+"\n";
+        aux += Attribute(_inputAttr.elementAt(i)).toString() + "\n";
 
     return aux;
   #end getInputAttributesHeader
@@ -345,7 +345,7 @@ def getOutputHeader(self):
       if (i == self.outputAttr.size() - 1) :
 
           ending = "";
-          aux += (Attribute( self.outputAttr.elementAt(i)).getName()) + ending;
+          aux += (Attribute(self.outputAttr.elementAt(i)).getName()) + ending;
 
     return aux;
   #end getOutputHeader
@@ -361,7 +361,7 @@ def getOutputAttributesHeader(self):
     aux = "";
     for i in range (0, self._outputAttr.size()):
         #Writting the name and type of the attribute
-        aux += str(Attribute(self._outputAttr.elementAt(i)))+"\n";
+        aux += str(Attribute(self._outputAttr.elementAt(i))) + "\n";
 
     return aux;
 #end getOutputAttributesHeader
@@ -404,7 +404,7 @@ def getUndefinedAttributesHeader(self):
     aux = "";
     for i in range (0, self.undefinedAttr.size()):
         #Writting the name and type of the attribute
-        aux += Attribute(self.undefinedAttr.elementAt(i)).toString()+"\n";
+        aux += Attribute(self.undefinedAttr.elementAt(i)).toString() + "\n";
 
     return aux;
   #end getUndefinedAttributesHeader
@@ -487,7 +487,7 @@ def getAttributesExcept(v):
 def setOutputInputAttributes(self,inAttNames,outAttNames):
     i=0;
     attName='';
-    att=Attribute();
+    att= Attribute();
 
     for i in range (0, attributes.size()):
         att = Attribute(attributes.get(i));
@@ -517,17 +517,17 @@ def setOutputInputAttributes(self,inAttNames,outAttNames):
         for i in range (0,iterations):
 
             if(index == 0):
-               att =Attribute(self._inputAttr.elementAt(i)) ;
+               att = Attribute(self._inputAttr.elementAt(i)) ;
             else:
-               att=Attribute(self._outputAttr.elementAt(i));
-            if ( att.getType()==Attribute.NOMINAL ):
+               att= Attribute(self._outputAttr.elementAt(i));
+            if ( att.getType()== Attribute.NOMINAL):
 
                 hasNominal = True;
 
-            elif(att.getType()== Attribute.INTEGER):
+            elif(att.getType() == Attribute.INTEGER):
                  hasInteger = True;
 
-            elif(att.getType()== Attribute.REAL):
+            elif(att.getType() == Attribute.REAL):
                     hasReal = True;
 
  #end setOutputInputAttributes
@@ -545,7 +545,7 @@ def areAllDefinedAsInputs(self,inputNames):
         return False;
 
     for i in range(0, self._inputAttr.size()):
-        if ( inputNames.contains((Attribute(self.inputAttr.elementAt(i))).getName())==False ) :
+        if ( inputNames.contains((Attribute(self.inputAttr.elementAt(i))).getName())==False) :
             return False;
 
     return True;
@@ -564,7 +564,7 @@ def areAllDefinedAsOutputs( self,outputNames):
         return False;
 
     for i in range(0, self._outputAttr.size()):
-        if ( outputNames.contains((Attribute(self._outputAttr.elementAt(i))).getName()) ):
+        if ( outputNames.contains((Attribute(self._outputAttr.elementAt(i))).getName())):
             return False;
 
     return True;
@@ -637,16 +637,16 @@ def removeAttribute( self,inputAtt,  whichAtt):
             if(index == 0):
                 att = Attribute(inputAttr.elementAt(i)) ;
         else:
-            att =Attribute(self.__outputAttr.elementAt(i));
+            att = Attribute(self.__outputAttr.elementAt(i));
         attTypeHere=att.getType();
-        if ( attTypeHere==Attribute.NOMINAL ):
+        if ( attTypeHere== Attribute.NOMINAL):
 
             hasNominal = True;
 
-        elif(attTypeHere== Attribute.INTEGER):
+        elif(attTypeHere == Attribute.INTEGER):
             hasInteger = True;
 
-        elif( attTypeHere== Attribute.REAL):
+        elif(attTypeHere == Attribute.REAL):
             hasReal = True;
 
 
@@ -686,7 +686,7 @@ def initStatistics(self):
     if (self.__outputAttr.size() != 1):
         return;
 
-    classNumber = Attribute( self.__outputAttr.elementAt(0)).getNumNominalValues();
+    classNumber = Attribute(self.__outputAttr.elementAt(0)).getNumNominalValues();
     #If the output attribute has not been defined as a nominal or it has not
     #any value in the nominal list, the initalization is aborted.
     if (classNumber<=0) :

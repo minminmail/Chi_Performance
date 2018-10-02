@@ -42,10 +42,10 @@
 #  * @version keel0.1
 #  */
 
-from Attribute import Attribute
-from Attributes import Attributes
-from InstanceParser import InstanceParser
-from ErrorInfo import ErrorInfo
+from Help_Classes.Attribute import Attribute
+from Help_Classes.Attributes import Attributes
+from Help_Classes.InstanceParser import InstanceParser
+from Help_Classes.ErrorInfo import ErrorInfo
 
 class Instance :
 
