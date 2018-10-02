@@ -186,12 +186,13 @@ class Attributes:
 #  */
   def getAttribute(self,_name):
     for i in range (0,len(self.attributes)):
-        attribute = self.attributes.elementAt(i)
+        print("size of attributes = "+len(self.attributes))
+        attribute = self.attributes[i]
         if  (self.attribute).getName()==_name:
             break;
 
-    if (i == self.attributes.size()) :
-        return None;
+    if (i == len(self.attributes)) :
+        return None
     return attribute
    #end getAttribute
 
@@ -205,7 +206,7 @@ class Attributes:
         return None
     attr = self.attributes
     for i in range(0, len(attr)):
-      attr[i] = self.attributes.elementAt(i)
+      attr[i] = self.attributes[i]
 
     return attr;
    #end getAttribute
@@ -218,7 +219,7 @@ class Attributes:
   def getInputAttribute(self, pos):
     if pos<0 or pos >= len(self.inputAttr):
         return None;
-    return self.inputAttr.elementAt(pos);
+    return self.inputAttr[pos];
    #end getInputAttribute
 
 # /**
@@ -226,11 +227,11 @@ class Attributes:
 #      * @return all the input attributes
 #  */
   def getInputAttributes(self):
-    if (self.inputAttr.size() == 0) :
+    if (len(self.inputAttr) == 0) :
         return None;
     attr = self.inputAttr;
     for i in range (0, attr.length):
-      attr[i] = self.inputAttr.elementAt(i);
+      attr[i] = self.inputAttr[i];
 
     return attr;
    #end getInputAttribute
@@ -242,10 +243,10 @@ class Attributes:
   def getInputHeader(self):
     aux = "@inputs ";
     ending = ",";
-    for i in range(0, self.inputAttr.size()):
-      if (i == self.inputAttr.size() - 1):
+    for i in range(0, len(self.inputAttr)):
+      if (i == len(self.inputAttr) - 1):
           ending = "";
-      attribute=self.inputAttr.elementAt(i)
+      attribute=self.inputAttr[i]
       aux += (attribute).getName() + ending;
     return aux;
   #end getInputHeader
@@ -257,9 +258,9 @@ class Attributes:
 #  */
   def getInputAttributesHeader(self):
     aux = "";
-    for i in range (0, self.inputAttr.size()):
+    for i in range (0, len(self.inputAttr)):
         #Writting the name and type of the attribute
-        aux += (self.inputAttr.elementAt(i)).toString()+"\n";
+        aux += str(self.inputAttr[i])+"\n";
 
     return aux;
   #end getInputAttributesHeader
@@ -270,11 +271,11 @@ class Attributes:
 #      * @return all the output attributes.
 #  */
   def getOutputAttributes(self):
-    if (self.outputAttr.size() == 0):
+    if len(self.outputAttr) == 0:
         return None;
-    attr = Attribute[self.outputAttr.size()]
+    attr = Attribute[len(self.outputAttr)]
     for i in range (0,attr.length):
-      attr[i] = self.outputAttr.elementAt(i)
+      attr[i] = self.outputAttr[i]
 
     return attr;
   #end outputAttributes
@@ -286,7 +287,7 @@ class Attributes:
   def getOutputAttribute(self,pos):
     if pos<0 or pos >= len(self.outputAttr):
         return None;
-    return self.outputAttr.elementAt(pos);
+    return self.outputAttr[pos];
   #end getOutputAttribute
 
 # /**
@@ -299,7 +300,7 @@ class Attributes:
     for i in range (0, len(self.outputAttr)):
       if (i == len(self.outputAttr) - 1):
           ending = "";
-      aux += (self.outputAttr.elementAt(i)).getName() + ending;
+      aux += (self.outputAttr[i]).getName() + ending;
 
     return aux;
   #end getOutputHeader
@@ -313,7 +314,7 @@ class Attributes:
     aux = "";
     for i in range (0, len(self.outputAttr)):
         #Writting the name and type of the attribute
-        aux += (self.outputAttr.elementAt(i)).toString()+"\n";
+        aux += str(self.outputAttr[i])+"\n";
 
     return aux;
   #end getOutputAttributesHeader
@@ -328,7 +329,7 @@ class Attributes:
   def  getUndefinedAttribute( self,pos):
    if (pos<0 or pos >= len(self.undefinedAttr)):
        return None;
-   return self.undefinedAttr.elementAt(pos);
+   return self.undefinedAttr[pos];
   #end getUndefinedAttribute
 
 # /**
@@ -336,11 +337,11 @@ class Attributes:
 #      * @return all the undefined attributes
 #  */
   def  getUndefinedAttributes(self):
-    if (self.undefinedAttr.size() == 0):
+    if (len(self.undefinedAttr) == 0):
         return None;
     attr = self.undefinedAttr;
     for i in range(0,attr.length):
-      attr[i] = self.undefinedAttr.elementAt(i);
+      attr[i] = self.undefinedAttr[i];
 
     return attr;
   #end getUndefinedAttributes
@@ -352,9 +353,9 @@ class Attributes:
 #  */
   def getUndefinedAttributesHeader(self):
     aux = "";
-    for i in range (0, undefinedAttr.size()):
+    for i in range (0, len(undefinedAttr)):
         #Writting the name and type of the attribute
-        aux += (self.undefinedAttr.elementAt(i)).toString()+"\n";
+        aux += str(self.undefinedAttr[i]) +"\n";
 
     return aux;
   #end getUndefinedAttributesHeader
@@ -366,7 +367,7 @@ class Attributes:
 #  *
 
   def getAttribute(self, pos):
-   return self.attributes.elementAt(pos);
+   return self.attributes[pos];
   #end getAttribute
 
 # /**

@@ -289,7 +289,7 @@ class InstanceSet:
                         attHeader = header;
                         inputsDef = True;
 
-                        aux = line.substring(8);
+                        aux = line[8:]
 
                         if (isTrain):
                             self.insertInputOutput(aux, lineCount, inputAttrNames, "inputs", isTrain);
@@ -330,44 +330,53 @@ class InstanceSet:
             token_str_right = "]"
         token_withT= "\t" + token_str
 
-        line=line.replace (token_str,token_withT);
+        line=line.replace(token_str,token_withT);
         print("line with token_double:" + token_withT + "line:" + line)
         # System.out.println ("  > Processing line: "+  line );
         #st = line.split(" [{\t");
         st = line.split("\t")
 
-        print("st after split is :" + str(st))
+
         # Disregarding the first token. It is @attribute
         st[0] = st[0].replace("@attribute","").strip()
-        print("str[0] is:" + st[0])
+        print("st[0] is:" + st[0])
         at = Attribute()
+        print("before getType")
+        type_string = at.getType()
+        print("after getType")
+        #print("Get type once get instance object, at.getType() = " + str(type_string))
         at.setName(st[0])
-        # System.out.println ( "   > Attribute name: "+ at.getName() );
+        print( "Attribute name: "+ at.getName() )
 
         # Next action depends on the type of attribute: continuous or nominal
         if (len(st)==1):  # Parsing a nominal attribute with no definition of values
-            # System.out.println ("    > Parsing nominal attribute without values ");
+            print("Parsing nominal attribute without values: setType=0 ")
+            #print("Get type =" + at.getType())
             at.setType(Attribute.NOMINAL)
 
         elif (token_str in line):  # Parsing a nominal attribute
-            # System.out.println ("    > Parsing nominal attribute with values: "+line );
+            print("Parsing nominal attribute with values: "+line )
+            #print("Get type =" + at.getType())
+            print("Before setType:")
             at.setType(Attribute.NOMINAL)
+            print("after setType:")
             at.setFixedBounds(True)
 
-            indexL = line.index(token_str)
+            indexL = line.index(token_str)+1
+            #print("indexL: " + str(indexL) )
             indexR = line.index(token_str_right)
+            #print("indexR: " + str(indexR))
 
-            print( "The Nominal values are: " + line[indexL, indexR]);
-            lineSub = line[indexL, indexR]
+            print( "The Nominal values are: " + line[indexL: indexR]);
+            lineSub = line[indexL: indexR]
             print("The lineSub : " + lineSub)
             st2 = lineSub.split(",")
 
-            while (st2.hasMoreTokens()):
-                at.addNominalValue(st2.nextToken().strip())
-
+            for str in  st2:
+                at.addNominalValue(str.strip())
 
         else:  # Parsing an integer or real
-            type = st.nextToken().strip()
+            type = st[1].strip()
 
             # System.out.println ("    > Parsing "+ type + " attributes");
             if (type.lower() == "integer"):
@@ -380,13 +389,13 @@ class InstanceSet:
 
             if (indexL is not -1 and indexR is not - 1):
                 # System.out.println ( "      > The real values are: " + line.substring( indexL+1, indexR) );
-                lineSub = line.substring(indexL + 1, indexR)
+                lineSub = line[indexL + 1: indexR]
                 st2 = lineSub(",")
 
-                min = float(st2.nextToken().strip())
-                max = float(st2.nextToken().strip())
+                minBound = float(st2[0].strip())
+                maxBound = float(st2[1].strip())
 
-                at.setBounds(min, max)
+                at.setBounds(minBound, maxBound)
                 print("Before add attribute : at"+str(at))
                 Attributes.addAttribute(at)
 
@@ -394,7 +403,7 @@ class InstanceSet:
     # end insertAttribute
 
 
-    def insertInputOutput(line, lineCount, collection, type, isTrain):
+    def insertInputOutput(self,line, lineCount, collection, type, isTrain):
         attName = "";
 
         print(" processing: " + line);
@@ -402,10 +411,10 @@ class InstanceSet:
         # Declaring StringTokenizer
         st = line.split(",");
 
-        while (st.hasMoreTokens()):
-            attName = st.nextToken().trim();
-
-            if (Attributes.getAttribute(attName) == None):
+        for attrName in st:
+            attrName = str(attrName.strip())
+            print("attrName: " + attrName)
+            if (Attributes.getAttribute(self,attrName) == None):
                 # If this attribute has not been declared, generate error
                 er = ErrorInfo(ErrorInfo.InputTestAttributeNotDefined, 0, lineCount, 0, 0, isTrain,
                                ("The attribute " + attName + " defined in @" + type +
@@ -413,7 +422,7 @@ class InstanceSet:
                 InstanceSet.errorLogger.setError(er);
 
             else:
-                print("   > " + type + " attribute considered: " + attName + ".");
+                print("   > " + str(type) + " attribute considered: " + attName + ".");
                 collection.add(attName);
 
 

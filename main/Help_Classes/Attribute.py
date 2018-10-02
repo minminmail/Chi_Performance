@@ -191,13 +191,13 @@ class Attribute:
  #  * Attribute Constructor. It instances a new Attribute instance.
  #  '''
 
- def _init_(self):
-     self.__type=-1;
-     self.__countValues=0;
-     self.__dirAttribute = self.DIR_NOT_DEF;
-     self.__makeStatistics = False;
+ def __init__(self):
+     self.__type = -1
+     self.__countValues=0
+     self.__dirAttribute = self.DIR_NOT_DEF
+     self.__makeStatistics = False
 
- #//end Attribute
+ #end Attribute
 
  # '''
  #  * It sets the attribute type.
@@ -205,22 +205,22 @@ class Attribute:
  #  '''
 
  def setType(self,type) :
-  if(type!=-1) :
-   print("Type already fixed !!")
-   exit(1);
+  if(self.__type!=-1) :
+    print("Type already fixed !!")
+    exit(1)
 
-   self.__type= type;
-   self.__firstTime=True;
+  self.__type= type
+  self.__firstTime=True
  # '''
- #     //If type is nominal, a new vector has to be created to store the list of
- #     //values that it can take.
+ #     If type is nominal, a new vector has to be created to store the list of
+ #     values that it can take.
  # '''
-  if(type==self.NOMINAL) :
-   self.__nominalValues=[];
-   self.__newValuesList = [];
+  if(self.__type==self.NOMINAL) :
+    self.__nominalValues=[]
+    self.__newValuesList = []
 
   #//In all cases, the fixedBounds flag is set to false.
-   self.__fixedBounds=False;
+  self.__fixedBounds=False
   #end setType
 
  # '''
@@ -261,9 +261,9 @@ class Attribute:
  def setBounds(self,minBound,maxBound) :
   if(self.__type != self.REAL and self.__type != self.INTEGER):
    return;
-   self.fixedBounds=True;
-   self.min=minBound
-   self.max=maxBound
+   self.__fixedBounds=True;
+   self.__min=minBound
+   self.__max=maxBound
  #end setBounds
 
  # '''
@@ -282,7 +282,7 @@ class Attribute:
  #  '''
 
  def setFixedBounds( self,fBounds):
-  self.__fixedBounds = fBounds;
+  self.__fixedBounds = fBounds
  #end setFixedBounds
 
  # '''
@@ -291,8 +291,8 @@ class Attribute:
  #  '''
 
  def enlargeBounds(self, value) :
-  if(self.__type!=self.REAL and self.__type!=self.INTEGER) :
-   return;
+  if(self.__type!=self.REAL and self.__type!=self.INTEGER):
+   return
 
   if(self.__firstTime==True) :
    #//If it's the first attribute update and the bounds are not fixed in its
@@ -317,16 +317,16 @@ class Attribute:
  #  * It update an integer or real value read for an attribute in the test
  #  * set if it doesn't match with the bounds defined in the train set. In
  #  * this case, it replaces the value read for the nearliest bound (the
- #  * minimum or the maximim bound respectively)
+ #  * minimum or the maximum bound respectively)
  #  * @param value is the value read from the test file.
  #  * @return a double with the rectified value.
  #  '''
 
  def rectifyValueInBounds (self, value):
-  if (value < self.__min) :
-   return self.__min;
+  if (value < self.__min):
+   return self.__min
   if (value > self.__max):
-   return self.__max;
+   return self.__max
   return value
  #end rectifyValueInBounds
 
@@ -380,7 +380,7 @@ class Attribute:
   if(self.__type!=self.NOMINAL) :
    return;
   if (value not in self.__nominalValues):
-   self.__nominalValues.append(str(value));
+   self.__nominalValues.append(str(value))
 
  #end addNominalValue
 
@@ -397,7 +397,7 @@ class Attribute:
    return None;
   if (whichClass <0 or whichClass >= self.__mostUsedValue.length) :
    return None;
-  return self.__mostUsedValue[whichClass];
+  return self.__mostUsedValue[whichClass]
  #end getMostFrequentValue
 
 
@@ -591,9 +591,9 @@ class Attribute:
  def equals( self,attr) :
   if(not self.__name==attr.name):
    return False;
-  if(attr.type!=_type) :
+  if(attr.type!=self.__type) :
    return False;
-  if(_type==NOMINAL) :
+  if(self.__type==self.NOMINAL) :
    if(nominalValues.equals(attr.nominalValues)==False):
     return False;
 
@@ -605,8 +605,8 @@ class Attribute:
  #  * It sets if the attribute is an input or an output attribute
  #  * @param _dirAtt is the direction (input/output) of the attribute.
  #  '''
- def setDirectionAttribute( _dirAtt):
-  _dirAttribute = _dirAtt;
+ def setDirectionAttribute(self,dirAtt):
+   self.__dirAttribute = dirAtt;
  #end setInputAttribute
 
  #
@@ -614,8 +614,8 @@ class Attribute:
  #  * It returns if the attribute is an input attribute
  #  * @return a int that indicates if it's an input or output attribute
  #  '''
- def getDirectionAttribute():
-  return _dirAttribute;
+ def getDirectionAttribute(self):
+  return self.__dirAttribute
  #end getDirectionAttribute
 
 
@@ -636,28 +636,29 @@ class Attribute:
  #  * It returns a String with the attribute information in keel format
  #  * @return an String with the attribute information.
  #  '''
- def toString():
-  typeNames = {"","integer","real"};
-  aux = "@attribute " + name;
-  if(_type==NOMINAL):
+ def toString(self):
+  self.__typeNames = {"","integer","real"}
+  aux = "@attribute " + self.__name
+  if(self.__type==self.NOMINAL):
 
     aux += "{";
     ending = ",";
-    for  i in range (0,_nominalValues.size()):
-     if (i == nominalValues.size() - 1): ending = "";
-     aux += str(nominalValues.elementAt(i)) + ending;
+    for  i in range (0,len(self.__nominalValues)):
+     if (i == len(self.__nominalValues - 1)):
+      ending = "";
+     aux += str(self.__nominalValues[i]) + ending;
 
     aux +='}';
     #//System.out.println("Caso NOMINAL, aux->"+aux);
     #//System.out.println("name->" + name);
-  elif(_type==INTEGER):
+  elif(self.__type==self.INTEGER):
 
-      aux += " integer["+(int(_min)).toString();
-      aux += ","+ (int(_max)).toString()+"]";
+      aux += " integer["+(int(self.__min)).toString();
+      aux += ","+ (int(self.__max)).toString()+"]";
 
-  elif(_type== REAL):
-      aux += " real["+float( _min).toString();
-      aux += ","+ float(_max).toString()+"]";
+  elif(self.__type== self.REAL):
+      aux += " real["+ str(float( self.__min));
+      aux += ","+ str(float(self.__max))+"]";
 
 
       return aux;
@@ -666,49 +667,49 @@ class Attribute:
  # '''
  #  * This method prints the attribute information.
  #  '''
- def print():
+ def printHere(self):
   typesConv = {"Nominal","Integer","Real"};
-  print(" Name: "+_name+".");
-  print(" Type: "+_type );
+  print(" Name: "+self.__name+".");
+  print(" Type: "+self.__type );
   print(" Type: "+typesConv[type]+".");
   print(" Input/Output: ");
-  if (_dirAttribute==INPUT):
+  if (self.__dirAttribute==self.INPUT):
 
     print("INPUT");
 
-  elif(_dirAttribute== OUTPUT):
+  elif(self.__dirAttribute== self.OUTPUT):
      print("OUTPUT");
   else:
 
      print("NOT DEFINED");
 
   print(" Range: ");
-  if (_type==NOMINAL):
+  if (self.__type==self.NOMINAL):
 
      print("{");
-     for i in range(0, nominalValues.size()):
-      print (str(nominalValues.elementAt(i))+"  ");
+     for i in range(0, len(self.__nominalValues)):
+      print (str(self.__nominalValues[i])+"  ")
 
       print("}");
-  elif(_type==INTEGER):
+  elif(self.__type==self.INTEGER):
 
-     print("["+int(_min)+","+int(_max)+"]");
+     print("["+int(self.__min)+","+int(self.__max)+"]");
 
   else:
-     print("["+__min+","+__max+"]");
+     print("["+self.__min+","+self.__max+"]");
 
-  if (_type == NOMINAL):
-    if (_mostUsedValue != None):
+  if (self.__type == self.NOMINAL):
+    if (self.__mostUsedValue != None):
      print("\n    > Most used value: ");
-     for  i in range(0, _mostUsedValue.length):
-      print("       > class "+i+":"+_mostUsedValue[i]);
-      print("  ("+_classFrequencies[i][convertNominalValue(_mostUsedValue[i])]+")." );
+     for  i in range(0, len(self.__mostUsedValue)):
+      print("       > class "+i+":"+self.__mostUsedValue[i]);
+      print("  ("+self.__classFrequencies[i][self.__convertNominalValue(self.__mostUsedValue[i])]+")." );
 
   else :
-    if (_meanValue != None):
+    if (self.__meanValue != None):
      print("\n    > Mean used value: ");
-     for i in range (0,_meanValue):
-      print("       > class "+i+": "+_meanValue[i]);
+     for i in range (0,self.__meanValue):
+      print("       > class "+i+": "+self.__meanValue[i]);
 
   print();
   #end print
