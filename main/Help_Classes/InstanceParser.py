@@ -56,7 +56,7 @@ class InstanceParser:
    # /**
    #  * A Buffered Reader to the DB input file.
    #  */
-   #   private BufferedReader br;
+
    #
    # /**
    #  * A flag indicating if the DB is a train or a test DB. The difference between
@@ -86,7 +86,8 @@ class InstanceParser:
 
     def __init__(self,fileName, _isTrain):
         try:
-            self.file = open(fileName, "r");
+            self.file = open(fileName, "r")
+
             print("In init of InstanceParser, set file =" + str(self.file))
             #print(self.file.read())
             self.lineCounter = 0
@@ -162,7 +163,7 @@ class InstanceParser:
 
     def close(self):
         try:
-            self.br.close();
+            self.file.close()
         except IOError as ioError:
             print("Error: the instance parser could not be closed. Exiting now." + format(ioError));
             exit(-1);

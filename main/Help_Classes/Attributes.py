@@ -116,7 +116,7 @@ class Attributes:
 # /**
 #  * clearAll
 #  * This method clears all the static members of the class.
-#  * It is used when another dataset is wanted to be loaded
+#  * It is used when another data set is wanted to be loaded
 #  */
   def clearAll(self):
       self.attributes = []
@@ -135,13 +135,26 @@ class Attributes:
 #  * @param attr is the new attribute to be added.
 #  */
   def addAttribute(self, attr):
-    self.attributes.addElement(attr)
-    if(attr.getType()==Attribute.NOMINAL):
-        hasNominal= True
-    if(attr.getType()==Attribute.INTEGER) :
-        hasInteger= True
-    if(attr.getType()==Attribute.REAL):
-        hasReal = True
+    print("In Atrributes class ,addAttribute begin......")
+    self.attributes.append(attr)
+    attType = attr.getType()
+    print("Attribute type is :" + str(attType))
+    if(attType==Attribute.NOMINAL):
+        self.hasNominal= True
+        print("hasNominal is true")
+    elif(attType==Attribute.INTEGER) :
+        self.hasInteger= True
+        print("hasInteger is true")
+    elif(attType==Attribute.REAL):
+        self.hasReal = True
+        print("hasReal is true")
+
+    numberAttribute=len(self.attributes)
+    print("There are " + str(numberAttribute) + "attribute in Attribute class")
+    for attr in self.attributes:
+        attr_name = attr.getName()
+        print("attr name is :"+ str(attr_name))
+
    #end addAttribute
 
 
@@ -184,14 +197,18 @@ class Attributes:
 #  * @param _name is the name of the attribute.
 #      * @return the attribute requested.
 #  */
-  def getAttribute(self,_name):
-    for i in range (0,len(self.attributes)):
-        print("size of attributes = "+len(self.attributes))
+  def getAttributeByName(self,_name):
+    print("Begin getAttribute ......")
+    size=len(self.attributes)
+    stopPos=0
+    for i in range (0,size):
+        print("size of attributes = "+ str(size))
         attribute = self.attributes[i]
-        if  (self.attribute).getName()==_name:
+        if  attribute.getName()==_name:
             break;
+        stopPos=i
 
-    if (i == len(self.attributes)) :
+    if (stopPos == size) :
         return None
     return attribute
    #end getAttribute
@@ -366,7 +383,7 @@ class Attributes:
 #      * @return the attribute being int the position passed as an argument.
 #  *
 
-  def getAttribute(self, pos):
+  def getAttributeByPos(self, pos):
    return self.attributes[pos];
   #end getAttribute
 
@@ -392,7 +409,10 @@ class Attributes:
 #  * @return an int with the number of attributes
 #  */
   def getOutputNumAttributes(self):
-    return len(self.outputAttr)
+    print("begin getOutputNumAttributes ......")
+    number_of_outputAttr=len(self.outputAttr)
+    print("number_of_outputAttr : " + str(number_of_outputAttr))
+    return number_of_outputAttr
   #end getOutputNumAttributes
 
 # /**
@@ -400,7 +420,7 @@ class Attributes:
 #  * @return an int with the number of attributes
 #  */
   def getUndefinedNumAttributes(self):
-    return self.undefinedAttr.size();
+    return len(self.undefinedAttr)
   #end getUndefinedNumAttributes
 
 # /**
@@ -411,10 +431,10 @@ class Attributes:
 #  */
   def getAttributesExcept(self,vector):
       restAt = []
-      for i in (0, len(self.attributes)):
-          attName = self.attributes.get(i).getName();
+      for i in range (0, len(self.attributes)):
+          attName = self.attributes[i].getName()
           if (attName not in vector):
-              restAt.add(attName);
+              restAt.append(attName)
 
       return restAt;
   #end getAttributesExcept
@@ -432,16 +452,16 @@ class Attributes:
     att=None
 
     for i in range (0, len(self.attributes)):
-        att = self.attributes.get(i);
-        attName = att.getName();
+        att = self.attributes[i]
+        attName = att.getName()
         if (attName in inAttNames):
-            att.setDirectionAttribute(Attribute.INPUT);
-            self.inputAttr.append(self.attributes.get(i));
-        elif outAttNames.contains(attName):
-            att.setDirectionAttribute(Attribute.OUTPUT);
-            self.outputAttr.append(self.attributes.get(i));
+            att.setDirectionAttribute(Attribute.INPUT)
+            self.inputAttr.append(self.attributes[i])
+        elif (attName in outAttNames):
+            att.setDirectionAttribute(Attribute.OUTPUT)
+            self.outputAttr.append(self.attributes[i])
         else:
-            self.undefinedAttr.append(self.attributes.get(i));
+            self.undefinedAttr.append(self.attributes[i])
 
     #Finally, making some statistics
     hasNominal = False;
@@ -449,24 +469,24 @@ class Attributes:
     hasReal    = False;
 
     for index in range (0 ,2):
-        if (self.index == 0):
+        if (index == 0):
             iterations = len(self.inputAttr)
         else:
             iterations = len(self.outputAttr)
 
         for i in range (0,iterations):
             if (index== 0):
-                att = self.inputAttr.elementAt(i)
+                att = self.inputAttr[i]
             else:
-                att = self.outputAttr.elementAt(i)
+                att = self.outputAttr[i]
 
             type = att.getType()
             if type==Attribute.NOMINAL:
-                hasNominal = True;
+                self.hasNominal = True;
             elif type==Attribute.INTEGER:
-                hasInteger = True;
+                self.hasInteger = True;
             elif type == Attribute.REAL:
-                hasReal = True;
+                self.hasReal = True;
 
   #end setOutputInputAttributes
 
@@ -481,7 +501,7 @@ class Attributes:
     if len(inputNames) != len(self.inputAttr):
         return False
     for i in range (0 ,len(self.inputAttr)):
-        name = self.inputAttr.elementAt(i).getName()
+        name = self.inputAttr[i].getName()
         if name not in inputNames:
             return False;
 
@@ -504,7 +524,7 @@ class Attributes:
         return False;
 
     for i in range (0, len(self.outputAttr)):
-        name = self.outputAttr.elementAt(i).getName()
+        name = self.outputAttr[i].getName()
         if ( name not in outputNames ):
             return False;
 
@@ -548,12 +568,12 @@ class Attributes:
         return False;
     if (inputAtt):
         #inputAttribute
-        atToDel =  self.inputAttr.elementAt(whichAtt);
+        atToDel =  self.inputAttr[whichAtt]
         atToDel.setDirectionAttribute(Attribute.DIR_NOT_DEF);
         self.inputAttr.removeElementAt(whichAtt);
 
     else :# output attribute
-        atToDel = self.outputAttr.elementAt(whichAtt);
+        atToDel = self.outputAttr[whichAtt]
         atToDel.setDirectionAttribute(Attribute.DIR_NOT_DEF);
         self.outputAttr.removeElementAt(whichAtt);
 
@@ -572,13 +592,13 @@ class Attributes:
 
         for i in range (0,iterations):
             if index == 0:
-                att = self.inputAttr.elementAt(i)
+                att = self.inputAttr[i]
             else:
-                self.outputAttr.elementAt(i)
+                self.outputAttr[i]
             if self.index == 0:
-                att = self.inputAttr.elementAt(i)
+                att = self.inputAttr[i]
             else:
-                att = self.outputAttr.elementAt(i)
+                att = self.outputAttr[i]
 
             type=att.getType()
             if type==Attribute.NOMINAL:
@@ -604,13 +624,13 @@ class Attributes:
       undefCount=0
       count = 0
 
-      att_aux = self.attributes.elementAt(count);
+      att_aux = self.attributes[count];
       while (attToDel != att_aux):
          if (att_aux.getDirectionAttribute() == Attribute.DIR_NOT_DEF):
              undefCount+=1
 
          count+=1
-         att_aux = self.attributes.elementAt(count);
+         att_aux = self.attributes[count]
 
       return undefCount;
   #end searchUndefPosition
@@ -621,17 +641,17 @@ class Attributes:
 #  */
 
   def initStatistics(self):
-    if (self.outputAttr.size() != 1):
+    if (len(self.outputAttr) != 1):
         return;
 
-    classNumber = self.outputAttr.elementAt(0).getNumNominalValues()
+    classNumber = self.outputAttr[0].getNumNominalValues(Attribute)
     #If the output attribute has not been defined as a nominal or it has not
     #any value in the nominal list, the initalization is aborted.
     if classNumber<=0:
         return;
 
     for i in range (0, len(self.inputAttr)):
-        (self.inputAttr.elementAt(i)).initStatistics(classNumber);
+        (self.inputAttr[i]).initStatistics(classNumber);
 
     #end initStatistics
 
@@ -640,29 +660,29 @@ class Attributes:
 #  * It does finish the statistics
 #  */
   def finishStatistics(self):
-    if (self.outputAttr.size() != 1):
+    if (len(self.outputAttr) != 1):
         return;
 
     for i in range (0,len(self.inputAttr)):
-        (self.inputAttr.elementAt(i)).finishStatistics();
+        (self.inputAttr[i]).finishStatistics();
 
    #end finishStatistics
 
 # /**
 #  * It does print the attributes information
 #  */
-  def  printHere(self):
+  def  printAttributes(self):
     print("@relation = "+ self.relationName)
-    for i in range(0,self.attributes.size()):
-        att = self.attributes.elementAt(i);
+    for i in range(0,len(self.attributes)):
+        att = self.attributes[i];
         if (att.getDirectionAttribute() == Attribute.INPUT):
-            print("INPUT ATTRIBUTE:");
+            print("INPUT ATTRIBUTE:")
         elif (att.getDirectionAttribute() == Attribute.OUTPUT):
-            print("OUTPUT ATTRIBUTE:");
+            print("OUTPUT ATTRIBUTE:")
         else:
-            print("UNDEFINED ATTRIBUTE:");
+            print("UNDEFINED ATTRIBUTE:")
 
-        att.print();
+        att.printAttr();
 
    #end print
 

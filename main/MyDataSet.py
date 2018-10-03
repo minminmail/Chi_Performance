@@ -207,7 +207,7 @@ class MyDataSet:
               self.__instanceSet.readSet(datasetFile, train)
               nData = self.__instanceSet.getNumInstances();
               nInputs = Attributes.getInputNumAttributes();
-     #      nVars = nInputs + Attributes.getOutputNumAttributes();
+              nVars = nInputs + Attributes.getOutputNumAttributes();
      #
      #      # outputIntegerheck that there is only one output variable
      #      if (Attributes.getOutputNumAttributes() > 1) :
@@ -257,7 +257,7 @@ class MyDataSet:
      #      nClasses+=1;
      #      print('Number of classes=' + nClasses);
      except Exception as error:
-           print("DBG: Exception in readSet, in readClassificationSet");
+           print("DBG: Exception in readSet, in readClassificationSet" + error);
      #
      # self.computeStatistics();
      # self.computeInstancesPerClass();
@@ -276,16 +276,16 @@ class MyDataSet:
           self.IS.readSet(datasetFile, train);
           nData = self.IS.getNumInstances();
           nInputs = Attributes.getInputNumAttributes();
-          nVars = nInputs + Attributes.getOutputNumAttributes();
+          nVars = nInputs + Attributes.getOutputNumAttributes(Attributes);
 
           #outputIntegerheck that there is only one output variable
-          if (Attributes.getOutputNumAttributes() > 1):
+          if (Attributes.getOutputNumAttributes(Attributes) > 1):
             print("This algorithm can not process MIMO datasets");
             print("All outputs but the first one will be removed");
             exit(1);
 
           noOutputs = False;
-          if (Attributes.getOutputNumAttributes() < 1):
+          if (Attributes.getOutputNumAttributes(Attributes) < 1):
             print("This algorithm can not process datasets without outputs");
             print("Zero-valued output generated");
             noOutputs = True;

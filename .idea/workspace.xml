@@ -3,9 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="910f8b0d-c71b-4094-acec-84c9d0076830" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/main/Fuzzy_Chi.py" afterPath="$PROJECT_DIR$/main/Fuzzy_Chi.py" />
       <change beforePath="$PROJECT_DIR$/main/Help_Classes/Attribute.py" afterPath="$PROJECT_DIR$/main/Help_Classes/Attribute.py" />
       <change beforePath="$PROJECT_DIR$/main/Help_Classes/Attributes.py" afterPath="$PROJECT_DIR$/main/Help_Classes/Attributes.py" />
+      <change beforePath="$PROJECT_DIR$/main/Help_Classes/ErrorInfo.py" afterPath="$PROJECT_DIR$/main/Help_Classes/ErrorInfo.py" />
+      <change beforePath="$PROJECT_DIR$/main/Help_Classes/InstanceAttributes.py" afterPath="$PROJECT_DIR$/main/Help_Classes/InstanceAttributes.py" />
+      <change beforePath="$PROJECT_DIR$/main/Help_Classes/InstanceParser.py" afterPath="$PROJECT_DIR$/main/Help_Classes/InstanceParser.py" />
       <change beforePath="$PROJECT_DIR$/main/Help_Classes/InstanceSet.py" afterPath="$PROJECT_DIR$/main/Help_Classes/InstanceSet.py" />
+      <change beforePath="$PROJECT_DIR$/main/MyDataSet.py" afterPath="$PROJECT_DIR$/main/MyDataSet.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,8 +24,8 @@
       <file leaf-file-name="InstanceSet.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/Help_Classes/InstanceSet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="880" column="0" lean-forward="true" selection-start-line="880" selection-start-column="0" selection-end-line="880" selection-end-column="0" />
+            <state relative-caret-position="153">
+              <caret line="182" column="15" lean-forward="false" selection-start-line="182" selection-start-column="8" selection-end-line="182" selection-end-column="15" />
               <folding>
                 <element signature="e#1943#2003#0" expanded="true" />
               </folding>
@@ -28,21 +33,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="iris-10-1tst.dat" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main/simpleTest/datasets/iris/iris-10-1tst.dat">
+      <file leaf-file-name="InstanceParser.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main/Help_Classes/InstanceParser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="13" column="31" lean-forward="false" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
+            <state relative-caret-position="180">
+              <caret line="84" column="5" lean-forward="true" selection-start-line="84" selection-start-column="5" selection-end-line="84" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config1s0.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main/simpleTest/scripts/Fuzzy-FARCHD-C/iris/config1s0.txt">
+      <file leaf-file-name="wine-10-6tst.dat" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main/simpleTest/datasets/wine/wine-10-6tst.dat">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+            <state relative-caret-position="115">
+              <caret line="5" column="33" lean-forward="true" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -52,17 +57,7 @@
         <entry file="file://$PROJECT_DIR$/main/simpleTest/datasets/iris/iris-10-1tra.dat">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="115">
-              <caret line="5" column="16" lean-forward="false" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config0s0.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main/simpleTest/config0s0.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="5" column="29" lean-forward="false" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -71,96 +66,96 @@
       <file leaf-file-name="Attribute.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/Help_Classes/Attribute.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="199" column="2" lean-forward="false" selection-start-line="199" selection-start-column="2" selection-end-line="199" selection-end-column="2" />
+            <state relative-caret-position="157">
+              <caret line="544" column="24" lean-forward="false" selection-start-line="544" selection-start-column="5" selection-end-line="544" selection-end-column="24" />
               <folding>
                 <element signature="e#0#1484#1" expanded="false" />
                 <element signature="e#1504#1776#1" expanded="false" />
-                <element signature="e#2099#2104#0" expanded="false" />
-                <element signature="e#2513#2518#0" expanded="false" />
-                <element signature="e#2734#2739#0" expanded="false" />
-                <element signature="e#2872#2877#0" expanded="false" />
-                <element signature="e#2952#2957#0" expanded="false" />
-                <element signature="e#3032#3037#0" expanded="false" />
-                <element signature="e#3176#3181#0" expanded="false" />
-                <element signature="e#3296#3301#0" expanded="false" />
-                <element signature="e#3402#3407#0" expanded="false" />
-                <element signature="e#3544#3549#0" expanded="false" />
-                <element signature="e#3619#3624#0" expanded="false" />
-                <element signature="e#3915#3920#0" expanded="false" />
-                <element signature="e#4082#4087#0" expanded="false" />
-                <element signature="e#4172#4177#0" expanded="false" />
-                <element signature="e#4258#4263#0" expanded="false" />
-                <element signature="e#4341#4346#0" expanded="false" />
-                <element signature="e#5394#5399#0" expanded="false" />
-                <element signature="e#5716#5728#0" expanded="false" />
-                <element signature="e#5873#5885#0" expanded="false" />
-                <element signature="e#6484#6503#0" expanded="false" />
-                <element signature="e#8589#8608#0" expanded="false" />
-                <element signature="e#8800#8817#0" expanded="false" />
-                <element signature="e#9008#9025#0" expanded="false" />
-                <element signature="e#9355#9375#0" expanded="false" />
-                <element signature="e#9891#9916#0" expanded="false" />
-                <element signature="e#10382#10399#0" expanded="false" />
-                <element signature="e#11223#11242#0" expanded="false" />
-                <element signature="e#11682#11727#0" expanded="false" />
-                <element signature="e#11902#11923#0" expanded="false" />
-                <element signature="e#12432#12529#0" expanded="false" />
-                <element signature="e#12532#12559#0" expanded="false" />
-                <element signature="e#13453#13458#0" expanded="false" />
-                <element signature="e#13650#13668#0" expanded="false" />
-                <element signature="e#13891#13917#0" expanded="false" />
-                <element signature="e#14240#14264#0" expanded="false" />
-                <element signature="e#14468#14493#0" expanded="false" />
-                <element signature="e#14793#14813#0" expanded="false" />
-                <element signature="e#15074#15098#0" expanded="false" />
-                <element signature="e#15445#15548#0" expanded="false" />
-                <element signature="e#15502#15533#0" expanded="false" />
-                <element signature="e#15550#15551#0" expanded="false" />
-                <element signature="e#15782#15804#0" expanded="false" />
-                <element signature="e#16220#16365#0" expanded="false" />
-                <element signature="e#16887#16936#0" expanded="false" />
-                <element signature="e#17273#17286#0" expanded="false" />
+                <element signature="e#2096#2101#0" expanded="false" />
+                <element signature="e#2509#2514#0" expanded="false" />
+                <element signature="e#2728#2733#0" expanded="false" />
+                <element signature="e#2865#2870#0" expanded="false" />
+                <element signature="e#2944#2949#0" expanded="false" />
+                <element signature="e#3023#3028#0" expanded="false" />
+                <element signature="e#3166#3171#0" expanded="false" />
+                <element signature="e#3285#3290#0" expanded="false" />
+                <element signature="e#3390#3395#0" expanded="false" />
+                <element signature="e#3532#3537#0" expanded="false" />
+                <element signature="e#3607#3612#0" expanded="false" />
+                <element signature="e#3903#3908#0" expanded="false" />
+                <element signature="e#4070#4075#0" expanded="false" />
+                <element signature="e#4160#4165#0" expanded="false" />
+                <element signature="e#4246#4251#0" expanded="false" />
+                <element signature="e#4329#4334#0" expanded="false" />
+                <element signature="e#5382#5387#0" expanded="false" />
+                <element signature="e#5704#5716#0" expanded="false" />
+                <element signature="e#5861#5873#0" expanded="false" />
+                <element signature="e#6472#6491#0" expanded="false" />
+                <element signature="e#8577#8596#0" expanded="false" />
+                <element signature="e#8788#8805#0" expanded="false" />
+                <element signature="e#8996#9013#0" expanded="false" />
+                <element signature="e#9343#9363#0" expanded="false" />
+                <element signature="e#9879#9904#0" expanded="false" />
+                <element signature="e#10370#10387#0" expanded="false" />
+                <element signature="e#11211#11230#0" expanded="false" />
+                <element signature="e#11670#11715#0" expanded="false" />
+                <element signature="e#11890#11911#0" expanded="false" />
+                <element signature="e#12420#12517#0" expanded="false" />
+                <element signature="e#12520#12547#0" expanded="false" />
+                <element signature="e#13441#13446#0" expanded="false" />
+                <element signature="e#13638#13656#0" expanded="false" />
+                <element signature="e#13879#13905#0" expanded="false" />
+                <element signature="e#14228#14252#0" expanded="false" />
+                <element signature="e#14456#14481#0" expanded="false" />
+                <element signature="e#14781#14801#0" expanded="false" />
+                <element signature="e#15062#15086#0" expanded="false" />
+                <element signature="e#15433#15536#0" expanded="false" />
+                <element signature="e#15490#15521#0" expanded="false" />
+                <element signature="e#15538#15539#0" expanded="false" />
+                <element signature="e#15770#15792#0" expanded="false" />
+                <element signature="e#16208#16353#0" expanded="false" />
+                <element signature="e#16875#16924#0" expanded="false" />
+                <element signature="e#17261#17274#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Attributes.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Attributes.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/Help_Classes/Attributes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-654">
-              <caret line="372" column="5" lean-forward="true" selection-start-line="372" selection-start-column="5" selection-end-line="372" selection-end-column="5" />
+            <state relative-caret-position="180">
+              <caret line="413" column="64" lean-forward="false" selection-start-line="413" selection-start-column="64" selection-end-line="413" selection-end-column="64" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Instance.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main/Help_Classes/Instance.py">
+      <file leaf-file-name="Fuzzy_Chi.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main/Fuzzy_Chi.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="23">
-              <caret line="49" column="16" lean-forward="false" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="16" />
+            <state relative-caret-position="355">
+              <caret line="112" column="84" lean-forward="false" selection-start-line="112" selection-start-column="84" selection-end-line="112" selection-end-column="84" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InstanceParser.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main/Help_Classes/InstanceParser.py">
+      <file leaf-file-name="ParseParameters.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main/ParseParameters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3887">
-              <caret line="169" column="25" lean-forward="false" selection-start-line="169" selection-start-column="25" selection-end-line="169" selection-end-column="25" />
+            <state relative-caret-position="157">
+              <caret line="231" column="26" lean-forward="false" selection-start-line="231" selection-start-column="9" selection-end-line="231" selection-end-column="26" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ErrorInfo.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main/Help_Classes/ErrorInfo.py">
+      <file leaf-file-name="MyDataSet.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main/MyDataSet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3542">
-              <caret line="154" column="31" lean-forward="true" selection-start-line="154" selection-start-column="31" selection-end-line="154" selection-end-column="31" />
+            <state relative-caret-position="145">
+              <caret line="196" column="29" lean-forward="false" selection-start-line="196" selection-start-column="8" selection-end-line="196" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -177,36 +172,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>startWith</find>
-      <find>InstanceParser.getLines()</find>
-      <find>ge</find>
-      <find>len(type</find>
-      <find>get</find>
-      <find>Processing inputs and outputs</find>
-      <find>parseHeader</find>
-      <find>getOutputNumAttributes</find>
-      <find>Reading the validation set</find>
-      <find>readClassificationSet</find>
-      <find>len(</find>
+      <find>print</find>
+      <find>addAttribute</find>
+      <find>getName</find>
       <find>In parseHeader method of InstanceSet</find>
-      <find>type</find>
-      <find>inputsDef == False and outputsDef == False</find>
-      <find>getNumAttributes</find>
-      <find>processInputsAndOutputs</find>
-      <find>setRelationName</find>
       <find>insertAttribute</find>
-      <find>nextToken</find>
-      <find>Type already fixed</find>
-      <find>Parsing nominal attribute with values</find>
-      <find>__type</find>
-      <find>setFixedBounds</find>
-      <find>line with token_double</find>
-      <find>str</find>
-      <find>substring</find>
-      <find>insertInputOutput</find>
-      <find>getAttribute</find>
-      <find>add</find>
-      <find>getT</find>
+      <find>st[0] is</find>
+      <find>size of attributes =</find>
+      <find>setBounds</find>
+      <find>size of attributes</find>
+      <find>getAttributeByName</find>
+      <find>Reading the test set</find>
+      <find>readClassificationSet</find>
+      <find>getAttributesExcept</find>
+      <find>setOutputInputAttributes begin</find>
+      <find>setOutputInputAttributes</find>
+      <find>setDirectionAttribute</find>
+      <find>index</find>
+      <find>isTrain == True</find>
+      <find>The number of output attributes is</find>
+      <find>initStatistics</find>
+      <find>TypeError</find>
+      <find>get</find>
+      <find>getNumNominalValues</find>
+      <find>getOutputNumAttributes</find>
+      <find>InstanceParser</find>
+      <find>parser</find>
+      <find>File LOADED CORRECTLY</find>
+      <find>buffer</find>
+      <find>br</find>
+      <find>readSet</find>
     </findStrings>
     <replaceStrings>
       <replace>minNum</replace>
@@ -235,26 +230,28 @@
         <option value="$PROJECT_DIR$/main/ErrorInfo.py" />
         <option value="$PROJECT_DIR$/main/RuleBase.py" />
         <option value="$PROJECT_DIR$/main/Main.py" />
-        <option value="$PROJECT_DIR$/main/Fuzzy_Chi.py" />
         <option value="$PROJECT_DIR$/main/InstanceParser.py" />
         <option value="$PROJECT_DIR$/main/Attribute.py" />
         <option value="$PROJECT_DIR$/main/Attributes.py" />
         <option value="$PROJECT_DIR$/main/ParseParameters.py" />
         <option value="$PROJECT_DIR$/main/InstanceSet.py" />
-        <option value="$PROJECT_DIR$/main/MyDataSet.py" />
         <option value="$PROJECT_DIR$/main/Help_Classes/Instance.py" />
+        <option value="$PROJECT_DIR$/main/Help_Classes/InstanceAttributes.py" />
         <option value="$PROJECT_DIR$/main/Help_Classes/ErrorInfo.py" />
         <option value="$PROJECT_DIR$/main/Help_Classes/Attribute.py" />
-        <option value="$PROJECT_DIR$/main/Help_Classes/InstanceSet.py" />
+        <option value="$PROJECT_DIR$/main/Fuzzy_Chi.py" />
         <option value="$PROJECT_DIR$/main/Help_Classes/Attributes.py" />
+        <option value="$PROJECT_DIR$/main/Help_Classes/InstanceSet.py" />
+        <option value="$PROJECT_DIR$/main/Help_Classes/InstanceParser.py" />
+        <option value="$PROJECT_DIR$/main/MyDataSet.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1472" />
-    <option name="y" value="179" />
-    <option name="width" value="1040" />
-    <option name="height" value="784" />
+    <option name="x" value="1558" />
+    <option name="y" value="11" />
+    <option name="width" value="1022" />
+    <option name="height" value="728" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -272,6 +269,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -286,57 +285,6 @@
             </path>
             <path>
               <item name="Chi_RW" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Chi_RW" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="Help_Classes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Chi_RW" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Chi_RW" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="simpleTest" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Chi_RW" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Chi_RW" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="simpleTest" type="462c0819:PsiDirectoryNode" />
-              <item name="datasets" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Chi_RW" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Chi_RW" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="simpleTest" type="462c0819:PsiDirectoryNode" />
-              <item name="datasets" type="462c0819:PsiDirectoryNode" />
-              <item name="iris" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Chi_RW" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Chi_RW" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="simpleTest" type="462c0819:PsiDirectoryNode" />
-              <item name="scripts" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Chi_RW" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Chi_RW" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="simpleTest" type="462c0819:PsiDirectoryNode" />
-              <item name="scripts" type="462c0819:PsiDirectoryNode" />
-              <item name="Fuzzy-FARCHD-C" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Chi_RW" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Chi_RW" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="simpleTest" type="462c0819:PsiDirectoryNode" />
-              <item name="scripts" type="462c0819:PsiDirectoryNode" />
-              <item name="Fuzzy-FARCHD-C" type="462c0819:PsiDirectoryNode" />
-              <item name="iris" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Chi_RW" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
             <path>
@@ -348,8 +296,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -523,7 +469,14 @@
       <option name="project" value="LOCAL" />
       <updated>1538495650018</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Unexpected error in readSet of InstanceSet class :'NoneType' object is not subscriptable">
+      <created>1538520341396</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1538520341396</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TodoView">
@@ -538,16 +491,16 @@
   <component name="ToolWindowManager">
     <frame x="1358" y="-290" width="1696" height="1066" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20386007" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44920635" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39207047" sideWeight="0.3618818" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32929516" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39207047" sideWeight="0.6381182" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32929516" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20386007" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4482379" sideWeight="0.49758744" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39207047" sideWeight="0.3799759" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32929516" sideWeight="0.49758744" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39207047" sideWeight="0.62002414" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32929516" sideWeight="0.49758744" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32929516" sideWeight="0.49758744" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24969843" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.9174009" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6024229" sideWeight="0.49276236" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -571,7 +524,8 @@
     <MESSAGE value="before fix the error:Unexpected error:'ParseParameters' object has no attribute 'get'" />
     <MESSAGE value="ParseParameters' object has no attribute 'get' still" />
     <MESSAGE value="need to fix Attribute.py for next step" />
-    <option name="LAST_COMMIT_MESSAGE" value="need to fix Attribute.py for next step" />
+    <MESSAGE value="Unexpected error in readSet of InstanceSet class :'NoneType' object is not subscriptable" />
+    <option name="LAST_COMMIT_MESSAGE" value="Unexpected error in readSet of InstanceSet class :'NoneType' object is not subscriptable" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -581,16 +535,11 @@
           <line>53</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/main/Help_Classes/Attribute.py</url>
-          <line>607</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="16" />
+      <option name="time" value="29" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -604,69 +553,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/main/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/DataBase.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="779">
-          <caret line="41" column="16" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="41" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/help/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/Fuzzy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1444">
-          <caret line="76" column="23" lean-forward="true" selection-start-line="76" selection-start-column="23" selection-end-line="76" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/DataBase.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/help/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -727,13 +613,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="437">
           <caret line="70" column="0" lean-forward="true" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/Help_Classes/InstanceAttributes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1288">
-          <caret line="56" column="0" lean-forward="false" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -805,13 +684,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="782">
           <caret line="36" column="0" lean-forward="false" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/ParseParameters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5888">
-          <caret line="258" column="12" lean-forward="false" selection-start-line="258" selection-start-column="9" selection-end-line="258" selection-end-column="12" />
+          <folding>
+            <element signature="e#1207#1229#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -822,42 +697,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/Main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/Fuzzy_Chi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/MyDataSet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="8" column="17" lean-forward="false" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/Help_Classes/ErrorInfo.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3542">
-          <caret line="154" column="31" lean-forward="true" selection-start-line="154" selection-start-column="31" selection-end-line="154" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/simpleTest/config0s0.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -865,22 +708,39 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/Help_Classes/Instance.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1058">
+          <caret line="49" column="16" lean-forward="false" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/Help_Classes/InstanceParser.py">
+    <entry file="file://$PROJECT_DIR$/main/Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3887">
-          <caret line="169" column="25" lean-forward="false" selection-start-line="169" selection-start-column="25" selection-end-line="169" selection-end-column="25" />
+        <state relative-caret-position="1219">
+          <caret line="53" column="0" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+          <folding>
+            <element signature="e#1147#1190#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/Help_Classes/ErrorInfo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="149" column="24" lean-forward="false" selection-start-line="149" selection-start-column="10" selection-end-line="149" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/simpleTest/datasets/iris/iris-10-1tra.dat">
+    <entry file="file://$PROJECT_DIR$/main/Help_Classes/InstanceAttributes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="5" column="16" lean-forward="false" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="16" />
+        <state relative-caret-position="228">
+          <caret line="722" column="56" lean-forward="true" selection-start-line="722" selection-start-column="56" selection-end-line="722" selection-end-column="56" />
           <folding />
         </state>
       </provider>
@@ -893,84 +753,188 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/Help_Classes/InstanceSet.py">
+    <entry file="file://$PROJECT_DIR$/main/simpleTest/datasets/iris/iris-10-2tst.dat">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="880" column="0" lean-forward="true" selection-start-line="880" selection-start-column="0" selection-end-line="880" selection-end-column="0" />
-          <folding>
-            <element signature="e#1943#2003#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/Help_Classes/Instance.py">
+    <entry file="file://$PROJECT_DIR$/main/simpleTest/datasets/iris/iris-10-3tra.dat">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="49" column="16" lean-forward="false" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="16" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/simpleTest/datasets/iris/iris-10-4tst.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/simpleTest/datasets/wine/wine-10-1tra.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/simpleTest/datasets/wine/wine-10-4tst.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/simpleTest/datasets/wine/wine-10-5tst.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/simpleTest/datasets/wine/wine-10-4tra.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/simpleTest/datasets/wine/wine-10-2tst.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="18" column="24" lean-forward="true" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/simpleTest/datasets/iris/iris-10-1tra.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="5" column="29" lean-forward="false" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/simpleTest/datasets/wine/wine-10-6tst.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="5" column="33" lean-forward="true" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/ParseParameters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="231" column="26" lean-forward="false" selection-start-line="231" selection-start-column="9" selection-end-line="231" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/Fuzzy_Chi.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="355">
+          <caret line="112" column="84" lean-forward="false" selection-start-line="112" selection-start-column="84" selection-end-line="112" selection-end-column="84" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/Help_Classes/Attributes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="413" column="64" lean-forward="false" selection-start-line="413" selection-start-column="64" selection-end-line="413" selection-end-column="64" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/Help_Classes/Attribute.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="199" column="2" lean-forward="false" selection-start-line="199" selection-start-column="2" selection-end-line="199" selection-end-column="2" />
+        <state relative-caret-position="157">
+          <caret line="544" column="24" lean-forward="false" selection-start-line="544" selection-start-column="5" selection-end-line="544" selection-end-column="24" />
           <folding>
             <element signature="e#0#1484#1" expanded="false" />
             <element signature="e#1504#1776#1" expanded="false" />
-            <element signature="e#2099#2104#0" expanded="false" />
-            <element signature="e#2513#2518#0" expanded="false" />
-            <element signature="e#2734#2739#0" expanded="false" />
-            <element signature="e#2872#2877#0" expanded="false" />
-            <element signature="e#2952#2957#0" expanded="false" />
-            <element signature="e#3032#3037#0" expanded="false" />
-            <element signature="e#3176#3181#0" expanded="false" />
-            <element signature="e#3296#3301#0" expanded="false" />
-            <element signature="e#3402#3407#0" expanded="false" />
-            <element signature="e#3544#3549#0" expanded="false" />
-            <element signature="e#3619#3624#0" expanded="false" />
-            <element signature="e#3915#3920#0" expanded="false" />
-            <element signature="e#4082#4087#0" expanded="false" />
-            <element signature="e#4172#4177#0" expanded="false" />
-            <element signature="e#4258#4263#0" expanded="false" />
-            <element signature="e#4341#4346#0" expanded="false" />
-            <element signature="e#5394#5399#0" expanded="false" />
-            <element signature="e#5716#5728#0" expanded="false" />
-            <element signature="e#5873#5885#0" expanded="false" />
-            <element signature="e#6484#6503#0" expanded="false" />
-            <element signature="e#8589#8608#0" expanded="false" />
-            <element signature="e#8800#8817#0" expanded="false" />
-            <element signature="e#9008#9025#0" expanded="false" />
-            <element signature="e#9355#9375#0" expanded="false" />
-            <element signature="e#9891#9916#0" expanded="false" />
-            <element signature="e#10382#10399#0" expanded="false" />
-            <element signature="e#11223#11242#0" expanded="false" />
-            <element signature="e#11682#11727#0" expanded="false" />
-            <element signature="e#11902#11923#0" expanded="false" />
-            <element signature="e#12432#12529#0" expanded="false" />
-            <element signature="e#12532#12559#0" expanded="false" />
-            <element signature="e#13453#13458#0" expanded="false" />
-            <element signature="e#13650#13668#0" expanded="false" />
-            <element signature="e#13891#13917#0" expanded="false" />
-            <element signature="e#14240#14264#0" expanded="false" />
-            <element signature="e#14468#14493#0" expanded="false" />
-            <element signature="e#14793#14813#0" expanded="false" />
-            <element signature="e#15074#15098#0" expanded="false" />
-            <element signature="e#15445#15548#0" expanded="false" />
-            <element signature="e#15502#15533#0" expanded="false" />
-            <element signature="e#15550#15551#0" expanded="false" />
-            <element signature="e#15782#15804#0" expanded="false" />
-            <element signature="e#16220#16365#0" expanded="false" />
-            <element signature="e#16887#16936#0" expanded="false" />
-            <element signature="e#17273#17286#0" expanded="false" />
+            <element signature="e#2096#2101#0" expanded="false" />
+            <element signature="e#2509#2514#0" expanded="false" />
+            <element signature="e#2728#2733#0" expanded="false" />
+            <element signature="e#2865#2870#0" expanded="false" />
+            <element signature="e#2944#2949#0" expanded="false" />
+            <element signature="e#3023#3028#0" expanded="false" />
+            <element signature="e#3166#3171#0" expanded="false" />
+            <element signature="e#3285#3290#0" expanded="false" />
+            <element signature="e#3390#3395#0" expanded="false" />
+            <element signature="e#3532#3537#0" expanded="false" />
+            <element signature="e#3607#3612#0" expanded="false" />
+            <element signature="e#3903#3908#0" expanded="false" />
+            <element signature="e#4070#4075#0" expanded="false" />
+            <element signature="e#4160#4165#0" expanded="false" />
+            <element signature="e#4246#4251#0" expanded="false" />
+            <element signature="e#4329#4334#0" expanded="false" />
+            <element signature="e#5382#5387#0" expanded="false" />
+            <element signature="e#5704#5716#0" expanded="false" />
+            <element signature="e#5861#5873#0" expanded="false" />
+            <element signature="e#6472#6491#0" expanded="false" />
+            <element signature="e#8577#8596#0" expanded="false" />
+            <element signature="e#8788#8805#0" expanded="false" />
+            <element signature="e#8996#9013#0" expanded="false" />
+            <element signature="e#9343#9363#0" expanded="false" />
+            <element signature="e#9879#9904#0" expanded="false" />
+            <element signature="e#10370#10387#0" expanded="false" />
+            <element signature="e#11211#11230#0" expanded="false" />
+            <element signature="e#11670#11715#0" expanded="false" />
+            <element signature="e#11890#11911#0" expanded="false" />
+            <element signature="e#12420#12517#0" expanded="false" />
+            <element signature="e#12520#12547#0" expanded="false" />
+            <element signature="e#13441#13446#0" expanded="false" />
+            <element signature="e#13638#13656#0" expanded="false" />
+            <element signature="e#13879#13905#0" expanded="false" />
+            <element signature="e#14228#14252#0" expanded="false" />
+            <element signature="e#14456#14481#0" expanded="false" />
+            <element signature="e#14781#14801#0" expanded="false" />
+            <element signature="e#15062#15086#0" expanded="false" />
+            <element signature="e#15433#15536#0" expanded="false" />
+            <element signature="e#15490#15521#0" expanded="false" />
+            <element signature="e#15538#15539#0" expanded="false" />
+            <element signature="e#15770#15792#0" expanded="false" />
+            <element signature="e#16208#16353#0" expanded="false" />
+            <element signature="e#16875#16924#0" expanded="false" />
+            <element signature="e#17261#17274#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/Help_Classes/Attributes.py">
+    <entry file="file://$PROJECT_DIR$/main/Help_Classes/InstanceParser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-654">
-          <caret line="372" column="5" lean-forward="true" selection-start-line="372" selection-start-column="5" selection-end-line="372" selection-end-column="5" />
+        <state relative-caret-position="180">
+          <caret line="84" column="5" lean-forward="true" selection-start-line="84" selection-start-column="5" selection-end-line="84" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/Help_Classes/InstanceSet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="182" column="15" lean-forward="false" selection-start-line="182" selection-start-column="8" selection-end-line="182" selection-end-column="15" />
+          <folding>
+            <element signature="e#1943#2003#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/MyDataSet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="145">
+          <caret line="196" column="29" lean-forward="false" selection-start-line="196" selection-start-column="8" selection-end-line="196" selection-end-column="29" />
           <folding />
         </state>
       </provider>

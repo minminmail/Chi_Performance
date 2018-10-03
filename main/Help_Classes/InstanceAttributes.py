@@ -716,19 +716,19 @@ def finishStatistics(self):
  */
  '''
 def printInsAttr(self):
-    println("@relation = "+self.__relationName);
-    println("Number of attributes: "+self.__attributes.size());
+    print("@relation = "+self.__relationName);
+    print("Number of attributes: "+self.__attributes.size());
 
     for i in range(0, self.__attributes.size()):
         att = Attribute(self.__attributes.elementAt(i));
         if (att.getDirectionAttribute() == Attribute.INPUT):
-            println("  > INPUT ATTRIBUTE:     ");
+            print("  > INPUT ATTRIBUTE:     ");
         elif (att.getDirectionAttribute() == Attribute.OUTPUT):
-            println("  > OUTPUT ATTRIBUTE:    ");
+            print("  > OUTPUT ATTRIBUTE:    ");
         else:
-            println("  > UNDEFINED ATTRIBUTE: ");
+            print("  > UNDEFINED ATTRIBUTE: ");
 
-        att.print();
+        att.printAttr();
 
 #end print
 #end of Attributes class

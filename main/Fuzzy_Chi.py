@@ -110,7 +110,7 @@ class Fuzzy_Chi :
             #   for file in parameters.getInputTestFiles():
             #       print("File Name is :" + file);
             #
-              self.test_myDataSet.readClassificationSet(parameters.get, False);
+              self.test_myDataSet.readClassificationSet(parameters.getInputTestFiles(), False);
             except IOError as ioError :
                 print ("I/O error: "+ str(ioError))
             except Exception as e:

@@ -64,18 +64,18 @@ class Attribute:
  #  Label to identify INPUT attributes
 
 
- INPUT = 1;
+ INPUT = 1
 
  # Label to identify OUTPUT attributes
 
 
- OUTPUT = 2;
+ OUTPUT = 2
 
 
  #  Label to identify attributes that hasn't been defined neither as input or output
 
 
- DIR_NOT_DEF = -1;
+ DIR_NOT_DEF = -1
 
  # '''
  # /////////////////////////////////////////////////////////////////////////////
@@ -87,50 +87,50 @@ class Attribute:
  #  * defined neither as input or output (-1)
  # '''
 
- __dirAttribute=0;
+ __dirAttribute=0
 
  # '''
  #  * It keeps the type of the attribute. It can be one of the following values:
  #  * [Attribute.Nominal, Attribute.Integer, Attribute.Real]
  # '''
 
- __type=0;
+ __type=0
 
  #It stores the name of the attribute.
 
- __name='';
+ __name=''
  # '''
  #  * Vector where all the values that can take this nominal attribute are going
  #  * to be stored.
  #  '''
 
- __nominalValues=[];
+ __nominalValues=[]
  # '''
  #  * Minimum value that can take a real attribute.
  #  '''
 
- __min=0.0;
+ __min=0.0
  # '''
  #  * Maximum value that can take a real attribute.
  #  '''
 
- __max=0.0;
+ __max=0.0
  # '''
  #  * Flag that indicates if it's the first time that an operation is made
  #  * with the current attribute.
  #  '''
 
- __firstTime=None;
+ __firstTime=None
  # '''
  #  * It indicates if the bounds of the attribute has been fixed in its definition.
  #  '''
 
- _fixedBounds=None;
+ _fixedBounds=None
  # '''
  #  * It counts the number of values that can take a nominal attribute
  #  '''
 
- __countValues=0;
+ __countValues=0
 
  # '''
  #  * It informs that a nominal value not compresed in train list values has been
@@ -667,7 +667,7 @@ class Attribute:
  # '''
  #  * This method prints the attribute information.
  #  '''
- def printHere(self):
+ def printAttr(self):
   typesConv = {"Nominal","Integer","Real"};
   print(" Name: "+self.__name+".");
   print(" Type: "+self.__type );

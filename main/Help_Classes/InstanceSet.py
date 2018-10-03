@@ -194,48 +194,50 @@ class InstanceSet:
                     # Reading information in the header, i.e., @relation, @attribute, @inputs and @outputs
                 print("In readSet finished read file " + str(self.file_to_open))
                 self.parseHeader(parser, isTrain);
-                print(" The number of output attributes is: " + Attributes.getOutputNumAttributes());
+                print(" The number of output attributes is: " + str(Attributes.getOutputNumAttributes(Attributes)))
                     # The attributes statistics are init if we are in train mode.
-                if (isTrain and Attributes.getOutputNumAttributes() == 1):
+                if isTrain and Attributes.getOutputNumAttributes(Attributes) == 1:
+                    print("Begin Attributes.initStatistics......")
                     Attributes.initStatistics();
                     # A temporal vector is used to store the instances read.
                     # print( "\n\n  > Reading the data ");
                     print("Reading the data");
                     tempSet = [[0] * 1000] * 10000;
                     lines = parser.getLines();
-                    while (lines != None):
-                        print( "Data line: " + lines)
-                    newInstance = Instance(lines, isTrain, len(tempSet));
-                    tempSet.append(newInstance);
+                    for line in lines :
+                        if(line is not None):
+                            print( "Data line: " + str(line))
+                            newInstance = Instance(line, isTrain, len(tempSet))
+                            tempSet.append(newInstance)
 
-                        # The vector of instances is converted to an array of instances.
+                     # The vector of instances is converted to an array of instances.
                     sizeInstance = len(tempSet)
-                    print(" Number of instances read: " + str(sizeInstance));
-                    instanceSet = Instance[sizeInstance];
+                    print(" Number of instances read: " + str(sizeInstance))
+                    instanceSet = Instance[sizeInstance]
                     for i in range(0, sizeInstance):
-                        instanceSet[i] = Instance(tempSet[i]);
+                        instanceSet[i] = Instance(tempSet[i])
 
-                        print("After converting all instances");
+                        print("After converting all instances")
                          # System.out.println("The error logger has any error: "+errorLogger.getNumErrors());
                         if errorLogger.getNumErrors() > 0:
-                            print("There has been " + errorLogger.getAllErrors().size() + "errors in the Dataset format.");
+                            errorNumber =len(errorLogger.getAllErrors())
+                            print("There has been " + str(errorNumber) + "errors in the Dataset format.");
                             for k in range(0, errorLogger.getNumErrors()):
-                                errorLogger.getError(k).print();
+                                errorLogger.getError(k).printErrorInfo()
+
+
+                 #print("There has been " + errorLogger.getAllErrors().size() + " errors in the Dataset format",
+            #           errorLogger.getAllErrors());
+                print("Finishing the statistics: (isTrain)" + str(isTrain) + ", (# out attributes)" + str(Attributes.getOutputNumAttributes(Attributes)))
+            # # If being on a train dataset, the statistics are finished
+                if (isTrain and Attributes.getOutputNumAttributes(Attributes) == 1):
+
+                     Attributes.finishStatistics()
+                 # # close the stream
+                parser.close()
+                print("File LOADED CORRECTLY!!");
             except Exception as e :
                 print("Unexpected error in readSet of InstanceSet class :" + str(e))
-
-             #print("There has been " + errorLogger.getAllErrors().size() + " errors in the Dataset format",
-        #           errorLogger.getAllErrors());
-        #     print(
-        #         "\n  > Finishing the statistics: (isTrain)" + isTrain + ", (# out attributes)" + Attributes.getOutputNumAttributes());
-        # # If being on a train dataset, the statistics are finished
-        # if (isTrain and Attributes.getOutputNumAttributes() == 1):
-        #     Attributes.finishStatistics();
-        # # close the stream
-        # parser.close();
-        #
-        # print("  >> File LOADED CORRECTLY!!");
-
         # end of InstanceSet constructor.
 
          # * It reads the information in the header of the file.
@@ -281,7 +283,7 @@ class InstanceSet:
 
                 elif ("@attribute" in line):
                     if (isTrain):
-                        print("insert Attribute name :")
+                        print("Begin insertAttribute ......")
                         self.insertAttribute(line);
                         attCount += 1;
 
@@ -292,9 +294,10 @@ class InstanceSet:
                         aux = line[8:]
 
                         if (isTrain):
+                            print("Has @inputs, aux is :" + aux)
                             self.insertInputOutput(aux, lineCount, inputAttrNames, "inputs", isTrain);
 
-                elif (str(line).lower().indexOf("@outputs") != -1):
+                elif (str(line).lower().index("@outputs") != -1):
                     if (attHeader == None):
                         attHeader = header
                         outputsDef = True
@@ -302,6 +305,7 @@ class InstanceSet:
 
                         aux = line.substring(8);
                         if (isTrain):
+                            print("Has @outputs, aux is :" + aux)
                             self.insertInputOutput(aux, lineCount, outputAttrNames, "outputs", isTrain);
 
                         print("Size of the output is: " + outputAttrNames.size());
@@ -331,74 +335,92 @@ class InstanceSet:
         token_withT= "\t" + token_str
 
         line=line.replace(token_str,token_withT);
-        print("line with token_double:" + token_withT + "line:" + line)
+        print("token_double is:" + token_withT + ", line is :" + line)
         # System.out.println ("  > Processing line: "+  line );
         #st = line.split(" [{\t");
         st = line.split("\t")
 
 
         # Disregarding the first token. It is @attribute
-        st[0] = st[0].replace("@attribute","").strip()
+        st[0] = st[0].replace("@attribute","").strip()  # delete @attribute
         print("st[0] is:" + st[0])
+
         at = Attribute()
         print("before getType")
         type_string = at.getType()
         print("after getType")
+
+        attr_list = st[0].split()
+        attr_list[0]=attr_list[0].strip()
+        print("attr_list[0] is:" + attr_list[0])
+
         #print("Get type once get instance object, at.getType() = " + str(type_string))
         at.setName(st[0])
-        print( "Attribute name: "+ at.getName() )
+        #print( "Attribute name: "+ at.getName() )
 
         # Next action depends on the type of attribute: continuous or nominal
-        if (len(st)==1):  # Parsing a nominal attribute with no definition of values
+        if (len(attr_list)==1):  # Parsing a nominal attribute with no definition of values
             print("Parsing nominal attribute without values: setType=0 ")
             #print("Get type =" + at.getType())
             at.setType(Attribute.NOMINAL)
 
-        elif (token_str in line):  # Parsing a nominal attribute
+        elif ( "{" in line):  # this because  it is the class values line
             print("Parsing nominal attribute with values: "+line )
             #print("Get type =" + at.getType())
-            print("Before setType:")
+            print("Before setType = 0")
             at.setType(Attribute.NOMINAL)
-            print("after setType:")
+            print("after setType= 0")
             at.setFixedBounds(True)
 
-            indexL = line.index(token_str)+1
-            #print("indexL: " + str(indexL) )
-            indexR = line.index(token_str_right)
+            indexL = line.index("{")+1
+            #print("indexL: " + indexL )
+            indexR = line.index("}")
             #print("indexR: " + str(indexR))
 
-            print( "The Nominal values are: " + line[indexL: indexR]);
+            #print( "The Nominal values are: " + line[indexL: indexR]);
             lineSub = line[indexL: indexR]
             print("The lineSub : " + lineSub)
             st2 = lineSub.split(",")
 
-            for str in  st2:
-                at.addNominalValue(str.strip())
+            for nominalStr in  st2:
+                at.addNominalValue(nominalStr.strip())
 
         else:  # Parsing an integer or real
-            type = st[1].strip()
+            attName=attr_list[0]
+            at.setName(attName)
+            attType = attr_list[1].lower()
+            print("set Name and type for attribute: " + str(attName) + ","+ str(attType))
+
 
             # System.out.println ("    > Parsing "+ type + " attributes");
-            if (type.lower() == "integer"):
+
+            if (attType == "integer"):
                 at.setType(Attribute.INTEGER);
-            if (type.lower() == "real"):
+                print("set integer type")
+            if (attType == "real"):
                 at.setType(Attribute.REAL);
+                print("set real type")
+            indexL = line.index("[");
+            indexR = line.index("]");
 
-            indexL = line.indexOf("[");
-            indexR = line.indexOf("]");
+            print("indexL is: "+ str(indexL)+ " indexR: "+str(indexR))
 
-            if (indexL is not -1 and indexR is not - 1):
+            if (indexL !=-1 and indexR !=- 1):
                 # System.out.println ( "      > The real values are: " + line.substring( indexL+1, indexR) );
                 lineSub = line[indexL + 1: indexR]
-                st2 = lineSub(",")
+                print("lineSub: " + lineSub)
+                st2 = lineSub.split(",")
 
+                print("st2[0].strip() :" + st2[0])
+                print("st2[1].strip() :"+st2[1])
                 minBound = float(st2[0].strip())
                 maxBound = float(st2[1].strip())
-
+                print("Before at.setBounds(minBound, maxBound)")
                 at.setBounds(minBound, maxBound)
-                print("Before add attribute : at"+str(at))
-                Attributes.addAttribute(at)
 
+        print("Before add attribute :::: ")
+        Attributes.addAttribute(Attributes,at)
+        print("insertAttribute is finished :::: ")
 
     # end insertAttribute
 
@@ -414,7 +436,13 @@ class InstanceSet:
         for attrName in st:
             attrName = str(attrName.strip())
             print("attrName: " + attrName)
-            if (Attributes.getAttribute(self,attrName) == None):
+            attrItem=Attributes.getAttributeByName(Attributes,attrName)
+            attributes=Attributes.getAttributes(Attributes)
+            for att in attributes:
+                print("att"+str(att.getName()))
+            #print("numbers of items that attributes:"+str(len(attributes)))
+            if ( attrItem == None):
+                print("Attributes.getAttribute == None")
                 # If this attribute has not been declared, generate error
                 er = ErrorInfo(ErrorInfo.InputTestAttributeNotDefined, 0, lineCount, 0, 0, isTrain,
                                ("The attribute " + attName + " defined in @" + type +
@@ -422,8 +450,9 @@ class InstanceSet:
                 InstanceSet.errorLogger.setError(er);
 
             else:
+                print("Attributes.getAttribute != None")
                 print("   > " + str(type) + " attribute considered: " + attName + ".");
-                collection.add(attName);
+                collection.append(attName);
 
 
     # end insertInputOutput
@@ -439,17 +468,17 @@ class InstanceSet:
                 print("inputsDef == False and outputsDef == False")
                 posHere = Attributes.getNumAttributes(self) - 1
                 outputAttrNames.append(Attributes.getAttribute(self,posHere).getName());
-                inputAttrNames = Attributes.getAttributesExcept(outputAttrNames);
+                inputAttrNames = Attributes.getAttributesExcept(Attributes,outputAttrNames);
                 self.outputInfered = True;
             elif (inputsDef == False and outputsDef == True):
                 print("inputsDef == False and outputsDef == True")
-                inputAttrNames = Attributes.getAttributesExcept(outputAttrNames);
+                inputAttrNames = Attributes.getAttributesExcept(Attributes,outputAttrNames)
             elif (inputsDef == True and outputsDef == False):
                 print("inputsDef == True and outputsDef == False")
-                outputAttrNames = Attributes.getAttributesExcept(inputAttrNames);
-                self.outputInfered = True;
+                outputAttrNames = Attributes.getAttributesExcept(Attributes,inputAttrNames)
+                self.outputInfered = True
             print("setOutputInputAttributes begin: ")
-            Attributes.setOutputInputAttributes(inputAttrNames, outputAttrNames);
+            Attributes.setOutputInputAttributes(Attributes,inputAttrNames, outputAttrNames)
 
 
     # end of processInputsAndOutputs
@@ -532,7 +561,6 @@ class InstanceSet:
     #  * @throws ArrayIndexOutOfBoundsException If the index is out of the instance
     #  * set size.
     # '''
-
 
     def getOutputNumericValue(self,whichInst, whichAttr):
         if (whichInst < 0 or whichInst >= self.instanceSet.length):
@@ -766,13 +794,13 @@ class InstanceSet:
     # '''
 
 
-    def print(self,out):
+    def printOut(self,out):
         for i in range(0, self.instanceSet.length):
-            out.println("> Instance " + i + ":");
+            print("> Instance " + i + ":");
         if (self.storeAttributesAsNonStatic == True and self.attributes != None):
-            self.instanceSet[i].print(self.attributes, out);
+            self.instanceSet[i].printOut(self.attributes, out);
         else:
-            self.instanceSet[i].print(out);
+            self.instanceSet[i].printOut(out);
 
 
     # end print
@@ -789,15 +817,15 @@ class InstanceSet:
 
     def printAsOriginal(self,out, int):
         # Printing the header as the original one
-        out.println(self.header);
+        print(self.header);
 
         if (self.storeAttributesAsNonStatic and self.attributes != None):
             if (self.printInOut == 1 or self.printInOut == 3):
-                out.println(self.attributes.getInputHeader());
+                print(self.attributes.getInputHeader());
 
         if (self.printInOut == 2 or self.printInOut == 3):
 
-            out.println(self.attributes.getOutputHeader());
+            print(self.attributes.getOutputHeader());
 
         else:
             if (self.printInOut == 1 or self.printInOut == 3):
@@ -805,9 +833,9 @@ class InstanceSet:
             if (self.printInOut == 2 or self.printInOut == 3):
                 out.println(Attributes.getOutputHeader());
 
-        out.print("@data");
+        print("@data");
         for i in range(0, self.instanceSet.length):
-            out.println();
+            print();
             if (self.storeAttributesAsNonStatic and self.attributes != None):
                 self.instanceSet[i].printAsOriginal(self.attributes, out);
         else:
@@ -817,22 +845,22 @@ class InstanceSet:
     # end printAsOriginal
 
 
-    def printHere(self):
+    def printInsSet(self):
         print("------------- ATTRIBUTES --------------");
         if (self.storeAttributesAsNonStatic and self.attributes != None):
-            self.attributes.print();
+            self.attributes.printAttributes();
 
         else:
-            Attributes.print();
+            Attributes.printAttributes();
 
         print("-------------- INSTANCES --------------");
         for i in range(0, self.instanceSet.length):
             print("\n> Instance " + i + ":");
 
             if (self.storeAttributesAsNonStatic and self.attributes != None):
-                self.instanceSet[i].print(self.attributes);
+                self.instanceSet[i].printInsSet(self.attributes);
         else:
-            self.instanceSet[i].print();
+            self.instanceSet[i].printInsSet();
 
 
     # end print

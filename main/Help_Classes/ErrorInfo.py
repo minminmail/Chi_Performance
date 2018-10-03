@@ -147,7 +147,7 @@ class ErrorInfo :
     # /**
     #  * It does print an understable message about the error
     #  */
-      def printHere(self):
+      def printErrorInfo(self):
         dir = ["Output", "Input"]
         if (self.typeOfError==self.BadNumberOfValues):
 
