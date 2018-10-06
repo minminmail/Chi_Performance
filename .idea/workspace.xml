@@ -3,12 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="910f8b0d-c71b-4094-acec-84c9d0076830" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/main/Help_Classes/Attribute.py" afterPath="$PROJECT_DIR$/main/Help_Classes/Attribute.py" />
-      <change beforePath="$PROJECT_DIR$/main/Help_Classes/Attributes.py" afterPath="$PROJECT_DIR$/main/Help_Classes/Attributes.py" />
-      <change beforePath="$PROJECT_DIR$/main/Help_Classes/InstanceAttributes.py" afterPath="$PROJECT_DIR$/main/Help_Classes/InstanceAttributes.py" />
       <change beforePath="$PROJECT_DIR$/main/Help_Classes/InstanceParser.py" afterPath="$PROJECT_DIR$/main/Help_Classes/InstanceParser.py" />
-      <change beforePath="$PROJECT_DIR$/main/Help_Classes/InstanceSet.py" afterPath="$PROJECT_DIR$/main/Help_Classes/InstanceSet.py" />
-      <change beforePath="$PROJECT_DIR$/main/MyDataSet.py" afterPath="$PROJECT_DIR$/main/MyDataSet.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,8 +20,8 @@
       <file leaf-file-name="InstanceSet.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main/Help_Classes/InstanceSet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="223">
-              <caret line="192" column="118" lean-forward="false" selection-start-line="192" selection-start-column="118" selection-end-line="192" selection-end-column="118" />
+            <state relative-caret-position="39">
+              <caret line="273" column="39" lean-forward="true" selection-start-line="273" selection-start-column="39" selection-end-line="273" selection-end-column="39" />
               <folding>
                 <element signature="e#1943#2003#0" expanded="true" />
               </folding>
@@ -57,8 +52,8 @@
       <file leaf-file-name="InstanceParser.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/Help_Classes/InstanceParser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="86" column="16" lean-forward="false" selection-start-line="86" selection-start-column="8" selection-end-line="86" selection-end-column="16" />
+            <state relative-caret-position="303">
+              <caret line="101" column="0" lean-forward="true" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -133,8 +128,8 @@
       <file leaf-file-name="Attributes.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/Help_Classes/Attributes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="223">
-              <caret line="683" column="22" lean-forward="true" selection-start-line="683" selection-start-column="22" selection-end-line="683" selection-end-column="22" />
+            <state relative-caret-position="361">
+              <caret line="687" column="42" lean-forward="false" selection-start-line="687" selection-start-column="28" selection-end-line="687" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -181,13 +176,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Has @outputs, aux is</find>
-      <find>Size of the output is</find>
-      <find>inputAttr</find>
-      <find>processInputsAndOutputs</find>
-      <find>outputAttr</find>
-      <find>outputAttrhasNominal</find>
-      <find>hasNominal</find>
       <find>InstanceAttributes</find>
       <find>setOutputInputAttributes</find>
       <find>add in out attribute list, attName is:class</find>
@@ -200,17 +188,24 @@
       <find>attName is</find>
       <find>removeDuplicates</find>
       <find>getOutputNumAttributes</find>
-      <find>initStatistics</find>
       <find>Attributes</find>
-      <find>Begin Attributes.initStatistics</find>
       <find>IS</find>
       <find>getNumNominalValues</find>
       <find>Inside getLines of InstanceParser</find>
       <find>remove</find>
       <find>In init of InstanceParser, set file</find>
       <find>Instanceparser</find>
-      <find>insertInputOutput</find>
       <find>In readSet,file_to_open is</find>
+      <find>InstanceParser</find>
+      <find>insertInputOutput</find>
+      <find>file_to_open</find>
+      <find>file_lines is empty</find>
+      <find>initStatistics</find>
+      <find>Begin Attributes.initStatistics</find>
+      <find>Begin to call the InstanceParser.getLines()</find>
+      <find>parseHeader</find>
+      <find>file has</find>
+      <find>In getLines file</find>
     </findStrings>
     <replaceStrings>
       <replace>minNum</replace>
@@ -251,8 +246,8 @@
         <option value="$PROJECT_DIR$/main/MyDataSet.py" />
         <option value="$PROJECT_DIR$/main/Help_Classes/Attribute.py" />
         <option value="$PROJECT_DIR$/main/Help_Classes/Attributes.py" />
-        <option value="$PROJECT_DIR$/main/Help_Classes/InstanceParser.py" />
         <option value="$PROJECT_DIR$/main/Help_Classes/InstanceSet.py" />
+        <option value="$PROJECT_DIR$/main/Help_Classes/InstanceParser.py" />
       </list>
     </option>
   </component>
@@ -519,7 +514,14 @@
       <option name="project" value="LOCAL" />
       <updated>1538603343235</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="need to work at readClassificationSet() in MyDataSet.py">
+      <created>1538866092925</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1538866092925</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TodoView">
@@ -534,7 +536,7 @@
   <component name="ToolWindowManager">
     <frame x="1358" y="-290" width="1696" height="1066" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23401688" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23401688" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4482379" sideWeight="0.49758744" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39207047" sideWeight="0.3799759" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26762116" sideWeight="0.49758744" order="1" side_tool="false" content_ui="tabs" />
@@ -855,14 +857,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/simpleTest/datasets/iris/iris-10-2tra.dat">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="6" column="50" lean-forward="false" selection-start-line="6" selection-start-column="50" selection-end-line="6" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/Help_Classes/FormatErrorKeeper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="437">
@@ -933,22 +927,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/Help_Classes/Attributes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="683" column="22" lean-forward="true" selection-start-line="683" selection-start-column="22" selection-end-line="683" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/Help_Classes/InstanceParser.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="86" column="16" lean-forward="false" selection-start-line="86" selection-start-column="8" selection-end-line="86" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/Help_Classes/InstanceAttributes.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="472">
@@ -957,10 +935,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/main/Help_Classes/Attributes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="687" column="42" lean-forward="false" selection-start-line="687" selection-start-column="28" selection-end-line="687" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/simpleTest/datasets/iris/iris-10-2tra.dat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="6" column="50" lean-forward="false" selection-start-line="6" selection-start-column="50" selection-end-line="6" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/Help_Classes/InstanceParser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="101" column="0" lean-forward="true" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main/Help_Classes/InstanceSet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="192" column="118" lean-forward="false" selection-start-line="192" selection-start-column="118" selection-end-line="192" selection-end-column="118" />
+        <state relative-caret-position="39">
+          <caret line="273" column="39" lean-forward="true" selection-start-line="273" selection-start-column="39" selection-end-line="273" selection-end-column="39" />
           <folding>
             <element signature="e#1943#2003#0" expanded="true" />
           </folding>

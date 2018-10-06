@@ -87,10 +87,10 @@ class InstanceParser:
     def __init__(self,fileName, _isTrain):
         try:
 
-            print("In InstanceParser init method the fileName is " + fileName)
-            self.file = open(fileName, "r")
 
-            print("In init of InstanceParser, set file =" + str(self.file))
+            self.file = open(fileName,"r")
+
+            print("In init of InstanceParser, set file =" + str(fileName))
             #print(self.file.read())
             self.lineCounter = 0
         except Exception as error:
@@ -137,7 +137,7 @@ class InstanceParser:
 
     def getLines(self):
         try:
-
+            print("In getLines file is "+ str(self.file))
             file_lines = self.file.readlines()
             line_Nuember =len(file_lines)
             if(line_Nuember!=0):
