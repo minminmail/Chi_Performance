@@ -225,7 +225,7 @@ class Attributes:
     for i in range(0, len(attr)):
       attr[i] = self.attributes[i]
 
-    return attr;
+    return attr
    #end getAttribute
 
 # /**
@@ -235,8 +235,8 @@ class Attributes:
 #  */
   def getInputAttribute(self, pos):
     if pos<0 or pos >= len(self.inputAttr):
-        return None;
-    return self.inputAttr[pos];
+        return None
+    return self.inputAttr[pos]
    #end getInputAttribute
 
 # /**
@@ -258,14 +258,14 @@ class Attributes:
 #  * @return an string with the @inputs definition  .
 #  */
   def getInputHeader(self):
-    aux = "@inputs ";
-    ending = ",";
+    aux = "@inputs "
+    ending = ","
     for i in range(0, len(self.inputAttr)):
       if (i == len(self.inputAttr) - 1):
-          ending = "";
+          ending = ""
       attribute=self.inputAttr[i]
-      aux += (attribute).getName() + ending;
-    return aux;
+      aux += (attribute).getName() + ending
+    return aux
   #end getInputHeader
 
 # /**
@@ -274,7 +274,7 @@ class Attributes:
 #  * @return a String with the input attributes definition.
 #  */
   def getInputAttributesHeader(self):
-    aux = "";
+    aux = ""
     for i in range (0, len(self.inputAttr)):
         #Writting the name and type of the attribute
         aux += str(self.inputAttr[i])+"\n";
@@ -287,14 +287,26 @@ class Attributes:
 #  * It does return all the output attributes.
 #      * @return all the output attributes.
 #  */
-  def getOutputAttributes(self):
-    if len(self.outputAttr) == 0:
-        return None;
-    attr = Attribute[len(self.outputAttr)]
-    for i in range (0,attr.length):
-      attr[i] = self.outputAttr[i]
 
-    return attr;
+
+  def getOutputAttributes(self):
+    print("get Output Attributes in Attributes begin.......")
+    if len(self.outputAttr) == 0:
+        print("The output attributes are 0:")
+        return None
+    else:
+        return self.outputAttr
+
+
+    # uniqueList=[]
+    # for item in list_origin:
+    #   if item not in uniqueList:
+    #     uniqueList.append(item)
+    for uniqueL in unique_list:
+      print("after remove duplicates :" + uniqueL)
+    uni_length = len(unique_list)
+    print(" unique_set length is " + str(uni_length))
+    return unique_list
   #end outputAttributes
 # /*
 #  * It returns the output attribute being int the position passed as an argument.
@@ -312,12 +324,12 @@ class Attributes:
 #  * @return an string with the @outputs definition  .
 #  */
   def getOutputHeader(self):
-    aux = "@outputs ";
-    ending = ",";
+    aux = "@outputs "
+    ending = ","
     for i in range (0, len(self.outputAttr)):
       if (i == len(self.outputAttr) - 1):
-          ending = "";
-      aux += (self.outputAttr[i]).getName() + ending;
+
+          aux += self.outputAttr[i].getName() + ending
 
     return aux;
   #end getOutputHeader
@@ -370,7 +382,7 @@ class Attributes:
 #  */
   def getUndefinedAttributesHeader(self):
     aux = "";
-    for i in range (0, len(undefinedAttr)):
+    for i in range (0, len(self.undefinedAttr)):
         #Writting the name and type of the attribute
         aux += str(self.undefinedAttr[i]) +"\n";
 
@@ -410,6 +422,7 @@ class Attributes:
 #  */
   def getOutputNumAttributes(self):
     print("begin getOutputNumAttributes ......")
+
     number_of_outputAttr=len(self.outputAttr)
     print("number_of_outputAttr : " + str(number_of_outputAttr))
     return number_of_outputAttr
@@ -451,22 +464,36 @@ class Attributes:
     attName=""
     att=None
 
+    for inAtt in inAttNames:
+
+        print("inAtt name is:" + inAtt)
+    for outAtt in outAttNames:
+
+        print("outAtt name is:" +outAtt )
+
     for i in range (0, len(self.attributes)):
         att = self.attributes[i]
+
         attName = att.getName()
-        if (attName in inAttNames):
+        attName =attName.strip()
+        print("attName is:" + str(attName))
+
+        if (attName in inAttNames and not self.hasSameAttributeName(attName,self.inputAttr)):
+            print("add in input attribute list, attName is:"+attName)
             att.setDirectionAttribute(Attribute.INPUT)
             self.inputAttr.append(self.attributes[i])
-        elif (attName in outAttNames):
+        elif (attName in outAttNames and not self.hasSameAttributeName(attName,self.outputAttr)):
+            print("add in out attribute list, attName is:" + attName)
             att.setDirectionAttribute(Attribute.OUTPUT)
             self.outputAttr.append(self.attributes[i])
-        else:
+        elif(not self.hasSameAttributeName(attName,self.undefinedAttr)):
+            print("add in undefinedAttr attribute list, attName is:" + attName)
             self.undefinedAttr.append(self.attributes[i])
 
     #Finally, making some statistics
-    hasNominal = False;
-    hasInteger = False;
-    hasReal    = False;
+    self.hasNominal = False
+    self.hasInteger = False
+    self.hasReal    = False
 
     for index in range (0 ,2):
         if (index == 0):
@@ -482,11 +509,11 @@ class Attributes:
 
             type = att.getType()
             if type==Attribute.NOMINAL:
-                self.hasNominal = True;
+                self.hasNominal = True
             elif type==Attribute.INTEGER:
-                self.hasInteger = True;
+                self.hasInteger = True
             elif type == Attribute.REAL:
-                self.hasReal = True;
+                self.hasReal = True
 
   #end setOutputInputAttributes
 
@@ -497,6 +524,13 @@ class Attributes:
 #  * is the same as the definition made in train.
 #  * @param outputNames is a vector with all input attribute names.
 #  */
+  def hasSameAttributeName(attrName,attr_list):
+      for item_in_list in attr_list:
+          if item_in_list.getName()== attrName:
+              return True
+          else:
+              return False
+
   def areAllDefinedAsInputs(self,inputNames):
     if len(inputNames) != len(self.inputAttr):
         return False
@@ -602,14 +636,14 @@ class Attributes:
 
             type=att.getType()
             if type==Attribute.NOMINAL:
-                hasNominal = True;
+                self.hasNominal = True
             elif type == Attribute.INTEGER:
-                hasInteger = True;
+                self.hasInteger = True
 
             elif type ==  Attribute.REAL:
-                hasReal = True;
+                self.hasReal = True
 
-    return True;
+    return True
   #end removeAttribute
 
 #
@@ -644,14 +678,14 @@ class Attributes:
     if (len(self.outputAttr) != 1):
         return;
 
-    classNumber = self.outputAttr[0].getNumNominalValues(Attribute)
+    classNumber = self.outputAttr[0].getNumNominalValues()
     #If the output attribute has not been defined as a nominal or it has not
     #any value in the nominal list, the initalization is aborted.
     if classNumber<=0:
         return;
 
     for i in range (0, len(self.inputAttr)):
-        (self.inputAttr[i]).initStatistics(classNumber);
+        (self.inputAttr[i]).initStatisticsTwo(classNumber);
 
     #end initStatistics
 

@@ -67,32 +67,32 @@ class InstanceSet:
 
    # Attribute where all the instances of the DB are stored.
 
-    instanceSet = [];
+    instanceSet = []
 
     # String where the header of the file is stored.
 
-    header = "";
+    header = ""
 
     # String where only the attributes definition header is stored
-    attHeader = "";
+    attHeader = ""
     # '''
     #  * Object that collects all the errors happened while reading the test and
     #  * train datasets.
     # '''
-    errorLogger = FormatErrorKeeper();
+    errorLogger = FormatErrorKeeper()
 
     # This object contains the attributes definitions
 
-    attributes = InstanceAttributes();
+    attributes = InstanceAttributes()
     # '''
     #  * It indicates if the attributes has not be stored as non-static, permiting
     #  * the load of different datasets
     # '''
-    storeAttributesAsNonStatic = None;
+    storeAttributesAsNonStatic = None
 
     # It indicates that the output attribute has been infered as the last one
 
-    outputInfered = None;
+    outputInfered = None
 
     # /////////////////////////////////////////////////////////////////////////////
     # ///////////////// METHODS OF THE INSTANCESET CLASS //////////////////////////
@@ -190,7 +190,8 @@ class InstanceSet:
                 self.file_to_open=self.data_folder/file
                     # Declaring an instance parser
                 print("In readSet,file_to_open is:"+ str(self.file_to_open))
-                parser = InstanceParser(self.file_to_open, isTrain);
+                # to do The exception in init of InstanceParse is: can only concatenate str (not "WindowsPath") to str
+                parser = InstanceParser(self.file_to_open, isTrain)
                     # Reading information in the header, i.e., @relation, @attribute, @inputs and @outputs
                 print("In readSet finished read file " + str(self.file_to_open))
                 self.parseHeader(parser, isTrain);
@@ -198,7 +199,7 @@ class InstanceSet:
                     # The attributes statistics are init if we are in train mode.
                 if isTrain and Attributes.getOutputNumAttributes(Attributes) == 1:
                     print("Begin Attributes.initStatistics......")
-                    Attributes.initStatistics();
+                    Attributes.initStatistics(Attributes)
                     # A temporal vector is used to store the instances read.
                     # print( "\n\n  > Reading the data ");
                     print("Reading the data");
@@ -250,19 +251,19 @@ class InstanceSet:
 
     def parseHeader(self,parser, isTrain):
         # 1. Declaration of variables
-        inputAttrNames = [];
-        outputAttrNames = [];
+        inputAttrNames = []
+        outputAttrNames = []
 
         inputsDef = False;
         outputsDef = False;
 
         aux = ""
-        header = ""
+        self.header = ""
 
         attCount = 0
         lineCount = 0
 
-        attHeader = None
+        self.attHeader = None
 
         print("Begin to call the InstanceParser.getLines(),parser.getLines(), in InstanceSet.")
         lines = parser.getLines()
@@ -288,8 +289,9 @@ class InstanceSet:
                         attCount += 1;
 
                 elif ("@inputs" in line):
-                        attHeader = header;
-                        inputsDef = True;
+                        print("@inputs in "+str(line))
+                        self.attHeader = self.header
+                        inputsDef = True
 
                         aux = line[8:]
 
@@ -297,25 +299,25 @@ class InstanceSet:
                             print("Has @inputs, aux is :" + aux)
                             self.insertInputOutput(aux, lineCount, inputAttrNames, "inputs", isTrain);
 
-                elif (str(line).lower().index("@outputs") != -1):
-                    if (attHeader == None):
-                        attHeader = header
-                        outputsDef = True
-                        print( "Defining the output !!!");
+                elif ("@outputs" in line ):
+                    if (self.attHeader == None):
+                        self.attHeader = self.header
+                    outputsDef = True
+                    print( "Defining the output in line :"+ line)
 
-                        aux = line.substring(8);
-                        if (isTrain):
-                            print("Has @outputs, aux is :" + aux)
-                            self.insertInputOutput(aux, lineCount, outputAttrNames, "outputs", isTrain);
+                    aux = line[9:]
+                    if (isTrain):
+                        print("Has @outputs, aux is :" + aux)
+                        self.insertInputOutput(aux, lineCount, outputAttrNames, "outputs", isTrain)
 
-                        print("Size of the output is: " + outputAttrNames.size());
+                        print("Size of the output is: " + str(len(outputAttrNames)))
 
-                header += line + "\n";
+                self.header += line + "\n";
 
-        if (attHeader == None):
-            attHeader = header;
+        if (self.attHeader == None):
+            self.attHeader = self.header
 
-        self.processInputsAndOutputs(isTrain, inputsDef, outputsDef, outputAttrNames, inputAttrNames);
+        self.processInputsAndOutputs(isTrain, inputsDef, outputsDef, outputAttrNames, inputAttrNames)
 
     # end headerParse
 
@@ -426,33 +428,36 @@ class InstanceSet:
 
 
     def insertInputOutput(self,line, lineCount, collection, type, isTrain):
-        attName = "";
 
-        print(" processing: " + line);
+        print(" processing insertInputOutput: " + line)
 
         # Declaring StringTokenizer
-        st = line.split(",");
+        st = line.split(",")
 
-        for attrName in st:
-            attrName = str(attrName.strip())
-            print("attrName: " + attrName)
-            attrItem=Attributes.getAttributeByName(Attributes,attrName)
+        for attName in st:
+            attName = str(attName.strip())
+            print("attrName: " + attName)
+            attrItem=Attributes.getAttributeByName(Attributes,attName)
             attributes=Attributes.getAttributes(Attributes)
             for att in attributes:
-                print("att"+str(att.getName()))
+                print("att name is :"+str(att.getName()))
             #print("numbers of items that attributes:"+str(len(attributes)))
             if ( attrItem == None):
                 print("Attributes.getAttribute == None")
                 # If this attribute has not been declared, generate error
                 er = ErrorInfo(ErrorInfo.InputTestAttributeNotDefined, 0, lineCount, 0, 0, isTrain,
                                ("The attribute " + attName + " defined in @" + type +
-                                " in test, it has not been defined in @inputs in its train dataset. It will be ignored"));
-                InstanceSet.errorLogger.setError(er);
+                                " in test, it has not been defined in @inputs in its train dataset. It will be ignored"))
+                InstanceSet.errorLogger.setError(er)
 
             else:
+                for itemCollection in collection:
+                    print("Item in collection is "+itemCollection)
                 print("Attributes.getAttribute != None")
-                print("   > " + str(type) + " attribute considered: " + attName + ".");
-                collection.append(attName);
+                print("   > " + str(type) + " attribute considered: " + attName)
+                if(attName not in collection):
+                    print("attName:" +attName+" is not in collection")
+                    collection.append(attName)
 
 
     # end insertInputOutput
@@ -460,15 +465,16 @@ class InstanceSet:
 
     def processInputsAndOutputs(self,isTrain, inputsDef, outputsDef, outputAttrNames, inputAttrNames):
         # Afteer parsing the header, the inputs and the outputs are prepared.
-        print("Processing inputs and outputs");
-        self.outputInfered = False;
+        print("Processing inputs and outputs")
+        self.outputInfered = False #set default value
         if (isTrain == True):
             print("isTrain == True")
             if (inputsDef == False and outputsDef == False):
-                print("inputsDef == False and outputsDef == False")
+                print("is neither inputAtt no outputAtt")
                 posHere = Attributes.getNumAttributes(self) - 1
-                outputAttrNames.append(Attributes.getAttribute(self,posHere).getName());
-                inputAttrNames = Attributes.getAttributesExcept(Attributes,outputAttrNames);
+
+                outputAttrNames.append(Attributes.getAttribute(self,posHere).getName())
+                inputAttrNames = Attributes.getAttributesExcept(Attributes,outputAttrNames)
                 self.outputInfered = True;
             elif (inputsDef == False and outputsDef == True):
                 print("inputsDef == False and outputsDef == True")
@@ -490,7 +496,7 @@ class InstanceSet:
 
 
     def isOutputInfered(self):
-        return self.outputInfered;
+        return self.outputInfered
 
 
     # '''
@@ -501,9 +507,9 @@ class InstanceSet:
 
     def getNumInstances(self):
         if (self.instanceSet != None):
-            return len(self.instanceSet);
+            return len(self.instanceSet)
         else:
-            return 0;
+            return 0
         # end numInstances
 
 
@@ -514,9 +520,9 @@ class InstanceSet:
 
 
     def getInstance(self, whichInstance):
-        if (whichInstance < 0 or whichInstance >= self.instanceSet.length):
+        if (whichInstance < 0 or whichInstance >= len(self.instanceSet.length)):
             return None
-        return self.instanceSet[whichInstance];
+        return self.instanceSet[whichInstance]
 
 
     # end getInstance
@@ -527,7 +533,7 @@ class InstanceSet:
         #  * @return Instance[] with all the instances of the class.
 
     def getInstances(self):
-        return self.instanceSet;
+        return self.instanceSet
 
     # //end getInstances
     # '''
@@ -544,9 +550,8 @@ class InstanceSet:
 
     def getInputNumericValue(self, whichInst, whichAttr):
         if (whichInst < 0 or whichInst >= len(self.instanceSet)):
-            raise IndexError(
-                "You are trying to access to " + whichInst + " instance and there are only " + self.instanceSet.length + ".");
-        return self.instanceSet[whichInst].getInputRealValues(whichAttr);
+            raise IndexError("You are trying to access to " + whichInst + " instance and there are only " + self.instanceSet.length + ".")
+        return self.instanceSet[whichInst].getInputRealValues(whichAttr)
 
 
     # end getInputNumericValue
@@ -563,9 +568,9 @@ class InstanceSet:
     # '''
 
     def getOutputNumericValue(self,whichInst, whichAttr):
-        if (whichInst < 0 or whichInst >= self.instanceSet.length):
+        if (whichInst < 0 or whichInst >= len(self.instanceSet)):
             print(self.ArrayIndexOutOfBoundsException("You are trying to access to " + whichInst + " instance and there are only " + self.instanceSet.length + "."));
-        return self.instanceSet[whichInst].getOutputRealValues(whichAttr);
+        return self.instanceSet[whichInst].getOutputRealValues(whichAttr)
         # end getOutputNumericValue
 
     #
@@ -581,8 +586,9 @@ class InstanceSet:
 
 
     def getInputNominalValue(self,whichInst, whichAttr):
-        if (whichInst < 0 or whichInst >= self.instanceSet.length):
+        if (whichInst < 0 or whichInst >= len(self.instanceSet)):
             print(self.ArrayIndexOutOfBoundsException("You are trying to access to " + whichInst + " instance and there are only " + self.instanceSet.length + "."))
+        return self.instanceSet[whichInst].getOutputNominalValues(whichAttr)
         # end getInputNominalValue
 
     #
@@ -598,9 +604,9 @@ class InstanceSet:
 
 
     def getOutputNominalValue(self,whichInst, whichAttr):
-        if (whichInst < 0 or whichInst >= self.instanceSet.length):
-            print("You are trying to access to " + whichInst + " instance and there are only " + self.instanceSet.length + ".");
-        return self.instanceSet[whichInst].getOutputNominalValues(whichAttr);
+        if (whichInst < 0 or whichInst >= len(self.instanceSet)):
+            print("You are trying to access to " + whichInst + " instance and there are only " + str(len(self.instanceSet)) + ".")
+        return self.instanceSet[whichInst].getOutputNominalValues(whichAttr)
         # end getOutputNumericValue
 
 
@@ -611,19 +617,19 @@ class InstanceSet:
 
 
     def removeInstance(self, instNum):
-        if (instNum < 0 or instNum >= self.instanceSet.length):
-            return;
-        aux = Instance[len(self.instanceSet) - 1];
-        add = 0;
-        for i in range(0, self.instanceSet.length):
+        if (instNum < 0 or instNum >= len(self.instanceSet)):
+            return
+        aux = Instance[len(self.instanceSet) - 1]
+        add = 0
+        for i in range(0, len(self.instanceSet)):
             if (instNum == i):
-                add = 1;
+                add = 1
             else:
-                aux[i - add] = self.instanceSet[i];
+                aux[i - add] = self.instanceSet[i]
 
         # Copying the auxiliar to the instanceSet variable
-        instanceSet = aux;
-        aux = None;  # avoiding memory leaks (not necessary in this case)
+        self.instanceSet = aux
+        aux = None  # avoiding memory leaks (not necessary in this case)
 
 
     # end removeInstance
@@ -662,23 +668,22 @@ class InstanceSet:
 
         if (self.storeAttributesAsNonStatic == True and self.attributes != None):
             print("Removing the attribute");
-        if (self.attributes.removeAttribute(inputAtt, whichAtt) == False or (
-                tSet != None and tSet.attributes.removeAttribute(inputAtt, whichAtt)) == False):
-            return False;
+        if (self.attributes.removeAttribute(inputAtt, whichAtt) == False or (tSet != None and tSet.attributes.removeAttribute(inputAtt, whichAtt)) == False):
+            return False
         else:
             if (Attributes.removeAttribute(inputAtt, whichAtt) == False):
                 return False;
-        for i in range(0, self.instanceSet.length):
+        for i in range(0, len(self.instanceSet)):
             if (self.storeAttributesAsNonStatic and self.attributes != None):
-                self.instanceSet[i].removeAttribute(self.attributes, attToDel, inputAtt, whichAtt);
+                self.instanceSet[i].removeAttribute(self.attributes, attToDel, inputAtt, whichAtt)
             else:
-                self.instanceSet[i].removeAttribute(attToDel, inputAtt, whichAtt);
+                self.instanceSet[i].removeAttribute(attToDel, inputAtt, whichAtt)
 
         if (tSet != None):
             for i in range(0, tSet.instanceSet.length):
 
                 if (self.storeAttributesAsNonStatic == True and self.attributes != None):
-                    tSet.instanceSet[i].removeAttribute(self.attributes, attToDel, inputAtt, whichAtt);
+                    tSet.instanceSet[i].removeAttribute(self.attributes, attToDel, inputAtt, whichAtt)
             else:
                 tSet.instanceSet[i].removeAttribute(attToDel, inputAtt, whichAtt);
             return True;
@@ -698,21 +703,21 @@ class InstanceSet:
 
     # end getHeader
 
-    def setHeader(copia):
-        header = str(copia);
+    def setHeader(self,copia):
+        self.header = str(copia)
 
 
     # end getHeader
 
     def getAttHeader(self):
-        return self.attHeader;
+        return self.attHeader
 
 
     # end getHeader
 
 
-    def setAttHeader(copia):
-        attHeader = str(copia);
+    def setAttHeader(self,copia):
+        self.attHeader = str(copia)
 
 
     # end getHeader
@@ -728,30 +733,30 @@ class InstanceSet:
 
 
     def getNewHeader(self):
-        line = "";
-        attrs = [];
+        line = ""
+        attrs = []
 
         # Getting the relation name and the attributes
         if (self.storeAttributesAsNonStatic == True and self.attributes != None):
-            line = "@relation " + self.attributes.getRelationName() + "\n";
-            attrs = self.attributes.getInputAttributes();
+            line = "@relation " + self.attributes.getRelationName() + "\n"
+            attrs = self.attributes.getInputAttributes()
         else:
-            line = "@relation " + Attributes.getRelationName() + "\n";
-            attrs = Attributes.getInputAttributes();
+            line = "@relation " + Attributes.getRelationName() + "\n"
+            attrs = Attributes.getInputAttributes()
 
         for i in range(0, attrs.length):
-            line += attrs[i].toString() + "\n";
+            line += attrs[i].toString() + "\n"
             # Gettin all the outputs attributes
         if (self.storeAttributesAsNonStatic and self.attributes != None):
-            attrs = self.attributes.getOutputAttributes();
-            line += attrs[0].toString() + "\n";
+            attrs = self.attributes.getOutputAttributes()
+            line += attrs[0].toString() + "\n"
             # Getting @inputs and @outputs
-            line += self.attributes.getInputHeader() + "\n";
-            line += self.attributes.getOutputHeader() + "\n";
+            line += self.attributes.getInputHeader() + "\n"
+            line += self.attributes.getOutputHeader() + "\n"
 
         else:
             attrs = Attributes.getOutputAttributes();
-            line += attrs[0].toString() + "\n";
+            line += str(attrs[0]) + "\n"
 
         # Getting @inputs and @outputs
         line += Attributes.getInputHeader() + "\n";
@@ -770,21 +775,22 @@ class InstanceSet:
 
 
     def getOriginalHeaderWithoutInOut(self):
-        line = "";
-        attrs = [];
+
+        line = ""
+        attrs = []
 
         # Getting the relation name and the attributes
         if (self.storeAttributesAsNonStatic and self.attributes != None):
             line = "@relation " + self.attributes.getRelationName() + "\n";
-            attrs = self.attributes.getAttributes();
+            attrs = self.attributes.getAttributes()
 
         else:
             line = "@relation " + Attributes.getRelationName() + "\n";
-            attrs = Attributes.getAttributes();
+            attrs = Attributes.getAttributes()
 
-        for i in range(0, attrs.length):
-            line = line + attrs[i].toString() + "\n";
-        return line;
+        for i in range(0, len(attrs)):
+            line = line + str(attrs[i]) + "\n";
+        return line
         # end getOriginalHeaderWithoutInOut;
 
 
@@ -795,12 +801,12 @@ class InstanceSet:
 
 
     def printOut(self,out):
-        for i in range(0, self.instanceSet.length):
-            print("> Instance " + i + ":");
+        for i in range(0, len(self.instanceSet)):
+            print("> Instance " + i + ":")
         if (self.storeAttributesAsNonStatic == True and self.attributes != None):
-            self.instanceSet[i].printOut(self.attributes, out);
+            self.instanceSet[i].printOut(self.attributes, out)
         else:
-            self.instanceSet[i].printOut(out);
+            self.instanceSet[i].printOut(out)
 
 
     # end print
@@ -817,7 +823,7 @@ class InstanceSet:
 
     def printAsOriginal(self,out, int):
         # Printing the header as the original one
-        print(self.header);
+        print(self.header)
 
         if (self.storeAttributesAsNonStatic and self.attributes != None):
             if (self.printInOut == 1 or self.printInOut == 3):
@@ -837,28 +843,28 @@ class InstanceSet:
         for i in range(0, self.instanceSet.length):
             print();
             if (self.storeAttributesAsNonStatic and self.attributes != None):
-                self.instanceSet[i].printAsOriginal(self.attributes, out);
+                self.instanceSet[i].printAsOriginal(self.attributes, out)
         else:
-            self.instanceSet[i].printAsOriginal(out);
+            self.instanceSet[i].printAsOriginal(out)
 
 
     # end printAsOriginal
 
 
     def printInsSet(self):
-        print("------------- ATTRIBUTES --------------");
+        print("------------- ATTRIBUTES --------------")
         if (self.storeAttributesAsNonStatic and self.attributes != None):
             self.attributes.printAttributes();
 
         else:
-            Attributes.printAttributes();
+            Attributes.printAttributes()
 
-        print("-------------- INSTANCES --------------");
+        print("-------------- INSTANCES --------------")
         for i in range(0, self.instanceSet.length):
-            print("\n> Instance " + i + ":");
+            print("\n> Instance " + str(i) + ":")
 
             if (self.storeAttributesAsNonStatic and self.attributes != None):
-                self.instanceSet[i].printInsSet(self.attributes);
+                self.instanceSet[i].printInsSet(self.attributes)
         else:
             self.instanceSet[i].printInsSet();
 
@@ -869,7 +875,7 @@ class InstanceSet:
     # Remove all instances from this InstanceSet
 
     def clearInstances(self):
-        instanceSet = None;
+        self.instanceSet = None;
 
 
     # '''
@@ -879,18 +885,18 @@ class InstanceSet:
 
 
     def addInstance(self, inst):
-        i = 0;
-        nVector = [];
+        i = 0
+        nVector = []
         if (self.instanceSet != None):
             nVector = Instance[self.instanceSet.length + 1];
             for i in range(0, self.instanceSet.length):
-                nVector[i] = self.instanceSet[i];
+                nVector[i] = self.instanceSet[i]
 
         else:
             nVector = Instance[1];
 
-            nVector[i] = inst;
-            instanceSet = nVector;
+        nVector[i] = inst
+        self.instanceSet = nVector
 
     # '''
     #    * Clear the non-Static attributes. The static class Attributes is not modified.
@@ -898,7 +904,7 @@ class InstanceSet:
 
 
     def clearNonStaticAttributes(self):
-        self.attributes = None;
+        self.attributes = None
 
 
     # '''
@@ -909,7 +915,7 @@ class InstanceSet:
 
     def addAttribute(self, att):
         if (self.attributes == None):
-            attributes = InstanceAttributes();
-        attributes.addAttribute(att);
+            self.attributes = InstanceAttributes()
+        self.attributes.addAttribute(att)
 
     # end of InstanceSet Class.

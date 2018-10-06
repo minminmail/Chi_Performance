@@ -86,6 +86,8 @@ class InstanceParser:
 
     def __init__(self,fileName, _isTrain):
         try:
+
+            print("In InstanceParser init method the fileName is " + fileName)
             self.file = open(fileName, "r")
 
             print("In init of InstanceParser, set file =" + str(self.file))
@@ -137,7 +139,13 @@ class InstanceParser:
         try:
 
             file_lines = self.file.readlines()
-            file_first_line = file_lines[0]
+            line_Nuember =len(file_lines)
+            if(line_Nuember!=0):
+                print("file has "+ str(line_Nuember) + " lines")
+                file_first_line = file_lines[0]
+            else:
+                print("file_lines is empty!!")
+                exit(1)
 
             for line in file_lines:
                 if not str(line): # line is not empty

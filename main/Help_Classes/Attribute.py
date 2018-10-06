@@ -419,7 +419,7 @@ class Attribute:
  #  * It does initializes the variables to make statistics
  #  * @param classNumber is the number of classes.
  #  '''
- def initStatistics(self, classNumber):
+ def initStatisticsTwo(self, classNumber):
   makeStatistics = True;
   if (self.__type == self.NOMINAL):
    #w, h = 8, 5;
@@ -544,7 +544,7 @@ class Attribute:
  #  '''
  def getNumNominalValues(self) :
   if(self.__type!=self.NOMINAL):
-   return -1;
+   return -1
   return len(self.__nominalValues)
  #end getNumNominalValues
 

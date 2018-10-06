@@ -161,21 +161,21 @@ class MyDataSet:
     # * @ return int the number of variables of the data - set(including the output)
     # '''
     def getnVars(self):
-     return self.__nVars;
+     return self.__nVars
 
     # '''
     #    * It gets the number of input attributes of the data-set
     #    * @return int the number of input attributes of the data-set
     # '''
     def getnInputs(self):
-     return self.__nInputs;
+     return self.__nInputs
 
     #  '''
     #    * It gets the number of output attributes of the data-set (for example number of classes in classification)
     #    * @return int the number of different output values of the data-set
     # '''
     def getnClasses(self):
-        return self.__nClasses;
+        return self.__nClasses
 
     #
     # '''
@@ -185,7 +185,7 @@ class MyDataSet:
     #  * @return boolean True is the value is missing, else it returns false
     # '''
     def isMissing(self, i, j):
-      return self.missing[i][j];
+      return self.missing[i][j]
 
     # '''
     #  * It reads the whole input data-set and it stores each example and its associated output value in
@@ -195,72 +195,80 @@ class MyDataSet:
     #  * @throws IOException If there ocurs any problem with the reading of the data-set
     # '''
     def readClassificationSet( self,datasetFile,train) :
-     try :
-          # Load in memory a dataset that contains a classification problem
-          print("Inside readClassificationSet, datasetFile :"+ str(datasetFile))
-          print("train is :" + str(train))
-          print("object instanceSet is :"+ str(self.__instanceSet))
-          if(self.__instanceSet is None):
-              print("self.__instanceSet is Null")
-          else :
-              print("self.__instanceSet is not None")
-              self.__instanceSet.readSet(datasetFile, train)
-              nData = self.__instanceSet.getNumInstances();
-              nInputs = Attributes.getInputNumAttributes();
-              nVars = nInputs + Attributes.getOutputNumAttributes();
-     #
-     #      # outputIntegerheck that there is only one output variable
-     #      if (Attributes.getOutputNumAttributes() > 1) :
-     #        print("This algorithm can not process MIMO datasets");
-     #        print("All outputs but the first one will be removed");
-     #        exit(1);
-     #      noOutputs = False;
-     #      if (Attributes.getOutputNumAttributes() < 1) :
-     #        print("This algorithm can not process datasets without outputs");
-     #        print("Zero-valued output generated");
-     #        noOutputs = True;
-     #        exit(1);
-     #
-     #      #Initialice and fill our own tables
-     #      self.X = [nData][nInputs];
-     #      missing = [nData][nInputs];
-     #      outputInteger = [nData];
-     #      outputReal = [nData];
-     #      output =[nData];
-     #
-     #       # Maximum and minimum of inputs
-     #      self.emax =[nInputs];
-     #      self.emin = [nInputs];
-     #      for n in range( 0,nInputs):
-     #         self.emax[n] = Attributes.getAttribute(n).getMaxAttribute();
-     #         self.emin[n] = Attributes.getAttribute(n).getMinAttribute();
-     #        # All values are casted into double/integer
-     #      nClasses = 0;
-     #      for i in range( 0, nData) :
-     #            inst = self.IS.getInstance(i);
-     #            for j in range( 0, nInputs):
-     #                  self.X[i][j] = self.IS.getInputNumericValue(i, j); #inst.getInputRealValues(j);
-     #                  missing[i][j] = inst.getInputMissingValues(j);
-     #                  if (missing[i][j]==True):
-     #                    self.X[i][j] = self.emin[j] - 1;
-     #
-     #            if (noOutputs==True):
-     #                     outputInteger[i] = 0;
-     #                     output[i] = "";
-     #            else:
-     #                    outputInteger[i] = self.IS.getOutputNumericValue(i, 0);
-     #                    output[i] = self.IS.getOutputNominalValue(i, 0);
-     #
-     #            if(outputInteger[i] > nClasses):
-     #                    nClasses = outputInteger[i];
-     #
-     #      nClasses+=1;
-     #      print('Number of classes=' + nClasses);
-     except Exception as error:
-           print("DBG: Exception in readSet, in readClassificationSet" + error);
-     #
-     # self.computeStatistics();
-     # self.computeInstancesPerClass();
+         try :
+              # Load in memory a dataset that contains a classification problem
+              print("Inside readClassificationSet, datasetFile :"+ str(datasetFile))
+              print("train is :" + str(train))
+              print("object instanceSet is :"+ str(self.__instanceSet))
+              if(self.__instanceSet is None):
+                  print("self.__instanceSet is Null")
+              else :
+                  print("self.__instanceSet is not None")
+                  self.__instanceSet.readSet(datasetFile, train)
+                  nData = self.__instanceSet.getNumInstances()
+                  nInputs = Attributes.getInputNumAttributes(Attributes)
+                  nVars = nInputs + Attributes.getOutputNumAttributes(Attributes)
+
+              # outputIntegerheck that there is only one output variable
+                  if (Attributes.getOutputNumAttributes(Attributes) > 1) :
+                    outAttrs=Attributes.getOutputAttributes(Attributes)
+                    print("Output Attributes number is bigger than 1")
+                    for outAtt in outAttrs:
+                        i=1
+                        print ("Att" + str(i) + str(outAtt.getName()))
+                    print(""+Attributes.getOutputAttributesHeader(Attributes))
+                    print("This algorithm can not process MIMO datasets")
+                    print("All outputs but the first one will be removed")
+                    noOutputs = False
+                    exit(1)
+
+                  if (Attributes.getOutputNumAttributes(Attributes) < 1) :
+                    print("This algorithm can not process datasets without outputs")
+                    print("Zero-valued output generated")
+                    noOutputs = True
+                    exit(1)
+
+                   #Initialice and fill our own tables
+                  self.X = [nData][nInputs]
+                  missing = [nData][nInputs]
+                  outputInteger = [nData]
+                  outputReal = [nData]
+                  output =[nData]
+
+                # Maximum and minimum of inputs
+                  self.emax =[nInputs]
+                  self.emin = [nInputs]
+                  for n in range( 0,nInputs):
+                     self.emax[n] = Attributes.getAttribute(n).getMaxAttribute()
+                     self.emin[n] = Attributes.getAttribute(n).getMinAttribute()
+                   # All values are casted into double/integer
+                  nClasses = 0;
+                  for i in range( 0, nData) :
+                      inst = self.__instanceSet.getInstance(i)
+                      for j in range( 0, nInputs):
+                           self.X[i][j] = self.IS.getInputNumericValue(i, j) #inst.getInputRealValues(j);
+                           missing[i][j] = inst.getInputMissingValues(j)
+                           if (missing[i][j]==True):
+                             self.X[i][j] = self.emin[j] - 1
+
+                      if (noOutputs==True):
+                            outputInteger[i] = 0
+                            output[i] = ""
+                      else:
+                            outputInteger[i] = self.__instanceSet.getOutputNumericValue(i, 0)
+                            output[i] = self.__instanceSet.getOutputNominalValue(i, 0)
+
+                      if(outputInteger[i] > nClasses):
+                            nClasses = outputInteger[i]
+
+                  nClasses+=1
+                  print('Number of classes=' + nClasses)
+         except Exception as error:
+               print("DBG: Exception in readSet, in readClassificationSet" + str(error))
+
+
+         self.computeStatistics()
+         self.computeInstancesPerClass()
 
      # """
      #   * It reads the whole input data-set and it stores each example and its associated output value in
@@ -273,13 +281,18 @@ class MyDataSet:
 
         try :
           #Load in memory a dataset that contains a regression problem
-          self.IS.readSet(datasetFile, train);
-          nData = self.IS.getNumInstances();
-          nInputs = Attributes.getInputNumAttributes();
+          self.__instanceSet.readSet(datasetFile, train);
+          nData = self.__instanceSet.getNumInstances();
+          nInputs = Attributes.getInputNumAttributes(Attributes);
           nVars = nInputs + Attributes.getOutputNumAttributes(Attributes);
 
           #outputIntegerheck that there is only one output variable
           if (Attributes.getOutputNumAttributes(Attributes) > 1):
+
+
+            print("Out put attribute: ")
+            outPutAttHeader=Attributes.getOutputAttributesHeader(Attributes)
+            print(outPutAttHeader)
             print("This algorithm can not process MIMO datasets");
             print("All outputs but the first one will be removed");
             exit(1);
@@ -306,9 +319,9 @@ class MyDataSet:
           nClasses = 0;
 
           for i in range (0,self.nData):
-                inst = self.IS.getInstance(i);
+                inst = self.__instanceSet.getInstance(i);
                 for j in range( 0, nInputs):
-                  self.X[i][j] = self.IS.getInputNumericValue(i, j); #inst.getInputRealValues(j);
+                  self.X[i][j] = self.__instanceSet.getInputNumericValue(i, j); #inst.getInputRealValues(j);
                   self.missing[i][j] = inst.getInputMissingValues(j);
                   if (self.missing[i][j]):
                     self.X[i][j] = emin[j] - 1;
@@ -317,7 +330,7 @@ class MyDataSet:
                   self.outputReal[i] = outputInteger[i] = 0;
 
                 else :
-                  self.outputReal[i] = self.IS.getOutputNumericValue(i, 0);
+                  self.outputReal[i] = self.__instanceSet.getOutputNumericValue(i, 0);
                   self.outputInteger[i] = self.outputReal[i];
         except OSError  as error:
          print("OS error: {0}".format(error))
@@ -477,7 +490,7 @@ class MyDataSet:
       #
       #     '''
     def numberValues(self,attribute):
-        return Attributes.getInputAttribute(attribute).getNumNominalValues();
+        return Attributes.getInputAttribute(attribute).getNumNominalValues(Attributes)
 
     # '''
     #    * It returns the class label (string) given a class id (int)
@@ -517,30 +530,30 @@ class MyDataSet:
     #  * @return double[][] The minimum [0] and maximum [1] range of each variable
     # '''
     def getRanges(self):
-      rangos =  float[self.getnVars()][2];
+      rangos =  float[self.getnVars()][2]
       for i in range( 0, self.getnInputs()):
-        if (Attributes.getInputAttribute(i).getNumNominalValues() > 0):
-          rangos[i][0] = 0;
-          rangos[i][1] = Attributes.getInputAttribute(i).getNumNominalValues() - 1;
+        if (Attributes.getInputAttribute(i).getNumNominalValues(Attributes) > 0):
+          rangos[i][0] = 0
+          rangos[i][1] = Attributes.getInputAttribute(i).getNumNominalValues(Attributes) - 1
 
         else:
-          rangos[i][0] = Attributes.getInputAttribute(i).getMinAttribute();
-          rangos[i][1] = Attributes.getInputAttribute(i).getMaxAttribute();
+          rangos[i][0] = Attributes.getInputAttribute(i).getMinAttribute()
+          rangos[i][1] = Attributes.getInputAttribute(i).getMaxAttribute()
 
 
-      rangos[self.getnVars() -1][0] = Attributes.getOutputAttribute(0).getMinAttribute();
-      rangos[self.getnVars() -1][1] = Attributes.getOutputAttribute(0).getMaxAttribute();
-      return rangos;
+      rangos[self.getnVars() -1][0] = Attributes.getOutputAttribute(0).getMinAttribute()
+      rangos[self.getnVars() -1][1] = Attributes.getOutputAttribute(0).getMaxAttribute()
+      return rangos
 
     # '''
     #    * It returns the attribute labels for the input features
     #    * @return String[] the attribute labels for the input features
     # '''
     def getNames(self):
-       nombres = ["" for x in range(self.nInputs)];
+       nombres = ["" for x in range(self.nInputs)]
        for i in range ( 0, self.nInputs):
-          nombres[i] = Attributes.getInputAttribute(i).getName();
-       return nombres;
+          nombres[i] = Attributes.getInputAttribute(i).getName()
+       return nombres
     #
     # '''
     #    * It returns the class labels
@@ -550,6 +563,6 @@ class MyDataSet:
         clases = ["" for x in range(self.nClasses)]
 
         for i in range( 0, self.nClasses):
-          clases[i] = Attributes.getOutputAttribute(0).getNominalValue(i);
-        return clases;
+          clases[i] = Attributes.getOutputAttribute(0).getNominalValue(i)
+        return clases
 
