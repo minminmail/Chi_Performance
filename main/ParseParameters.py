@@ -43,23 +43,23 @@ from pathlib import Path
 class ParseParameters :
 
      __algorithmName=""
+     __trainingFile=""
+     __validationFile=""
+     __testFile=""
 
      __inputFiles=[]
-     __inputTraFiles=[]
-     __inputTstFiles=[]
-
-     __outputTraFiles=[]
-     __outputTstFiles=[]
+     __outputTrFile=""
+     __outputTstFile=""
      __outputFiles=[]
 
-     __parameters={}
+     __parameters=[]
 
     # * Default constructor
 
      def __init__(self):
-        inputFiles = [];
-        outputFiles = [];
-        parameters =  {};
+        self.__inputFiles = []
+        self.__outputFiles = []
+        self.__parameters = []
 
 
          # * It obtains all the necesary information from the configuration file.<br/>
@@ -72,15 +72,15 @@ class ParseParameters :
 
      def parseConfigurationFile(self,fileName):
 
-            logging.info("fileName in parseParameters = " + fileName);
-            logging.info("before open file" );
-            print(fileName);
-            file = open(fileName,"r");
+            logging.info("fileName in parseParameters = " + fileName)
+            logging.info("before open file" )
+            print(fileName)
+            file = open(fileName,"r")
             print("file in parseConfigurationFile is :" +str(file))
             #file is an string containing the whole file
             fileString = file.read()
             line =  fileString.splitlines()
-            lineNumber=0;
+
             for lineNumber in range (0,len(line)):
                 print("In line " + str(lineNumber) + ", the str is:begin ***   " + line[lineNumber] + "   ***end")
                 if lineNumber==0:
@@ -112,47 +112,65 @@ class ParseParameters :
      def readInputFiles( self,line):
             print("Inside the readInputFiles mehtod, we get parameter is:" + str(line))
             firstParts=line.split()
-            for lineNumber in range(0,len(firstParts)):
+            line_number=len(firstParts)
+            file_list=[]
+            for lineNumber in range(0,line_number):
                 wholeName=firstParts[lineNumber]
                 print("Inside readInputFiles, line "+ str(lineNumber) + ",wholeName: "+ str(wholeName))
                 fileNameWithStr=wholeName.rpartition('/')[2]
                 print("Inside readInputFiles, line " + str(fileNameWithStr) + ",fileNameWithStr: " + str(fileNameWithStr))
                 fileName=fileNameWithStr[:-1]
-                print("Inside readInputFiles, line " + str(lineNumber) + ",fielName: " + str(fileName))
-                if (fileName[-3:]=='dat'):
-                    self.__inputFiles.append(fileName)
-                    print("Inside readInputFiles, line " + str(lineNumber) + ",added fileName: " + str(fileName))
-                    fileNameWithoutSuffix = fileName.rpartition('.')[0]
-                    typeInputFile =fileNameWithoutSuffix[-3:]
-                    #check  input file's  type :trainning or test
-                    if typeInputFile=='tra':
-                        self.__inputTraFiles.append(fileName)
-                    elif typeInputFile=='tst':
-                        self.__inputTstFiles.append(fileName)
+                print("Inside readInputFiles, line " + str(lineNumber) + ",fileName: " + str(fileName))
+
+                file_type=fileName[-3:]
+                if (file_type=="dat"or file_type=="tra"or file_type=="tst"):
+                    file_list.append(fileName)
+
+                # if (fileName[-3:]=='dat'):
+                #     self.__inputFiles.append(fileName)
+                #     print("Inside readInputFiles, line " + str(lineNumber) + ",added fileName: " + str(fileName))
+                #     fileNameWithoutSuffix = fileName.rpartition('.')[0]
+                #     typeInputFile =fileNameWithoutSuffix[-3:]
+                #     #check  input file's  type :trainning or test
+                #     if typeInputFile=='tra':
+                #         self.__inputTraFiles.append(fileName)
+                #     elif typeInputFile=='tst':
+                #         self.__inputTstFiles.append(fileName)
+            file_number=len(file_list)
+            print("file_number"+ str(file_number))
+            for i in range(0, file_number):
+                if i==0:
+                    self.__trainingFile= file_list[i]
+                elif i==1:
+                    self.__validationFile=file_list[i]
+                elif i==2:
+                    self.__testFile= file_list[i]
+                else:
+                    self.__inputFiles.append(file_list[i])
 
             print("The Input files number is :" + str(len(self.__inputFiles)))
-            for inputFile in self.__inputFiles:
-                print("input file is :" + inputFile)
-            print("The Input training files number is :" + str(len(self.__inputTraFiles)))
-            for inputTraFile in self.__inputTraFiles:
-                print("input tra file is :" + inputTraFile)
-            print("The Input test files number is :" + str(len(self.__inputTstFiles)))
-            for inputTstFile in self.__inputTstFiles:
-                print("input tst file is :" + inputTstFile)
+
+            for file in self.__inputFiles:
+                print("input file is :" + file)
+
+            print("The Input training file  is :" + str(self.__trainingFile))
+            print("The Input validation file  is :" + str(self.__validationFile))
+            print("The Input test file  is :" + str(self.__testFile))
      # """
      #     * We read the output files for training and test and all the possible remaining output files
      #     * @param line StringTokenizer It is the line containing the output files.
      # """
      def readOutputFiles(self,line):
              print("Inside the readInputFiles mehtod, we get parameter is:" + str(line))
-             firstParts = line.split();
+             firstParts = line.split()
              for lineNumber in range(0, len(firstParts)):
                  wholeName = firstParts[lineNumber]
                  print("Inside readOutputFiles, line " + str(lineNumber) + ",wholeName: " + str(wholeName))
                  fileNameWithStr = wholeName.rpartition('/')[2]
                  print("Inside readOutputFiles, line " + str(fileNameWithStr) + ",fileNameWithStr: " + str(fileNameWithStr))
                  fileName = fileNameWithStr[:-1]
-                 print("Inside readOutputFiles, line " + str(lineNumber) + ",fielName: " + str(fileName))
+                 print("Inside readOutputFiles, line " + str(lineNumber) + ",fileName: " + str(fileName))
+
                  if(fileName[-3:] == 'txt'):
                      self.__outputFiles.append(fileName)
                      print("Inside readOutputFiles, line " + str(lineNumber) + ",added txt fileName: " + str(fileName))

@@ -245,12 +245,12 @@ class Attributes:
 #  */
   def getInputAttributes(self):
     if (len(self.inputAttr) == 0) :
-        return None;
-    attr = self.inputAttr;
+        return None
+    attr = self.inputAttr
     for i in range (0, attr.length):
-      attr[i] = self.inputAttr[i];
+      attr[i] = self.inputAttr[i]
 
-    return attr;
+    return attr
    #end getInputAttribute
 
 # /**
@@ -277,9 +277,9 @@ class Attributes:
     aux = ""
     for i in range (0, len(self.inputAttr)):
         #Writting the name and type of the attribute
-        aux += self.inputAttr[i].toString()+"\n";
+        aux += self.inputAttr[i].toString()+"\n"
 
-    return aux;
+    return aux
   #end getInputAttributesHeader
 
 #
@@ -297,15 +297,7 @@ class Attributes:
     else:
         return self.outputAttr
 
-    # uniqueList=[]
-    # for item in list_origin:
-    #   if item not in uniqueList:
-    #     uniqueList.append(item)
-    for uniqueL in unique_list:
-      print("after remove duplicates :" + uniqueL)
-    uni_length = len(unique_list)
-    print(" unique_set length is " + str(uni_length))
-    return unique_list
+
   #end outputAttributes
 # /*
 #  * It returns the output attribute being int the position passed as an argument.
@@ -347,7 +339,6 @@ class Attributes:
     return aux
   #end getOutputAttributesHeader
 
-
 # /**
 #  * It returns the undefined attribute being int the position passed as an argument.
 #  * @param pos is the position of the attribute wanted.
@@ -366,7 +357,7 @@ class Attributes:
 #  */
   def  getUndefinedAttributes(self):
     if (len(self.undefinedAttr) == 0):
-        return None;
+        return None
     attr = self.undefinedAttr
     for i in range(0,attr.length):
       attr[i] = self.undefinedAttr[i]
@@ -451,7 +442,6 @@ class Attributes:
       return restAt
   #end getAttributesExcept
 
-
 # /**
 #  * It organizes the whole number of attributes to input, output, and
 #  * "no-direction" attributes.
@@ -462,13 +452,12 @@ class Attributes:
 
     attName=""
     att=None
-
     for inAtt in inAttNames:
 
-        print("inAtt name is:" + inAtt)
+        print("inAtt name inside inAttNames is:" + inAtt)
     for outAtt in outAttNames:
 
-        print("outAtt name is:" +outAtt )
+        print("outAtt name inside outAttNames is:" +outAtt )
 
     for i in range (0, len(self.attributes)):
         att = self.attributes[i]
@@ -477,10 +466,12 @@ class Attributes:
         attName =attName.strip()
         print("attName is:" + str(attName))
 
-        if (attName in inAttNames and not self.hasSameAttributeName(attName,self.inputAttr)):
-            print("add in input attribute list, attName is:"+attName)
-            att.setDirectionAttribute(Attribute.INPUT)
-            self.inputAttr.append(self.attributes[i])
+        if (attName in inAttNames):
+            print("attName in inAttNames")
+            if( not self.hasSameAttributeName(attName,self.inputAttr)):
+                print("add in input attribute list, attName is:"+attName)
+                att.setDirectionAttribute(Attribute.INPUT)
+                self.inputAttr.append(self.attributes[i])
         elif (attName in outAttNames and not self.hasSameAttributeName(attName,self.outputAttr)):
             print("add in out attribute list, attName is:" + attName)
             att.setDirectionAttribute(Attribute.OUTPUT)
@@ -685,11 +676,14 @@ class Attributes:
     #If the output attribute has not been defined as a nominal or it has not
     #any value in the nominal list, the initalization is aborted.
     if classNumber<=0:
+        print("class Number is smaller than 0, return")
         return
-
-    for i in range (0, len(self.inputAttr)):
-        print("Call Attribute.initStatisticsTwo in Attributes initStatistics......")
-        (self.inputAttr[i]).initStatisticsTwo(classNumber)
+    else:
+        input_attr_length = len(self.inputAttr)
+        print("class Number is bigger than 0, input_attr_length = " + str(input_attr_length))
+        for i in range (0,input_attr_length):
+            print("Call Attribute.initStatisticsTwo in Attributes initStatistics......")
+            (self.inputAttr[i]).initStatisticsTwo(classNumber)
 
     #end initStatistics
 

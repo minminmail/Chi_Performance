@@ -165,11 +165,6 @@ class InstanceParser:
             print("Inside getLines of InstanceParser , Exception is: " + format(error));
             exit(1)
 
-
-
-
-
-
         return file_lines
 
     # end getLine

@@ -675,14 +675,14 @@ class InstanceAttributes :
         if (len(self.__outputAttr) != 1):
             return
 
-        classNumber = Attribute(self.__outputAttr[0]).getNumNominalValues(Attribute)
+        classNumber = self.__outputAttr[0].getNumNominalValues(Attribute)
         #If the output attribute has not been defined as a nominal or it has not
         #any value in the nominal list, the initalization is aborted.
         if (classNumber<=0) :
             return
 
         for i in range(0,len(self.__inputAttr)):
-            Attribute(self.__inputAttr[i]).initStatistics(classNumber)
+            self.__inputAttr[i].initStatisticsTwo(classNumber)
 
       #end initStatistics
 

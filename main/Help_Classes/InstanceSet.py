@@ -204,6 +204,7 @@ class InstanceSet:
 
                     print("Reading the data")
                     tempSet = [[0] * 1000] * 10000
+                    print("begin instance_parser.getLines()...... ")
                     lines = instance_parser.getLines()
                     for line in lines :
                         if(line is not None):
@@ -336,7 +337,7 @@ class InstanceSet:
             token_str_right = "]"
         token_withT= "\t" + token_str
 
-        line=line.replace(token_str,token_withT);
+        line=line.replace(token_str,token_withT)
         print("token_double is:" + token_withT + ", line is :" + line)
         # System.out.println ("  > Processing line: "+  line );
         #st = line.split(" [{\t");
@@ -347,24 +348,26 @@ class InstanceSet:
         st[0] = st[0].replace("@attribute","").strip()  # delete @attribute
         print("st[0] is:" + st[0])
 
+        first_part=st[0].split()
+
         at = Attribute()
         print("before getType")
         type_string = at.getType()
         print("after getType")
-
-        # print("Get type once get instance object, at.getType() = " + str(type_string))
-        at.setName(st[0])
+            # print("Get type once get instance object, at.getType() = " + str(type_string))
+        at.setName(first_part[0])
+        print("att set name as first_part[0] is:" + first_part[0])
         # print( "Attribute name: "+ at.getName() )
 
         # to get the class name values we need to split the second part of the attribute line, to get values of attribute
 
-        attr_list = st[1].split()
-        attr_list[1]=attr_list[1].strip()
-        print("attr_list[1] is:" + attr_list[1])
+        second_part = st[1].split()
+        second_part[1]=second_part[1].strip()
+        print("second_part[1] is:" + str(second_part[1]))
 
 
         # Next action depends on the type of attribute: continuous or nominal
-        if (len(attr_list)==1):  # Parsing a nominal attribute with no definition of values
+        if (len(second_part)==1):  # Parsing a nominal attribute with no definition of values
             print("Parsing nominal attribute without values: setType=0 ")
             #print("Get type =" + at.getType())
             at.setType(Attribute.NOMINAL)
@@ -391,10 +394,10 @@ class InstanceSet:
                 at.addNominalValue(nominalStr.strip())
 
         else:  # Parsing an integer or real
-            attName= st[0]
+            attName= first_part[0]
             at.setName(attName)
-            attType = st[1].lower()
-            print("set Name and type for attribute: " + str(attName) + ","+ str(attType))
+            attType = first_part[1].lower()
+            print("set Name and type for attribute: " + str(attName) + ", attType = "+ str(attType))
 
 
             # System.out.println ("    > Parsing "+ type + " attributes");

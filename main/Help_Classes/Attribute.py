@@ -397,7 +397,7 @@ class Attribute:
  def getMostFrequentValue(self, whichClass):
   if (self.__makeStatistics==False or self.__type != self.NOMINAL or self.__mostUsedValue == None):
    return None
-  if (whichClass <0 or whichClass >= self.__mostUsedValue.length) :
+  if (whichClass <0 or whichClass >= len(self.__mostUsedValue)) :
    return None
   return self.__mostUsedValue[whichClass]
  #end getMostFrequentValue
@@ -412,7 +412,7 @@ class Attribute:
  def getMeanValue(self, whichClass):
   if (self.__makeStatistics==False or (self.__type != self.REAL and self.__type!=self.INTEGER) or self.__meanValue == None):
    return 0
-  if(whichClass<0 or whichClass >= self.__meanValue.length):
+  if(whichClass<0 or whichClass >= len(self.__meanValue)):
    return 0
   return self.__meanValue[whichClass];
  #end getMeanValue
@@ -427,26 +427,31 @@ class Attribute:
    print("In initStatisticsTwo type is Nominal")
    #w, h = 8, 5;
    #Matrix = [[0 for x in range(w)] for y in range(h)]
-   self.w,self.h=classNumber,0
-   classFrequencies = [[0 for x in range(self.w)] for y in range(self.h)]
-   numStatUpdates = int[classNumber]
+   self.w=int(classNumber)
+   print("self.w = " + str(self.w))
+   self.h=len(self.__nominalValues)
+   print( "self.h = " + str(self.h))
+   self.__classFrequencies = [[0 for x in range(self.w)] for y in range(self.h)]
+   self.__numStatUpdates = int[classNumber]
    for i in range(0, classNumber):
-    numStatUpdates[i] = 0
+    self.__numStatUpdates[i] = 0
     nominalValueLen=len(self.__nominalValues)
-    classFrequencies[i] = int[nominalValueLen]
     for j in range(0,nominalValueLen):
-     classFrequencies[i][j] = 0
+     self.__classFrequencies[i][j] = 0
+     print("classFrequencies[i][j] " + "i"+str(i)+"j"+str(j))
 
   else:
    print("In initStatisticsTwo type is not Nominal")
-   meanValue = float[classNumber]
-   numStatUpdates = int[classNumber]
+   print("classNumber is :" + str(classNumber))
+   self.__meanValue = [None] * classNumber
+   self.__numStatUpdates = [None] * classNumber
+   print("before the loop in not nominal block")
    for i in range (0,classNumber):
-    meanValue[i] = 0
-    numStatUpdates[i] = 0
+    self.__meanValue[i] = 0
+    self.__numStatUpdates[i] = 0
+   print("finished type is not Nominal.")
 
  #end initStatistics
-
 
  # '''
  #  * It does finish the statistics process.
@@ -710,8 +715,8 @@ class Attribute:
   else :
     if (self.__meanValue != None):
      print("\n    > Mean used value: ")
-     for i in range (0,self.__meanValue):
-      print("       > class "+ str(i)+": "+self.__meanValue[i])
+     for i in range (0,len(self.__meanValue)):
+      print("       > class "+ str(i)+": "+ str(self.__meanValue[i]))
 
   print()
   #end print

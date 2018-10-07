@@ -264,7 +264,7 @@ class MyDataSet:
                   nClasses+=1
                   print('Number of classes=' + nClasses)
          except Exception as error:
-               print("DBG: Exception in readSet, in readClassificationSet" + str(error))
+               print("DBG: Exception in readSet, in readClassificationSet:" + str(error))
 
 
          self.computeStatistics()
