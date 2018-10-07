@@ -50,15 +50,15 @@ class Attribute:
  * Label for NOMINAL values.
 '''
 
- NOMINAL = 0;
+ NOMINAL = 0
 
  # * Label for INTEGER values.
 
- INTEGER = 1;
+ INTEGER = 1
  # * Label for REAL VALUES
 
 
- REAL = 2;
+ REAL = 2
 
 
  #  Label to identify INPUT attributes
@@ -142,7 +142,7 @@ class Attribute:
  #  * It keeps the new values in test
  #  '''
 
- __newValuesList=[];
+ __newValuesList=[]
  # '''
  #  It keeps the frequency of each class value
  # '''
@@ -153,8 +153,8 @@ class Attribute:
  # w, h = 8, 5;
  # Matrix = [[0 for x in range(w)] for y in range(h)]
  # '''
- w=0;
- h=0;
+ w=0
+ h=0
  __classFrequencies = [[0 for x in range(w)] for y in range(h)]
 
  # '''
@@ -165,23 +165,23 @@ class Attribute:
  # '''
  # strs = ["" for x in range(size)]
  # '''
- __mostUsedValue=["" for x in range(0)];
+ __mostUsedValue=[]
  # '''
  #  * It stores the integer/real mean for this attribute
  #  '''
 
- __meanValue=[];
+ __meanValue=[]
  # '''
  #  * It keeps the number of updates per class
  #  '''
 
- __numStatUpdates=[];
+ __numStatUpdates=[]
 
  # '''
  #  * It says if statistics has to be made
  #  '''
 
- __makeStatistics=None;
+ __makeStatistics=None
  # '''
  # /////////////////////////////////////////////////////////////////////////////
  # ///////////////// METHODS OF THE ATTRIBUTE CLASS ////////////////////////////
@@ -377,9 +377,11 @@ class Attribute:
  #  * @param value is the new value to be added.
  #  '''
  def addNominalValue(self, value) :
+  print("addNominalValue begin......")
   if(self.__type!=self.NOMINAL) :
-   return;
+   return
   if (value not in self.__nominalValues):
+   print("add value:" + str(value) + "to __nominalValues")
    self.__nominalValues.append(str(value))
 
  #end addNominalValue
@@ -394,9 +396,9 @@ class Attribute:
  #  '''
  def getMostFrequentValue(self, whichClass):
   if (self.__makeStatistics==False or self.__type != self.NOMINAL or self.__mostUsedValue == None):
-   return None;
+   return None
   if (whichClass <0 or whichClass >= self.__mostUsedValue.length) :
-   return None;
+   return None
   return self.__mostUsedValue[whichClass]
  #end getMostFrequentValue
 
@@ -409,9 +411,9 @@ class Attribute:
  #  '''
  def getMeanValue(self, whichClass):
   if (self.__makeStatistics==False or (self.__type != self.REAL and self.__type!=self.INTEGER) or self.__meanValue == None):
-   return 0;
+   return 0
   if(whichClass<0 or whichClass >= self.__meanValue.length):
-   return 0;
+   return 0
   return self.__meanValue[whichClass];
  #end getMeanValue
 
@@ -420,28 +422,28 @@ class Attribute:
  #  * @param classNumber is the number of classes.
  #  '''
  def initStatisticsTwo(self, classNumber):
-  makeStatistics = True;
+  self.__makeStatistics = True
   if (self.__type == self.NOMINAL):
+   print("In initStatisticsTwo type is Nominal")
    #w, h = 8, 5;
    #Matrix = [[0 for x in range(w)] for y in range(h)]
-   w,h=classNumber,0;
-   classFrequencies = [[0 for x in range(w)] for y in range(h)] ;
-   numStatUpdates = int[classNumber];
+   self.w,self.h=classNumber,0
+   classFrequencies = [[0 for x in range(self.w)] for y in range(self.h)]
+   numStatUpdates = int[classNumber]
    for i in range(0, classNumber):
-    numStatUpdates[i] = 0;
+    numStatUpdates[i] = 0
     nominalValueLen=len(self.__nominalValues)
-    classFrequencies[i] = int[nominalValueLen];
+    classFrequencies[i] = int[nominalValueLen]
     for j in range(0,nominalValueLen):
      classFrequencies[i][j] = 0
 
-
   else:
-   meanValue = float [classNumber];
-   numStatUpdates = int[classNumber];
+   print("In initStatisticsTwo type is not Nominal")
+   meanValue = float[classNumber]
+   numStatUpdates = int[classNumber]
    for i in range (0,classNumber):
-    meanValue[i] = 0;
-    numStatUpdates[i] = 0;
-
+    meanValue[i] = 0
+    numStatUpdates[i] = 0
 
  #end initStatistics
 
@@ -453,20 +455,20 @@ class Attribute:
   if (self.__makeStatistics==False):
    return;
   if (self.__type == self.NOMINAL):
-   mostUsedValue = str [self.__classFrequencies.length];
-   for i in range(0,mostUsedValue.length):
-    max = self.__classFrequencies[i][0];
-    pos = 0;
-    for j in range(1,self.__classFrequencies[i].length):
+   mostUsedValue = str [len(self.__classFrequencies)]
+   for i in range(0,len(mostUsedValue)):
+    max = self.__classFrequencies[i][0]
+    pos = 0
+    for j in range(1,len(self.__classFrequencies[i])):
      if (self.__classFrequencies[i][j] > max):
-      max = _classFrequencies[i][j];
-      pos = j;
+      max = self.__classFrequencies[i][j]
+      pos = j
 
-    mostUsedValue[i] = str(self.__nominalValues[pos]);
+    mostUsedValue[i] = str(self.__nominalValues[pos])
 
   else:
-   for i in range(0,self.__meanValue.length):
-    self.__meanValue[i] /= float(self.__numStatUpdates[i]);
+   for i in range(0,len(self.__meanValue)):
+    self.__meanValue[i] /= float(self.__numStatUpdates[i])
 
 
  #end finishStatistics
@@ -493,8 +495,8 @@ class Attribute:
  #  '''
  def addInMeanValue(self, whichClass,  value):
   if (self.__makeStatistics):
-   self.__numStatUpdates [whichClass]+=1;
-   self.__meanValue[whichClass] += value;
+   self.__numStatUpdates [whichClass]+=1
+   self.__meanValue[whichClass] += value
 
  #en addInMeanValue
 
@@ -505,16 +507,19 @@ class Attribute:
  #  * @return a boolean indicating if value didn't exist in the list.
  #  '''
  def addTestNominalValue(self, value):
+  print("addTestNominalValue begin......")
   if (self.__type != self.NOMINAL) :
-   return False;
+   print("The type is not NOMINAL, cannot add nominal value ")
+   return False
 
-  if (value in self.__nominalValues==False):
-   self.__nominalValues.append(str(value));
-   self.__newValuesList.append(str(value));
-   newValuesInTest = True;
-   return True;
+  if (value not in self.__nominalValues):
+   print("The type is not NOMINAL, cannot add nominal value ")
+   self.__nominalValues.append(str(value))
+   self.__newValuesList.append(str(value))
+   self.__newValuesInTest = True
+   return True
 
-  return False;
+  return False
    #end addTestNominalValue
 
 
@@ -606,7 +611,7 @@ class Attribute:
  #  * @param _dirAtt is the direction (input/output) of the attribute.
  #  '''
  def setDirectionAttribute(self,dirAtt):
-   self.__dirAttribute = dirAtt;
+   self.__dirAttribute = dirAtt
  #end setInputAttribute
 
  #
@@ -624,13 +629,15 @@ class Attribute:
  #  * @param val is the value to be normalized.
  #  * @return a double with the normalized value.
  #  '''
- def normalizeValue (val):
-  if (_type == NOMINAL):  return val;
-  if (_type == INTEGER) : return val-min;
-  if (_type == REAL) :    return (val-min)/(max-min);
-  return val;
+ def normalizeValue (self,val):
+  if (self.__type == self.NOMINAL):
+   return val
+  if (self.__type == self.INTEGER) :
+   return val-self.__min
+  if (self.__type == self.REAL) :
+   return (val-min)/(self.__max-self.__min)
+  return val
  #end normalizeValue
-
 
  # '''
  #  * It returns a String with the attribute information in keel format
@@ -641,77 +648,72 @@ class Attribute:
   aux = "@attribute " + self.__name
   if(self.__type==self.NOMINAL):
 
-    aux += "{";
-    ending = ",";
+    aux += "{"
+    ending = ","
     for  i in range (0,len(self.__nominalValues)):
      if (i == len(self.__nominalValues - 1)):
       ending = "";
-     aux += str(self.__nominalValues[i]) + ending;
+     aux += str(self.__nominalValues[i]) + ending
 
-    aux +='}';
+    aux +='}'
     #//System.out.println("Caso NOMINAL, aux->"+aux);
     #//System.out.println("name->" + name);
   elif(self.__type==self.INTEGER):
 
-      aux += " integer["+(int(self.__min)).toString();
-      aux += ","+ (int(self.__max)).toString()+"]";
+      aux += " integer["+str(int(self.__min))
+      aux += ","+ str(int(self.__max))+"]"
 
   elif(self.__type== self.REAL):
-      aux += " real["+ str(float( self.__min));
-      aux += ","+ str(float(self.__max))+"]";
-
-
-      return aux;
+      aux += " real["+ str(float( self.__min))
+      aux += ","+ str(float(self.__max))+"]"
+      return aux
  #end toString
  #
  # '''
  #  * This method prints the attribute information.
  #  '''
  def printAttr(self):
-  typesConv = {"Nominal","Integer","Real"};
-  print(" Name: "+self.__name+".");
-  print(" Type: "+self.__type );
-  print(" Type: "+typesConv[type]+".");
-  print(" Input/Output: ");
+  typesConv = {"Nominal","Integer","Real"}
+  print(" Name: "+self.__name+".")
+  print(" Type: "+self.__type )
+  print(" Type: "+typesConv[type]+".")
+  print(" Input/Output: ")
   if (self.__dirAttribute==self.INPUT):
 
-    print("INPUT");
+    print("INPUT")
 
   elif(self.__dirAttribute== self.OUTPUT):
-     print("OUTPUT");
+     print("OUTPUT")
   else:
+     print("NOT DEFINED")
 
-     print("NOT DEFINED");
-
-  print(" Range: ");
+  print(" Range: ")
   if (self.__type==self.NOMINAL):
-
-     print("{");
+     print("{")
      for i in range(0, len(self.__nominalValues)):
       print (str(self.__nominalValues[i])+"  ")
-
-      print("}");
+      print("}")
   elif(self.__type==self.INTEGER):
 
-     print("["+int(self.__min)+","+int(self.__max)+"]");
+     print("["+int(self.__min)+","+int(self.__max)+"]")
 
   else:
-     print("["+self.__min+","+self.__max+"]");
+     print("["+self.__min+","+self.__max+"]")
 
   if (self.__type == self.NOMINAL):
     if (self.__mostUsedValue != None):
-     print("\n    > Most used value: ");
+     print("\n    > Most used value: ")
      for  i in range(0, len(self.__mostUsedValue)):
-      print("       > class "+i+":"+self.__mostUsedValue[i]);
-      print("  ("+self.__classFrequencies[i][self.__convertNominalValue(self.__mostUsedValue[i])]+")." );
+      print("       > class "+i+":"+self.__mostUsedValue[i])
+      print("  ("+self.__classFrequencies[i][self.__convertNominalValue(self.__mostUsedValue[i])]+")." )
 
   else :
     if (self.__meanValue != None):
-     print("\n    > Mean used value: ");
+     print("\n    > Mean used value: ")
      for i in range (0,self.__meanValue):
-      print("       > class "+i+": "+self.__meanValue[i]);
+      print("       > class "+ str(i)+": "+self.__meanValue[i])
 
-  print();
+  print()
   #end print
    #end of class Attribute
 

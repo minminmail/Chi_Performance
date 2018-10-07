@@ -294,7 +294,7 @@ class InstanceAttributes :
         aux = "";
         for i in range (0, len(self.__inputAttr)):
             #Writting the name and type of the attribute
-            aux += str(self.__inputAttr[i])+ "\n";
+            aux += self.__inputAttr[i].toString()+ "\n";
 
         return aux
       #end getInputAttributesHeader
@@ -354,7 +354,7 @@ class InstanceAttributes :
         aux = ""
         for i in range (0, len(self._outputAttr)):
             #Writting the name and type of the attribute
-            aux += str(Attribute(self._outputAttr[i])) + "\n"
+            aux += self._outputAttr[i].toString() + "\n"
 
         return aux
     #end getOutputAttributesHeader
@@ -396,7 +396,7 @@ class InstanceAttributes :
         aux = ""
         for i in range (0, len(self.__undefinedAttr)):
             #Writting the name and type of the attribute
-            aux += str(self.__undefinedAttr[i]) + "\n";
+            aux += self.__undefinedAttr[i].toString() + "\n";
 
         return aux
       #end getUndefinedAttributesHeader

@@ -87,6 +87,7 @@ class InstanceParser:
     def __init__(self,fileName, _isTrain):
         try:
 
+            print("In init method of InstanceParser begin......")
 
             self.file = open(fileName,"r")
 
@@ -123,7 +124,7 @@ class InstanceParser:
     #  * @return an string with the instance.
 
     def getInstance(self):
-        return self.getLines();
+        return self.getLines()
 
     # end getInstance
      # * It returns the number of attributes
@@ -139,6 +140,7 @@ class InstanceParser:
         try:
             print("In getLines file is "+ str(self.file))
             file_lines = self.file.readlines()
+            #file_lines = file_string.splitlines()
             line_Nuember =len(file_lines)
             if(line_Nuember!=0):
                 print("file has "+ str(line_Nuember) + " lines")
@@ -158,12 +160,17 @@ class InstanceParser:
                 file_lines = None # The file is not the file that we want.
             self.lineCounter =len(file_lines)
             print("In getLines, there are " + str(self.lineCounter) +" lines")
+
         except Exception as error:
             print("Inside getLines of InstanceParser , Exception is: " + format(error));
-            exit(1);
+            exit(1)
 
 
-        return file_lines;
+
+
+
+
+        return file_lines
 
     # end getLine
 
@@ -173,7 +180,7 @@ class InstanceParser:
         try:
             self.file.close()
         except IOError as ioError:
-            print("Error: the instance parser could not be closed. Exiting now." + format(ioError));
-            exit(-1);
+            print("Error: the instance parser could not be closed. Exiting now." + format(ioError))
+            exit(-1)
 
     # end of Parser class

@@ -99,7 +99,7 @@ class InstanceSet:
     # /////////////////////////////////////////////////////////////////////////////
 
     # It instances a new instance of InstanceSet
-    data_folder = Path("simpleTest/datasets/iris/")
+    data_folder = Path("D:/pythonAlgorithms/PythonChi/Chi_RW/main/simpleTest/datasets/iris/")
     file_to_open= None
 
     def __init__(self,storeAttributesAsNonStatic=False, ins=None):
@@ -107,29 +107,29 @@ class InstanceSet:
         print("In __init__ method in InstanceSet.")
 
         if(ins!=None):
-            self.instanceSet = ins.instanSet.copy();
+            self.instanceSet = ins.instanSet.copy()
 
-            self.header = str(ins.header);
-            self.attHeader = str(ins.attHeader);
-            self.attributes = str(ins.attributes);
-            self.storeAttributesAsNonStatic = ins.storeAttributesAsNonStatic;
+            self.header = str(ins.header)
+            self.attHeader = str(ins.attHeader)
+            self.attributes = str(ins.attributes)
+            self.storeAttributesAsNonStatic = ins.storeAttributesAsNonStatic
         else:
-            self.storeAttributesAsNonStatic = storeAttributesAsNonStatic;
-            self.attributes = None;
+            self.storeAttributesAsNonStatic = storeAttributesAsNonStatic
+            self.attributes = None
     # end InstanceSet
 
     def InstanceSetWithNonSAtrr(self, nonStaticAttributes):
-        self.storeAttributesAsNonStatic = nonStaticAttributes;
+        self.storeAttributesAsNonStatic = nonStaticAttributes
         # if ( storeAttributesAsNonStatic ) Attributes.clearAll();
-        attributes = None;
+        attributes = None
 
     def InstanceSetWithIns(self, ins):
-        self.instanceSet = ins.instanSet.copy();
+        self.instanceSet = ins.instanSet.copy()
     
-        self.header = str(ins.header);
-        self.attHeader = str(ins.attHeader);
-        self.attributes = str(ins.attributes);
-        self.storeAttributesAsNonStatic = ins.storeAttributesAsNonStatic;
+        self.header = str(ins.header)
+        self.attHeader = str(ins.attHeader)
+        self.attributes = str(ins.attributes)
+        self.storeAttributesAsNonStatic = ins.storeAttributesAsNonStatic
 
     # end InstanceSet
     
@@ -154,10 +154,10 @@ class InstanceSet:
      # */
     
     def setAttributesAsNonStatic(self):
-        attributes = InstanceAttributes();
-        attributes.copyStaticAttributes();
+        self.attributes = InstanceAttributes()
+        self.attributes.copyStaticAttributes()
 
-        storeAttributesAsNonStatic = True;
+        self.storeAttributesAsNonStatic = True
 
     # end setAttributesAsNonStatic
     
@@ -190,21 +190,21 @@ class InstanceSet:
                 self.file_to_open=self.data_folder/file
                     # Declaring an instance parser
                 print("In readSet,file_to_open is:"+ str(self.file_to_open))
-                # to do The exception in init of InstanceParse is: can only concatenate str (not "WindowsPath") to str
-                parser = InstanceParser(self.file_to_open, isTrain)
+                # to do The exception in init InstanceParserof InstanceParse is: can only concatenate str (not "WindowsPath") to str
+                instance_parser = InstanceParser(self.file_to_open, isTrain)
                     # Reading information in the header, i.e., @relation, @attribute, @inputs and @outputs
                 print("In readSet finished read file " + str(self.file_to_open))
-                self.parseHeader(parser, isTrain);
+                self.parseHeader(instance_parser, isTrain)
                 print(" The number of output attributes is: " + str(Attributes.getOutputNumAttributes(Attributes)))
                     # The attributes statistics are init if we are in train mode.
                 if isTrain and Attributes.getOutputNumAttributes(Attributes) == 1:
                     print("Begin Attributes.initStatistics......")
                     Attributes.initStatistics(Attributes)
                     # A temporal vector is used to store the instances read.
-                    # print( "\n\n  > Reading the data ");
-                    print("Reading the data");
-                    tempSet = [[0] * 1000] * 10000;
-                    lines = parser.getLines();
+
+                    print("Reading the data")
+                    tempSet = [[0] * 1000] * 10000
+                    lines = instance_parser.getLines()
                     for line in lines :
                         if(line is not None):
                             print( "Data line: " + str(line))
@@ -235,8 +235,8 @@ class InstanceSet:
 
                      Attributes.finishStatistics()
                  # # close the stream
-                parser.close()
-                print("File LOADED CORRECTLY!!");
+                instance_parser.close()
+                print("File LOADED CORRECTLY!!")
             except Exception as e :
                 print("Unexpected error in readSet of InstanceSet class :" + str(e))
         # end of InstanceSet constructor.
@@ -254,8 +254,8 @@ class InstanceSet:
         inputAttrNames = []
         outputAttrNames = []
 
-        inputsDef = False;
-        outputsDef = False;
+        inputsDef = False
+        outputsDef = False
 
         aux = ""
         self.header = ""
@@ -323,9 +323,9 @@ class InstanceSet:
 
     def insertAttribute(self,line):
         print("Insert attribute begin :")
-        indexL = 0,
-        indexR = 0;
-        type = "";
+        indexL = 0
+        indexR = 0
+        type = ""
 
         # Treating string and declaring a string tokenizer
         if "{" in line:
@@ -340,7 +340,7 @@ class InstanceSet:
         print("token_double is:" + token_withT + ", line is :" + line)
         # System.out.println ("  > Processing line: "+  line );
         #st = line.split(" [{\t");
-        st = line.split("\t")
+        st = line.split("\t")# first we need to split the attribute line into two part , attribute name and attribute values
 
 
         # Disregarding the first token. It is @attribute
@@ -352,13 +352,16 @@ class InstanceSet:
         type_string = at.getType()
         print("after getType")
 
-        attr_list = st[0].split()
-        attr_list[0]=attr_list[0].strip()
-        print("attr_list[0] is:" + attr_list[0])
-
-        #print("Get type once get instance object, at.getType() = " + str(type_string))
+        # print("Get type once get instance object, at.getType() = " + str(type_string))
         at.setName(st[0])
-        #print( "Attribute name: "+ at.getName() )
+        # print( "Attribute name: "+ at.getName() )
+
+        # to get the class name values we need to split the second part of the attribute line, to get values of attribute
+
+        attr_list = st[1].split()
+        attr_list[1]=attr_list[1].strip()
+        print("attr_list[1] is:" + attr_list[1])
+
 
         # Next action depends on the type of attribute: continuous or nominal
         if (len(attr_list)==1):  # Parsing a nominal attribute with no definition of values
@@ -388,9 +391,9 @@ class InstanceSet:
                 at.addNominalValue(nominalStr.strip())
 
         else:  # Parsing an integer or real
-            attName=attr_list[0]
+            attName= st[0]
             at.setName(attName)
-            attType = attr_list[1].lower()
+            attType = st[1].lower()
             print("set Name and type for attribute: " + str(attName) + ","+ str(attType))
 
 

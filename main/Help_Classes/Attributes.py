@@ -277,7 +277,7 @@ class Attributes:
     aux = ""
     for i in range (0, len(self.inputAttr)):
         #Writting the name and type of the attribute
-        aux += str(self.inputAttr[i])+"\n";
+        aux += self.inputAttr[i].toString()+"\n";
 
     return aux;
   #end getInputAttributesHeader
@@ -297,7 +297,6 @@ class Attributes:
     else:
         return self.outputAttr
 
-
     # uniqueList=[]
     # for item in list_origin:
     #   if item not in uniqueList:
@@ -315,8 +314,8 @@ class Attributes:
 #  */
   def getOutputAttribute(self,pos):
     if pos<0 or pos >= len(self.outputAttr):
-        return None;
-    return self.outputAttr[pos];
+        return None
+    return self.outputAttr[pos]
   #end getOutputAttribute
 
 # /**
@@ -331,7 +330,7 @@ class Attributes:
 
           aux += self.outputAttr[i].getName() + ending
 
-    return aux;
+    return aux
   #end getOutputHeader
 
 # /**
@@ -340,12 +339,12 @@ class Attributes:
 #  * @return a String with the output attributes definition.
 #  */
   def  getOutputAttributesHeader(self):
-    aux = "";
+    aux = ""
     for i in range (0, len(self.outputAttr)):
         #Writting the name and type of the attribute
-        aux += str(self.outputAttr[i])+"\n";
-
-    return aux;
+        aux += self.outputAttr[i].toString()+"\n"
+    print("getOutputAttributesHeader, aux =" + aux)
+    return aux
   #end getOutputAttributesHeader
 
 
@@ -357,8 +356,8 @@ class Attributes:
 #  */
   def  getUndefinedAttribute( self,pos):
    if (pos<0 or pos >= len(self.undefinedAttr)):
-       return None;
-   return self.undefinedAttr[pos];
+       return None
+   return self.undefinedAttr[pos]
   #end getUndefinedAttribute
 
 # /**
@@ -368,25 +367,25 @@ class Attributes:
   def  getUndefinedAttributes(self):
     if (len(self.undefinedAttr) == 0):
         return None;
-    attr = self.undefinedAttr;
+    attr = self.undefinedAttr
     for i in range(0,attr.length):
-      attr[i] = self.undefinedAttr[i];
+      attr[i] = self.undefinedAttr[i]
 
-    return attr;
+    return attr
   #end getUndefinedAttributes
 
 # /**
 #  * It does return a String with all the undefined attributes definition
-#  * in keel format. The order of the attributes is the order of lecture.
+#  * in keel format. The order of the attributfile_lines is emptyes is the order of lecture.
 #  * @return a String with the input attributes definition.
 #  */
   def getUndefinedAttributesHeader(self):
-    aux = "";
+    aux = ""
     for i in range (0, len(self.undefinedAttr)):
         #Writting the name and type of the attribute
-        aux += str(self.undefinedAttr[i]) +"\n";
-
-    return aux;
+        aux += self.undefinedAttr[i].toString() +"\n"
+    print("getUndefinedAttributesHeader, aux = " + aux)
+    return aux
   #end getUndefinedAttributesHeader
 
 # /**
@@ -396,7 +395,7 @@ class Attributes:
 #  *
 
   def getAttributeByPos(self, pos):
-   return self.attributes[pos];
+   return self.attributes[pos]
   #end getAttribute
 
 # /**
@@ -449,7 +448,7 @@ class Attributes:
           if (attName not in vector):
               restAt.append(attName)
 
-      return restAt;
+      return restAt
   #end getAttributesExcept
 
 
@@ -537,9 +536,9 @@ class Attributes:
     for i in range (0 ,len(self.inputAttr)):
         name = self.inputAttr[i].getName()
         if name not in inputNames:
-            return False;
+            return False
 
-    return True;
+    return True
   #end areAllDefinedAsInputs
 
 
@@ -555,14 +554,14 @@ class Attributes:
 
   def areAllDefinedAsOutputs(self,outputNames):
     if len(outputNames) != len(self.outputAttr):
-        return False;
+        return False
 
     for i in range (0, len(self.outputAttr)):
         name = self.outputAttr[i].getName()
         if ( name not in outputNames ):
-            return False;
+            return False
 
-    return True;
+    return True
   #end areAllDefinedAsOutputs
 
 
@@ -597,18 +596,18 @@ class Attributes:
   def removeAttribute( self,inputAtt, whichAtt):
     atToDel = None
     if ( inputAtt and (whichAtt >=  len(self.inputAttr) or whichAtt < 0)):
-        return False;
+        return False
     if (not inputAtt and (whichAtt >= len(self.outputAttr) or whichAtt < 0)):
-        return False;
+        return False
     if (inputAtt):
         #inputAttribute
         atToDel =  self.inputAttr[whichAtt]
-        atToDel.setDirectionAttribute(Attribute.DIR_NOT_DEF);
-        self.inputAttr.removeElementAt(whichAtt);
+        atToDel.setDirectionAttribute(Attribute.DIR_NOT_DEF)
+        self.inputAttr.removeElementAt(whichAtt)
 
     else :# output attribute
         atToDel = self.outputAttr[whichAtt]
-        atToDel.setDirectionAttribute(Attribute.DIR_NOT_DEF);
+        atToDel.setDirectionAttribute(Attribute.DIR_NOT_DEF)
         self.outputAttr.removeElementAt(whichAtt);
 
     #We get the position where it has to go in the undefined attributes vector.
@@ -658,7 +657,7 @@ class Attributes:
       undefCount=0
       count = 0
 
-      att_aux = self.attributes[count];
+      att_aux = self.attributes[count]
       while (attToDel != att_aux):
          if (att_aux.getDirectionAttribute() == Attribute.DIR_NOT_DEF):
              undefCount+=1
@@ -666,7 +665,7 @@ class Attributes:
          count+=1
          att_aux = self.attributes[count]
 
-      return undefCount;
+      return undefCount
   #end searchUndefPosition
 #
 # /**
@@ -676,16 +675,21 @@ class Attributes:
 
   def initStatistics(self):
     if (len(self.outputAttr) != 1):
-        return;
-
+        return
+    for out_put_att in self.outputAttr:
+        name=out_put_att.getName()
+        print("out_put_att is :"+name)
+    print("outputAttr[0]"+str(self.outputAttr[0]))
     classNumber = self.outputAttr[0].getNumNominalValues()
+    print("inside initStatistics the classNumber is:"+ str(classNumber))
     #If the output attribute has not been defined as a nominal or it has not
     #any value in the nominal list, the initalization is aborted.
     if classNumber<=0:
-        return;
+        return
 
     for i in range (0, len(self.inputAttr)):
-        (self.inputAttr[i]).initStatisticsTwo(classNumber);
+        print("Call Attribute.initStatisticsTwo in Attributes initStatistics......")
+        (self.inputAttr[i]).initStatisticsTwo(classNumber)
 
     #end initStatistics
 
@@ -698,7 +702,7 @@ class Attributes:
         return;
 
     for i in range (0,len(self.inputAttr)):
-        (self.inputAttr[i]).finishStatistics();
+        (self.inputAttr[i]).finishStatistics()
 
    #end finishStatistics
 

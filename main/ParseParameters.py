@@ -76,9 +76,10 @@ class ParseParameters :
             logging.info("before open file" );
             print(fileName);
             file = open(fileName,"r");
+            print("file in parseConfigurationFile is :" +str(file))
             #file is an string containing the whole file
-            fileString = file.read();
-            line =  fileString.splitlines();
+            fileString = file.read()
+            line =  fileString.splitlines()
             lineNumber=0;
             for lineNumber in range (0,len(line)):
                 print("In line " + str(lineNumber) + ", the str is:begin ***   " + line[lineNumber] + "   ***end")

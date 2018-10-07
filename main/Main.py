@@ -32,45 +32,44 @@ from ParseParameters import ParseParameters
 from Fuzzy_Chi import Fuzzy_Chi
 import sys
 from pathlib import Path
-""" 
- * <p>It reads the configuration file (data-set files and parameters) and launch the algorithm</p>
- *
- * @author Written by Alberto Fern谩ndez (University of Granada) 14/10/2007
- * @version 1.0
- * @since JDK1.5
-"""
+
+ # * <p>It reads the configuration file (data-set files and parameters) and launch the algorithm</p>
+ # *
+ # * @author Written by Alberto Fern谩ndez (University of Granada) 14/10/2007
+ # * @version 1.0
+ # * @since JDK1.5
+
 class Main :
 
        data_folder = Path("simpleTest/scripts/FARCHD/iris")
        file_to_open = None
        # Default Constructor
-       """
-               * It launches the algorithm
-               * @param confFile String it is the filename of the configuration file.
-         """
+
+               # * It launches the algorithm
+               # * @param confFile String it is the filename of the configuration file.
+
        def execute(config_file):
               parameters=ParseParameters()
               parameters.parseConfigurationFile(config_file)
               method = Fuzzy_Chi(parameters)
               # method.execute()
 
-       """ 
-               * Main Program
-               * @param args It contains the name of the configuration file
-               * Format:
-               * algorithm = ;algorithm name>
-               * inputData = "training file" "validation file" "test file"
-               * outputData = "training file" "test file"
-               * 
-               * seed = value (if used)
-               Parameter1; value1
-               Parameter2&gt; value2
-          """
+               # * Main Program
+               # * @param args It contains the name of the configuration file
+               # * Format:
+               # * algorithm = ;algorithm name>
+               # * inputData = "training file" "validation file" "test file"
+               # * outputData = "training file" "test file"
+               # *
+               # * seed = value (if used)
+               # Parameter1; value1
+               # Parameter2&gt; value2
+
 
        if __name__=='__main__':
-              print("Executing Algorithm.");
-              print("sys.argv: " + sys.argv[1]);
-              execute(sys.argv[1]);
+              print("Executing Algorithm.")
+              print("sys.argv: " + sys.argv[1])
+              execute(sys.argv[1])
 
 
 
