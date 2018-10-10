@@ -32,8 +32,7 @@
 from main import Fuzzy
 from DataBase import DataBase
 from Rule import Rule
-
-
+from Fuzzy_Chi import Fuzzy_Chi
 
  # * This class contains the representation of a Rule Set
  # *
@@ -43,16 +42,15 @@ from Rule import Rule
 
 class RuleBase :
 
-    ruleBase=[];
-    dataBase=DataBase();
+    ruleBase=[]
+    dataBase=DataBase()
     n_variables=0
-    n_labels=0,
-    ruleWeight=0,
-    inferenceType=0,
-    compatibilityType=0;
-    names=[],
-    classes=[];
-
+    n_labels=0
+    ruleWeight=0
+    inferenceType=0
+    compatibilityType=0
+    names=[]
+    classes=[]
 
         # /**
         #  * Rule Base Constructor
@@ -65,46 +63,37 @@ class RuleBase :
         #  */
 
     def __init__(self, dataBase,  inferenceType,  compatibilityType, ruleWeight, names,  classes):
-            ruleBase = [];
-            self.dataBase = dataBase;
-            n_variables = dataBase.numVariables();
-            n_labels = dataBase.numLabels();
-            self.inferenceType = inferenceType;
-            self.compatibilityType = compatibilityType;
-            self.ruleWeight = ruleWeight;
-            self.names = names.clone();
-            self.classes = classes.clone();
-
-
-
+            self.ruleBase = []
+            self.dataBase = dataBase
+            self.n_variables = dataBase.numVariables()
+            self.n_labels = dataBase.numLabels()
+            self.inferenceType = inferenceType
+            self.compatibilityType = compatibilityType
+            self.ruleWeight = ruleWeight
+            self.names = names.clone()
+            self.classes = classes.clone()
 
          # * It checks if a specific rule is already in the rule base
          # * @param r Rule the rule for comparison
          # * @return boolean true if the rule is already in the rule base, false in other case
 
     def duplicated(self,rule):
-            i = 0;
-            found = False;
-            while ((i < self.ruleBase.size()) and (found==False)):
-                found = self.ruleBase.get(i).comparison(rule);
-                i+=1;
-
-            return found;
-
-
+            i = 0
+            found = False
+            while ((i < len(self.ruleBase)) and (found==False)):
+                found = self.ruleBase[i].comparison(rule)
+                i+=1
+            return found
 
          # * Rule Learning Mechanism for the Chi et al.'s method
          # * @param train myDataset the training data-set
 
     def Generation( self,train) :
             for i in range( 0, train.size()) :
-                rule = searchForBestAntecedent(train.getExample(i),train.getOutputAsInteger(i));
-                rule.assingConsequent(train, self.ruleWeight);
-                if ((duplicated(rule)==False) and(rule.weight > 0)):
-                    self.ruleBase.add(rule);
-
-
-
+                rule = self.searchForBestAntecedent(train.getExample(i),train.getOutputAsInteger(i))
+                rule.assingConsequent(train, self.ruleWeight)
+                if ((self.duplicated(rule)==False) and(rule.weight > 0)):
+                    self.ruleBase.append(rule)
          # * This function obtains the best fuzzy label for each variable of the example and assigns
          # * it to the rule
          # * @param example double[] the input example
@@ -112,125 +101,108 @@ class RuleBase :
          # * @return Rule the fuzzy rule with the highest membership degree with the example
 
     def searchForBestAntecedent(self,example,clas):
-            rule = Rule(self.n_variables, self.compatibilityType);
-            rule.setClass(clas);
+            rule = Rule(self.n_variables, self.compatibilityType)
+            rule.setClass(clas)
             for i in range( 0,self.n_variables):
-                max = 0.0;
-                etq = -1;
-                per=0.0;
+                max = 0.0
+                etq = -1
+                per=0.0
                 for j in range( 0, self.n_labels) :
-                    per = DataBase.membershipFunction(i, j, example[i]);
+                    per = DataBase.membershipFunction(i, j, example[i])
                     if (per > max) :
-                        max = per;
-                        etq = j;
-
+                        max = per
+                        etq = j
                 if (max == 0.0) :
-                    print("There was an Error while searching for the antecedent of the rule");
-                    print("Example: ");
+                    print("There was an Error while searching for the antecedent of the rule")
+                    print("Example: ")
                     for j in range(0,self.n_variables):
-                        print(example[j] + "\t");
+                        print(example[j] + "\t")
 
-                    print("Variable " + i);
-                    exit(1);
+                    print("Variable " + i)
+                    exit(1)
 
-                    rule.antecedent[i] = DataBase.clone(i, etq);
-
-            return rule;
-
-
-
+                    rule.antecedent[i] = self.dataBase.clone(i, etq)
+            return rule
          # * It prints the rule base into an string
          # * @return String an string containing the rule base
 
     def printString(self) :
-            i=0;
-            j=0;
-            cadena = "";
-
-            cadena += "@Number of rules: " + self.ruleBase.size() + "\n\n";
-            for i in range( 0, self.ruleBase.size()):
-                rule = self.ruleBase.get(i);
-                cadena += (i + 1) + ": ";
+            i=0
+            j=0
+            cadena = ""
+            cadena += "@Number of rules: " + str(len(self.ruleBase)) + "\n\n"
+            for i in range( 0, len(self.ruleBase)):
+                rule = self.ruleBase[i]
+                cadena += (i + 1) + ": "
                 for j in range(0,  self.n_variables - 1) :
-                    cadena += self.names[j] + " IS " + rule.antecedent[j].name + " AND ";
+                    cadena += self.names[j] + " IS " + rule.antecedent[j].name + " AND "
+                cadena += self.names[j] + " IS " + rule.antecedent[j].name + ": " + self.classes[rule.clas] + " with Rule Weight: " + rule.weight + "\n"
 
-                cadena += self.names[j] + " IS " + rule.antecedent[j].name + ": " + self.classes[rule.clas] + " with Rule Weight: " + rule.weight + "\n";
-
-
-                return cadena;
-
-
+                return cadena
 
          # * It writes the rule base into an ouput file
          # * @param filename String the name of the output file
 
-    def writeFile(filename) :
-            outputString = "";
-            outputString = printString();
-            file = open(filename, "w");
-            file.write(outputString);
+    def writeFile(self,filename) :
+            outputString = ""
+            outputString = self.printString()
+            file = open(filename, "w")
+            file.write(outputString)
             file.close()
-
-
          # * Fuzzy Reasoning Method
          # * @param example double[] the input example
          # * @return int the predicted class label (id)
 
     def FRM(self,example):
           if (self.inferenceType == Fuzzy_Chi.WINNING_RULE):
-                return FRM_WR(example);
+                return self.FRM_WR(example)
           else :
-                return FRM_AC(example);
-
+                return self.FRM_AC(example)
 
          # * Winning Rule FRM
          # * @param example double[] the input example
          # * @return int the class label for the rule with highest membership degree to the example
-
     def FRM_WR(self,example):
-            clas = -1;
-            max = 0.0;
-            for i in range( 0, self.ruleBase.size()):
-                rule= self.ruleBase.get(i);
-                produc = rule.compatibility(example);
-                produc *= rule.weight;
+            clas = -1
+            max = 0.0
+            for i in range( 0, len(self.ruleBase)):
+                rule= self.ruleBase[i]
+                produc = rule.compatibility(example)
+                produc *= rule.weight
                 if (produc > max) :
-                    max = produc;
-                    clas = rule.clas;
-
-            return clas;
-
-
+                    max = produc
+                    clas = rule.clas
+            return clas
 
      # * Additive Combination FRM
      # * @param example double[] the input example
      # * @return int the class label for the set of rules with the highest sum of membership degree per class
 
     def FRM_AC(self,example):
-         clas = -1;
-         class_degrees = float[1];
-         for i in range( 0, self.ruleBase.size()) :
-            rule = self.ruleBase.get(i);
-            produc = rule.compatibility(example);
-            produc *= rule.weight;
+         clas = -1
+         class_degrees = []
+         for i in range( 0, len(self.ruleBase)) :
+            rule = self.ruleBase[i]
+            produc = rule.compatibility(example)
+            produc *= rule.weight
             if (rule.clas > class_degrees.length - 1) :
-                aux = float[class_degrees.length];
+                aux = float[class_degrees.length]
                 for j in range( 0, aux.length):
-                    aux[j] = class_degrees[j];
+                    aux[j] = class_degrees[j]
 
-                class_degrees = float[rule.clas + 1];
+                class_degrees = float[rule.clas + 1]
                 for j in range( 0,aux.length):
-                    class_degrees[j] = aux[j];
+                    class_degrees[j] = aux[j]
 
-            class_degrees[rule.clas] += produc;
+            class_degrees[rule.clas] += produc
 
-         max = 0.0;
-         for l in range( 0,class_degrees.length):
+         max = 0.0
+         for l in range( 0,len(class_degrees)):
             if (class_degrees[l] > max) :
-                max = class_degrees[l];
-                clas = l;
+                max = class_degrees[l]
+                clas = l
 
-         return clas;
+         return clas
 
 
 

@@ -51,8 +51,8 @@ class Main :
        def execute(config_file):
               parameters=ParseParameters()
               parameters.parseConfigurationFile(config_file)
-              method = Fuzzy_Chi(parameters)
-              # method.execute()
+              fuzzy_chi =Fuzzy_Chi(parameters)
+              fuzzy_chi.execute()
 
                # * Main Program
                # * @param args It contains the name of the configuration file

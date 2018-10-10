@@ -20,47 +20,46 @@ GNU General Public License for more details. You should have received a copy of 
 along with this program.  If not, see http://www.gnu.org/licenses/
 '''
 
-'''
-  This class contains the representation of a Fuzzy Data Base</p>
- 
-  @author Written by Alberto Fern谩ndez (University of Granada) 28/10/2007
-  @author Modified by Alberto Fern谩ndez (University of Granada) 12/11/2008
-  @version 1.1
-  @since JDK1.5
-'''
+
+  # This class contains the representation of a Fuzzy Data Base</p>
+  #
+  # @author Written by Alberto Fern谩ndez (University of Granada) 28/10/2007
+  # @author Modified by Alberto Fern谩ndez (University of Granada) 12/11/2008
+  # @version 1.1
+  # @since JDK1.5
+
 
 from main import Fuzzy
 class DataBase :
-    n_variables=0;
-    n_labels=0;
-    dataBase=[];
-    names=[];
+    n_variables=0
+    n_labels=0
+    dataBase=[]
+    names=[]
      # Default constructor
 def _init_(self):
     self.data=[]
 
-'''
-      Constructor with parameters. It performs a homegeneous partition of the input space for
-      a given number of fuzzy labels.
-      @param n_variables int Number of input variables of the problem
-      @param n_labels int Number of fuzzy labels
-      @param rangos double[][] Range of each variable (minimum and maximum values)
-      @param names String[] Labels for the input attributes
-     
-'''
-def _init_(self, n_variables, n_labels, rangos, names):
-        self.n_variables = n_variables;
-        self.n_labels = n_labels;
-        dataBase = Fuzzy[n_variables][n_labels];
-        self.names = names.clone();
 
-        marca=0.0;
-        i=0;
+      # Constructor with parameters. It performs a homegeneous partition of the input space for
+      # a given number of fuzzy labels.
+      # @param n_variables int Number of input variables of the problem
+      # @param n_labels int Number of fuzzy labels
+      # @param rangos double[][] Range of each variable (minimum and maximum values)
+      # @param names String[] Labels for the input attributes
+
+def _init_(self, n_variables, n_labels, rangos, names):
+        self.n_variables = n_variables
+        self.n_labels = n_labels
+        dataBase = Fuzzy[n_variables][n_labels]
+        self.names = names.clone()
+
+        marca=0.0
+        i=0
         for  i in range(0,self.n_variables):
-                    marca = (rangos[i][1] - rangos[i][0]) / ( n_labels - 1);
+                    marca = (rangos[i][1] - rangos[i][0]) / ( n_labels - 1)
                     if (marca == 0) : #there are no ranges (an unique valor)
                         for etq in range(0,self.n_labels):
-                            dataBase[i][etq] =  Fuzzy();
+                            dataBase[i][etq] =  Fuzzy()
                             dataBase[i][etq].x0 = rangos[i][1] - 0.00000000000001;
                             dataBase[i][etq].x1 = rangos[i][1];
                             dataBase[i][etq].x3 = rangos[i][1] + 0.00000000000001;

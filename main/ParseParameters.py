@@ -52,14 +52,14 @@ class ParseParameters :
      __outputTstFile=""
      __outputFiles=[]
 
-     __parameters=[]
+     __parameters={}
 
     # * Default constructor
 
      def __init__(self):
         self.__inputFiles = []
         self.__outputFiles = []
-        self.__parameters = []
+        self.__parameters = {}
 
 
          # * It obtains all the necesary information from the configuration file.<br/>
@@ -161,9 +161,11 @@ class ParseParameters :
      #     * @param line StringTokenizer It is the line containing the output files.
      # """
      def readOutputFiles(self,line):
-             print("Inside the readInputFiles mehtod, we get parameter is:" + str(line))
+             print("Inside the readInputFiles method, we get parameter is:" + str(line))
              firstParts = line.split()
-             for lineNumber in range(0, len(firstParts)):
+             file_list = []
+             line_number = len(firstParts)
+             for lineNumber in range(0, line_number):
                  wholeName = firstParts[lineNumber]
                  print("Inside readOutputFiles, line " + str(lineNumber) + ",wholeName: " + str(wholeName))
                  fileNameWithStr = wholeName.rpartition('/')[2]
@@ -171,18 +173,39 @@ class ParseParameters :
                  fileName = fileNameWithStr[:-1]
                  print("Inside readOutputFiles, line " + str(lineNumber) + ",fileName: " + str(fileName))
 
-                 if(fileName[-3:] == 'txt'):
-                     self.__outputFiles.append(fileName)
-                     print("Inside readOutputFiles, line " + str(lineNumber) + ",added txt fileName: " + str(fileName))
-                 elif(fileName[-3:] == 'tra'):
-                     self.__outputTraFiles.append(fileName)
-                     print("Inside readOutputFiles, line " + str(lineNumber) + ",added tra fileName: " + str(fileName))
-                 elif(fileName[-3:] == 'tst'):
-                     self.__outputTstFiles.append(fileName)
-                     print("Inside readOutputFiles, line " + str(lineNumber) + ",added tst fileName: " + str(fileName))
-             print("The Output txt files number is :" + str(len(self.__inputFiles)))
-             print("The Output tra files number is :" + str(len(self.__inputFiles)))
-             print("The Output tst files number is :" + str(len(self.__inputFiles)))
+                 file_type = fileName[-3:]
+                 if (file_type == "txt" or file_type == "tra" or file_type == "tst"):
+                    file_list.append(fileName)
+
+                 file_number = len(file_list)
+                 print("file_number" + str(file_number))
+                 for i in range(0, file_number):
+                     if i == 0:
+                         self.__outputTrFile = file_list[i]
+                     elif i == 1:
+                         self.__outputTstFile = file_list[i]
+
+                     else:
+                         self.__outputFiles.append(file_list[i])
+
+                 for file in self.__outputFiles:
+                     print("output file is :" + file)
+
+                 print("The output training file  is :" + str(self.__outputTrFile))
+                 print("The output test file  is :" + str(self.__outputTstFile))
+
+             #     if(fileName[-3:] == 'txt'):
+             #         self.__outputFiles.append(fileName)
+             #         print("Inside readOutputFiles, line " + str(lineNumber) + ",added txt fileName: " + str(fileName))
+             #     elif(fileName[-3:] == 'tra'):
+             #         self.__outputTraFiles.append(fileName)
+             #         print("Inside readOutputFiles, line " + str(lineNumber) + ",added tra fileName: " + str(fileName))
+             #     elif(fileName[-3:] == 'tst'):
+             #         self.__outputTstFiles.append(fileName)
+             #         print("Inside readOutputFiles, line " + str(lineNumber) + ",added tst fileName: " + str(fileName))
+             # print("The Output txt files number is :" + str(len(self.__inputFiles)))
+             # print("The Output tra files number is :" + str(len(self.__inputFiles)))
+             # print("The Output tst files number is :" + str(len(self.__inputFiles)))
 
      # """
      #     * We read all the possible parameters of the algorithm
@@ -190,10 +213,14 @@ class ParseParameters :
      # """
      def readAllParameters(self,line):
 
+             print("readAllParameters begin,  line is :" + line)
              key = line.rpartition("=")[0]
+             print("The parameter key is :" + key)
              value = line.rpartition("=")[2]
+             print("The parameter value is :" + value)
              # remove the space in key and value of parameters and save into dictionary
-             self.__parameters[key.strip()] = value.strip()
+             if(key != ""):
+                self.__parameters[key]=value
             #If the algorithm is non-deterministic the first parameter is the Random SEED
 
      # """
@@ -221,8 +248,12 @@ class ParseParameters :
      # * @param key the index of the parameter
      # * @return the value of the parameter specified
      # """
-     def getParameter(self,key):
-        return str(self.__parameters.keys().index(key));
+     def getParameter(self,keyPass):
+        value_return = ""
+        for key, value in self.__parameters.items():
+            if key==keyPass:
+                value_return == value
+        return value_return
 
      # """
      # * It returns the input files
@@ -240,7 +271,7 @@ class ParseParameters :
      # """
 
      def getInputTrainingFiles(self):
-        return self.__inputTraFiles
+        return self.__trainingFile
 
      # """
      #  * It returns the input test files
@@ -249,7 +280,57 @@ class ParseParameters :
      #  """
 
      def getInputTestFiles(self):
-         return self.__inputTstFiles
+         return self.__testFile
+
+
+     # * It returns the validation input file
+     # *
+     # * @return the validation input file
+
+
+     def getValidationInputFile(self):
+        return self.__validationFile
+
+
+    # /**
+    #  * It returns the training output file
+    #  *
+    #  * @return the training output file
+    #  */
+     def  getTrainingOutputFile(self):
+        return self.__outputTrFile
+
+     # * It returns the test output file
+     # *
+     # * @return the test output file
+
+     def getTestOutputFile(self):
+        return self.__outputTstFile
+
+
+     # * It returns the algorithm name
+     # *
+     # * @return the algorithm name
+
+     def getAlgorithmName(self):
+        return self.__algorithmName
+
+
+
+     # * It returns the name of the parameters
+     # *
+     # * @return the name of the parameters
+
+     def getParameters(self):
+        return self.__parameters
+
+     # * It returns the input files
+     # *
+     # * @return the input files
+
+     def getInputFiles(self):
+        return self.__inputFiles
+
 
      # """
      # * It returns the input file of the specified index
@@ -258,7 +339,7 @@ class ParseParameters :
      # * @return the input file of the specified index
      # """
      def  getInputFile(self, pos):
-        return self.inputFiles[pos]
+        return self.__inputFiles[pos]
 
      # """
      # * It returns the output files
@@ -276,6 +357,6 @@ class ParseParameters :
      # * @return the output file of the specified index
      # """
      def getOutputFile(self, pos):
-        return self.outputFiles[pos]
+        return self.__outputFiles[pos]
 
 

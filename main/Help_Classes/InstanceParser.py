@@ -86,11 +86,8 @@ class InstanceParser:
 
     def __init__(self,fileName, _isTrain):
         try:
-
             print("In init method of InstanceParser begin......")
-
             self.file = open(fileName,"r")
-
             print("In init of InstanceParser, set file =" + str(fileName))
             #print(self.file.read())
             self.lineCounter = 0
@@ -100,7 +97,6 @@ class InstanceParser:
 
         self.__isTrain = _isTrain;
         self.__attributeCount = 0
-
     # end of Parser constructor
 
     #  * It returns all the header read in parseHeader.
@@ -138,31 +134,29 @@ class InstanceParser:
 
     def getLines(self):
         try:
+            file_first_line = None
+
             print("In getLines file is "+ str(self.file))
-            file_lines = self.file.readlines()
-            #file_lines = file_string.splitlines()
+            file_strings = self.file.read()
+            file_lines=file_strings.splitlines()
+
             line_Nuember =len(file_lines)
             if(line_Nuember!=0):
                 print("file has "+ str(line_Nuember) + " lines")
-                file_first_line = file_lines[0]
             else:
                 print("file_lines is empty!!")
-                exit(1)
 
             for line in file_lines:
-                if not str(line): # line is not empty
+                if (line !="" or (line !=None and not line.startswith("%"))): # line is not empty
+                    self.lineCounter = +1
                     file_first_line = line
 
             print("file_lines: "+ str(file_lines))
             print("file_first_line: " + str(file_first_line))
-
-            if file_lines and file_first_line.startswith("%"):
-                file_lines = None # The file is not the file that we want.
-            self.lineCounter =len(file_lines)
             print("In getLines, there are " + str(self.lineCounter) +" lines")
 
         except Exception as error:
-            print("Inside getLines of InstanceParser , Exception is: " + format(error));
+            print("Inside getLines of InstanceParser , Exception is: " + format(error))
             exit(1)
 
         return file_lines
@@ -173,6 +167,7 @@ class InstanceParser:
 
     def close(self):
         try:
+            print("close file, name is :"+str(self.file.name))
             self.file.close()
         except IOError as ioError:
             print("Error: the instance parser could not be closed. Exiting now." + format(ioError))

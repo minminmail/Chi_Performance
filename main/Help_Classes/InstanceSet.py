@@ -183,63 +183,59 @@ class InstanceSet:
     def readSet(self,fileName, isTrain):
         print("Before try in readSet of InstanceSet, fileName is :" + str(fileName) + ".")
         print("Opening the file in readSet of InstanceSet: " + str(fileName) + ".")
-        for file in fileName:
-            try:
-                # Parsing the header of the DB.
-                errorLogger = FormatErrorKeeper()
-                self.file_to_open=self.data_folder/file
-                    # Declaring an instance parser
-                print("In readSet,file_to_open is:"+ str(self.file_to_open))
-                # to do The exception in init InstanceParserof InstanceParse is: can only concatenate str (not "WindowsPath") to str
-                instance_parser = InstanceParser(self.file_to_open, isTrain)
-                    # Reading information in the header, i.e., @relation, @attribute, @inputs and @outputs
-                print("In readSet finished read file " + str(self.file_to_open))
-                self.parseHeader(instance_parser, isTrain)
-                print(" The number of output attributes is: " + str(Attributes.getOutputNumAttributes(Attributes)))
-                    # The attributes statistics are init if we are in train mode.
-                if isTrain and Attributes.getOutputNumAttributes(Attributes) == 1:
-                    print("Begin Attributes.initStatistics......")
-                    Attributes.initStatistics(Attributes)
-                    # A temporal vector is used to store the instances read.
+        try:
+            # Parsing the header of the DB.
+            errorLogger = FormatErrorKeeper()
+            self.file_to_open=self.data_folder/fileName
+                # Declaring an instance parser
+            print("In readSet,file_to_open is:"+ str(self.file_to_open))
+            # to do The exception in init InstanceParserof InstanceParse is: can only concatenate str (not "WindowsPath") to str
+            instance_parser = InstanceParser(self.file_to_open, isTrain)
+                # Reading information in the header, i.e., @relation, @attribute, @inputs and @outputs
+            print("In readSet finished read file " + str(self.file_to_open))
+            self.parseHeader(instance_parser, isTrain)
+            print(" The number of output attributes is: " + str(Attributes.getOutputNumAttributes(Attributes)))
+                # The attributes statistics are init if we are in train mode.
+            if isTrain and Attributes.getOutputNumAttributes(Attributes) == 1:
+                print("Begin Attributes.initStatistics......")
+                Attributes.initStatistics(Attributes)
+            # A temporal vector is used to store the instances read.
 
-                    print("Reading the data")
-                    tempSet = [[0] * 1000] * 10000
-                    print("begin instance_parser.getLines()...... ")
-                    lines = instance_parser.getLines()
-                    for line in lines :
-                        if(line is not None):
-                            print( "Data line: " + str(line))
-                            newInstance = Instance(line, isTrain, len(tempSet))
-                            tempSet.append(newInstance)
+            print("Reading the data")
+            tempSet = [[0] * 1000] * 10000
+            print("begin instance_parser.getLines()...... ")
+            lines = instance_parser.getLines()
+            for line in lines :
+                if(line is not None):
+                    print( "Data line: " + str(line))
+                    newInstance = Instance(line, isTrain, len(tempSet))
+                    tempSet.append(newInstance)
 
-                     # The vector of instances is converted to an array of instances.
-                    sizeInstance = len(tempSet)
-                    print(" Number of instances read: " + str(sizeInstance))
-                    instanceSet = Instance[sizeInstance]
-                    for i in range(0, sizeInstance):
-                        instanceSet[i] = Instance(tempSet[i])
+                 # The vector of instances is converted to an array of instances.
+            sizeInstance = len(tempSet)
+            print(" Number of instances read: " + str(sizeInstance))
+            instanceSet = Instance[sizeInstance]
+            for i in range(0, sizeInstance):
+                instanceSet[i] = Instance(tempSet[i])
+            print("After converting all instances")
+                     # System.out.println("The error logger has any error: "+errorLogger.getNumErrors());
+            if errorLogger.getNumErrors() > 0:
+                    errorNumber =len(errorLogger.getAllErrors())
+                    print("There has been " + str(errorNumber) + "errors in the Dataset format.");
+                    for k in range(0, errorLogger.getNumErrors()):
+                        errorLogger.getError(k).printErrorInfo()
 
-                        print("After converting all instances")
-                         # System.out.println("The error logger has any error: "+errorLogger.getNumErrors());
-                        if errorLogger.getNumErrors() > 0:
-                            errorNumber =len(errorLogger.getAllErrors())
-                            print("There has been " + str(errorNumber) + "errors in the Dataset format.");
-                            for k in range(0, errorLogger.getNumErrors()):
-                                errorLogger.getError(k).printErrorInfo()
-
-
-                 #print("There has been " + errorLogger.getAllErrors().size() + " errors in the Dataset format",
-            #           errorLogger.getAllErrors());
-                print("Finishing the statistics: (isTrain)" + str(isTrain) + ", (# out attributes)" + str(Attributes.getOutputNumAttributes(Attributes)))
-            # # If being on a train dataset, the statistics are finished
-                if (isTrain and Attributes.getOutputNumAttributes(Attributes) == 1):
-
-                     Attributes.finishStatistics()
-                 # # close the stream
-                instance_parser.close()
-                print("File LOADED CORRECTLY!!")
-            except Exception as e :
-                print("Unexpected error in readSet of InstanceSet class :" + str(e))
+                #print("There has been " + errorLogger.getAllErrors().size() + " errors in the Dataset format",
+        #           errorLogger.getAllErrors());
+            print("Finishing the statistics: (isTrain)" + str(isTrain) + ", (# out attributes)" + str(Attributes.getOutputNumAttributes(Attributes)))
+        # # If being on a train dataset, the statistics are finished
+            if (isTrain and Attributes.getOutputNumAttributes(Attributes) == 1):
+                Attributes.finishStatistics()
+             # # close the stream
+            instance_parser.close()
+            print("File LOADED CORRECTLY!!")
+        except Exception as e :
+            print("Unexpected error in readSet of InstanceSet class :" + str(e))
         # end of InstanceSet constructor.
 
          # * It reads the information in the header of the file.
@@ -254,16 +250,11 @@ class InstanceSet:
         # 1. Declaration of variables
         inputAttrNames = []
         outputAttrNames = []
-
         inputsDef = False
         outputsDef = False
-
-        aux = ""
         self.header = ""
-
         attCount = 0
         lineCount = 0
-
         self.attHeader = None
 
         print("Begin to call the InstanceParser.getLines(),parser.getLines(), in InstanceSet.")
@@ -276,18 +267,17 @@ class InstanceSet:
                 break
             else:
                 print("  Line read: " + line +"." )
-                lineCount += 1;
+                lineCount += 1
                 if ("@relation" in line):
                     if (isTrain):
                         relationName = str(line.replace("@relation", "")).strip()
                         print("set Relation name :" + str(relationName))
                         Attributes.setRelationName(self,relationName)
-
                 elif ("@attribute" in line):
                     if (isTrain):
                         print("Begin insertAttribute ......")
                         self.insertAttribute(line);
-                        attCount += 1;
+                        attCount += 1
 
                 elif ("@inputs" in line):
                         print("@inputs in "+str(line))
@@ -299,7 +289,6 @@ class InstanceSet:
                         if (isTrain):
                             print("Has @inputs, aux is :" + aux)
                             self.insertInputOutput(aux, lineCount, inputAttrNames, "inputs", isTrain);
-
                 elif ("@outputs" in line ):
                     if (self.attHeader == None):
                         self.attHeader = self.header
@@ -314,12 +303,9 @@ class InstanceSet:
                         print("Size of the output is: " + str(len(outputAttrNames)))
 
                 self.header += line + "\n";
-
         if (self.attHeader == None):
             self.attHeader = self.header
-
         self.processInputsAndOutputs(isTrain, inputsDef, outputsDef, outputAttrNames, inputAttrNames)
-
     # end headerParse
 
     def insertAttribute(self,line):
