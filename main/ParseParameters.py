@@ -59,7 +59,7 @@ class ParseParameters :
      def __init__(self):
         self.__inputFiles = []
         self.__outputFiles = []
-        self.__parameters = {}
+        self.__parameters = []
 
 
          # * It obtains all the necesary information from the configuration file.<br/>
@@ -91,7 +91,7 @@ class ParseParameters :
                     self.readOutputFiles(line[lineNumber])#We read all the output files
                 else: # read parameters and save into map
                     self.readAllParameters(line[lineNumber])  # We read all the possible parameters
-            for key ,value in self.__parameters.items():
+            for key ,value in self.__parameters:
                 print("key :"+ key + "value :" + value)
 
 
@@ -101,7 +101,7 @@ class ParseParameters :
      # """
      def readName(self,line):
             print("In side the readName method the parameter pass is :" + str(line))
-            name = line.rpartition("=")[2];
+            name = line.rpartition("=")[2]
             name=name.strip()
             print("In side the readName method after split =, we get:" + str(name))
             self.__algorithmName = name
@@ -220,7 +220,7 @@ class ParseParameters :
              print("The parameter value is :" + value)
              # remove the space in key and value of parameters and save into dictionary
              if(key != ""):
-                self.__parameters[key]=value
+                self.__parameters.append((key,value))
             #If the algorithm is non-deterministic the first parameter is the Random SEED
 
      # """
@@ -230,7 +230,7 @@ class ParseParameters :
      # """
 
      def getAlgorithmName(self):
-        return self.algorithmName;
+        return self.algorithmName
 
      # """
      # * It returns the name of the parameters
@@ -239,7 +239,7 @@ class ParseParameters :
      # """
      def getParameters(self):
         param = self.___parameters
-        return param;
+        return param
 
 
      # """
@@ -248,12 +248,9 @@ class ParseParameters :
      # * @param key the index of the parameter
      # * @return the value of the parameter specified
      # """
-     def getParameter(self,keyPass):
-        value_return = ""
-        for key, value in self.__parameters.items():
-            if key==keyPass:
-                value_return == value
-        return value_return
+     def getParameter(self,pos):
+
+        return self.__parameters[pos]
 
      # """
      # * It returns the input files

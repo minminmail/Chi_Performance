@@ -31,8 +31,8 @@
 
 from main import Fuzzy
 from DataBase import DataBase
-from Rule import Rule
-from Fuzzy_Chi import Fuzzy_Chi
+import Rule
+import Fuzzy_Chi
 
  # * This class contains the representation of a Rule Set
  # *
@@ -70,8 +70,8 @@ class RuleBase :
             self.inferenceType = inferenceType
             self.compatibilityType = compatibilityType
             self.ruleWeight = ruleWeight
-            self.names = names.clone()
-            self.classes = classes.clone()
+            self.names = names
+            self.classes = classes
 
          # * It checks if a specific rule is already in the rule base
          # * @param r Rule the rule for comparison

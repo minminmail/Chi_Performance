@@ -214,14 +214,15 @@ class InstanceSet:
                  # The vector of instances is converted to an array of instances.
             sizeInstance = len(tempSet)
             print(" Number of instances read: " + str(sizeInstance))
-            instanceSet = Instance[sizeInstance]
+            instanceSet = []
+
             for i in range(0, sizeInstance):
-                instanceSet[i] = Instance(tempSet[i])
+                instanceSet.append (tempSet[i])
             print("After converting all instances")
                      # System.out.println("The error logger has any error: "+errorLogger.getNumErrors());
-            if errorLogger.getNumErrors() > 0:
+            if self.errorLogger.getNumErrors() > 0:
                     errorNumber =len(errorLogger.getAllErrors())
-                    print("There has been " + str(errorNumber) + "errors in the Dataset format.");
+                    print("There has been " + str(errorNumber) + "errors in the Dataset format.")
                     for k in range(0, errorLogger.getNumErrors()):
                         errorLogger.getError(k).printErrorInfo()
 
@@ -230,7 +231,7 @@ class InstanceSet:
             print("Finishing the statistics: (isTrain)" + str(isTrain) + ", (# out attributes)" + str(Attributes.getOutputNumAttributes(Attributes)))
         # # If being on a train dataset, the statistics are finished
             if (isTrain and Attributes.getOutputNumAttributes(Attributes) == 1):
-                Attributes.finishStatistics()
+                Attributes.finishStatistics(Attributes)
              # # close the stream
             instance_parser.close()
             print("File LOADED CORRECTLY!!")

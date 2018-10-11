@@ -28,6 +28,7 @@
 
 #**********************************************************************/
 from DataBase import DataBase
+import RuleBase
 from MyDataSet import MyDataSet
  # * <p>It contains the implementation of the Chi algorithm</p>
  # *
@@ -49,7 +50,7 @@ class Fuzzy_Chi :
       inferenceType=0
       ruleWeight=0
       dataBase=DataBase()
-      ruleBase=DataBase()
+      ruleBase=None
 
        # Configuration flags.
       MINIMUM = 0
@@ -88,7 +89,9 @@ class Fuzzy_Chi :
               self.train_myDataSet.readClassificationSet(inputTrainingFile, True)
 
               print("Reading the validation set: ")
-              self.val_myDataSet.readClassificationSet(parameters.getValidationInputFile(), False)
+              inputValidationFile=parameters.getValidationInputFile()
+              self.val_myDataSet.readClassificationSet(inputValidationFile, False)
+
               print("Reading the test set: ")
               self.test_myDataSet.readClassificationSet(parameters.getInputTestFiles(), False)
 
@@ -109,12 +112,17 @@ class Fuzzy_Chi :
             self.fileDB = parameters.getOutputFile(0)
             self.fileRB = parameters.getOutputFile(1)
                  #Now we parse the parameters
-            self.nLabels = parameters.getParameter(0)
-            aux = str(parameters.getParameter(1)).lower() #Computation of the compatibility degree
+
+            #self.nLabels = parameters.getParameter(0)
+            self.nLabels = parameters.getParameter(1)[1]
+            print("nLabels is :" + str(self.nLabels))
+            aux = str(parameters.getParameter(2)).lower() #Computation of the compatibility degree
+            print("parameter 1 aux is :" + str(aux))
             self.combinationType = self.PRODUCT
             if (aux == "minimum"):
                 self.combinationType = self.MINIMUM
-            aux = str(parameters.getParameter(2)).lower()
+            aux = str(parameters.getParameter(3)).lower()
+            print("parameter 2 aux is :" + str(aux))
             self.ruleWeight = self.PCF_IV
             if (aux == "Certainty_Factor".lower()):
                 self.ruleWeight = self.CF
@@ -122,7 +130,8 @@ class Fuzzy_Chi :
                 self.ruleWeight = self.PCF_II
             elif (aux=="No_Weights".lower()):
                 self.ruleWeight = self.NO_RW
-            aux = str(parameters.getParameter(3)).lower()
+            aux = str(parameters.getParameter(4)).lower()
+            print("parameter 3 aux is :" + str(aux))
             self.inferenceType = self.WINNING_RULE
             if(aux ==("Additive_Combination").lower()) :
                 self.inferenceType = self.ADDITIVE_COMBINATION
@@ -138,9 +147,10 @@ class Fuzzy_Chi :
               #We do here the algorithm's operations
               print("No errors, Execute in Fuzzy Chi execute :")
               self.nClasses = self.train_myDataSet.getnClasses()
-
-              self.dataBase = DataBase(self.train_myDataSet.getnInputs(), self.nLabels,self.train_myDataSet.getRanges(),self.train_myDataSet.getNames())
-              self.ruleBase = RuleBase(self.dataBase, self.inferenceType, self.combinationType,self.ruleWeight, self.train_myDataSet.getNames(), self.train_myDataSet.getClasses())
+              self.dataBase = DataBase()
+              self.dataBase.setMultipleParameters(self.train_myDataSet.getnInputs(), self.nLabels,self.train_myDataSet.getRanges(),self.train_myDataSet.getNames())
+              print("DataBase object has been created......")
+              self.ruleBase = RuleBase.RuleBase(self.dataBase, self.inferenceType, self.combinationType,self.ruleWeight, self.train_myDataSet.getNames(), self.train_myDataSet.getClasses())
 
               print("Data Base:\n"+self.dataBase.printString())
               self.ruleBase.Generation(self.train_myDataSet)

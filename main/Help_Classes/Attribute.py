@@ -458,8 +458,9 @@ class Attribute:
  #  '''
  def finishStatistics(self):
   if (self.__makeStatistics==False):
-   return;
+   return
   if (self.__type == self.NOMINAL):
+   print("In Attribute class the type is nominal, in finishStatistics method")
    mostUsedValue = str [len(self.__classFrequencies)]
    for i in range(0,len(mostUsedValue)):
     max = self.__classFrequencies[i][0]
@@ -472,8 +473,12 @@ class Attribute:
     mostUsedValue[i] = str(self.__nominalValues[pos])
 
   else:
+   print("In Attribute class the type is not nominal, in finishStatistics method")
    for i in range(0,len(self.__meanValue)):
-    self.__meanValue[i] /= float(self.__numStatUpdates[i])
+    print("self.__meanValue[i]  is :"+str(self.__meanValue[i]) )
+    print("float(self.__numStatUpdates[i])"+str(float(self.__numStatUpdates[i])))
+    if(self.__numStatUpdates[i]!=0):
+     self.__meanValue[i] /= float(self.__numStatUpdates[i])
 
 
  #end finishStatistics

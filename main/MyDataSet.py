@@ -12,79 +12,81 @@ import math
 import sys
 class MyDataSet:
     # Number to represent type of variable real or double.
-    REAL = 0;
+    REAL = 0
     #*Number to represent type of variable integer.*
-    INTEGER = 1;
+    INTEGER = 1
     #*Number to represent type of variable nominal.*
-    NOMINAL = 2;
+    NOMINAL = 2
 
     __X=[] # examples array
-    __missing = []; # possible missing values
-    __outputInteger = []; #  output of the data - set as integer values private
-    __outputReal = []; # output of the data - set as double values
-    __output = [];# output of the data - set as string values
-    __emax=[]; #  max value of an attribute private
-    __emin=[]; #  min value of an attribute
+    __missing = [] # possible missing values
+    __outputInteger = [] #  output of the data - set as integer values private
+    __outputReal = [] # output of the data - set as double values
+    __output = []# output of the data - set as string values
+    __emax=[] #  max value of an attribute private
+    __emin=[] #  min value of an attribute
 
-    __nData=0; #  Number of examples
-    __nVars=0; #  Numer of variables
-    __nInputs=0; #  Number of inputs
-    __nClasses=0; #  Number of outputs
+    __nData=0 #  Number of examples
+    __nVars=0 #  Numer of variables
+    __nInputs=0 #  Number of inputs
+    __nClasses=0 #  Number of outputs
 
-    __instanceSet=InstanceSet(); #  The whole instance set
+    __instanceSet=InstanceSet() #  The whole instance set
     __stdev=[]
     __average=[] #  standard deviation and average of each attribute
     __instancesCl=[]
     #  *Init a new set of instances
 
     def __init__(self):
-        self.__instanceSet = InstanceSet();
+        self.__instanceSet = InstanceSet()
 
     # '''
     #    * Outputs an array of examples with their corresponding attribute values.
     #    * @return double[][] an array of examples with their corresponding attribute values
     #  '''
     def getX(self):
-        return self.X;
+        return self.X
     # '''
     #    * Output a specific example
     #    * @param pos int position (id) of the example in the data-set
     #    * @return double[] the attributes of the given example
     # '''
     def getExample(self,pos):
-         return self.X[pos];
+         return self.__X[pos]
 
     '''
        * Returns the output of the data-set as integer values
        * @return int[] an array of integer values corresponding to the output values of the dataset
     '''
     def getOutputAsInteger(self):
-        size=self.outputInteger.length,
-        output = int[size];
+        size=len(self.__outputInteger)
+        output = [0 for x in range (size)]
         for i in range( 0, size):
-             output[i] = self.outputInteger[i];
-        return output;
+             output[i] = self.__outputInteger[i]
+        return output
 
     # '''
     #    * Returns the output of the data-set as real values
     #    * @return double[] an array of real values corresponding to the output values of the dataset
     # '''
     def getOutputAsReal(self):
-        output = float[self.outputReal.length];
-        for i in range( 0,self.outputReal.length):
-          output[i] = self.outputInteger[i];
-        return output;
+        opRLength=len(self.__outputReal)
+        output = [0 for x in range(opRLength)]
+        for i in range( 0,len(self.__outputReal)):
+          output[i] = self.__outputInteger[i]
+        return output
     # '''
     #    * Returns the output of the data-set as nominal values
     #    * @return String[] an array of nomianl values corresponding to the output values of the dataset
     #
     # '''
     def getOutputAsString(self):
-        output = str[self.output.length];
-        for  i in range ( 0, self.output.length):
-          output[i] = self.output[i];
+        opLength=len(self.__output)
+        output = [0 for x in range (opLength)]
+        for  i in range ( 0, opLength):
+          output[i] = self.__output[i]
 
-        return output;
+        return output
     #
     # '''
     #    * It returns the output value of the example "pos"
@@ -93,15 +95,14 @@ class MyDataSet:
     #
     # '''
     def getOutputAsString(self,pos):
-        return self.output[pos];
-
+        return self.__output[pos]
     # '''
     #    * It returns the output value of the example "pos"
     #    * @param pos int the position (id) of the example
     #    * @return int an integer containing the output value
 
     def getOutputAsInteger(self,pos):
-     return self.outputInteger[pos];
+     return self.__outputInteger[pos]
 
     # '''
     #    * It returns the output value of the example "pos"
@@ -109,7 +110,7 @@ class MyDataSet:
     #    * @return double a real containing the output value
     # '''
     def getOutputAsReal(self,pos):
-     return self.outputReal[pos];
+     return self.__outputReal[pos]
 
      # '''
      # *It returns an array with the maximum values of the attributes
@@ -117,14 +118,14 @@ class MyDataSet:
      #
      # '''
     def getemax(self):
-     return self.emax;
+     return self.__emax
      #
      # '''
      # *It returns an array with the minimum values of the attributes
      # * @ return double[] an array with the minimum values of the attributes
      # '''
     def getemin(self):
-     return self.emin;
+     return self.__emin
 
 
     # '''
@@ -134,7 +135,7 @@ class MyDataSet:
     # * @ return the maximum value of the given attribute
     # '''
     def getMax(self, variable):
-     return self.emax[self.variable];
+     return self.__emax[variable]
 
 
     # '''
@@ -146,7 +147,7 @@ class MyDataSet:
     #
     # '''
     def getMin(self,variable):
-     return self.emin[variable];
+     return self.__emin[variable]
 
     # '''
     # *It gets the size of the data - set
@@ -154,7 +155,7 @@ class MyDataSet:
     # '''
     def getnData(self):
 
-     return self.nData;
+     return self.__nData
 
     # '''
     # *It gets the number of variables of the data - set(including the output)
@@ -185,7 +186,7 @@ class MyDataSet:
     #  * @return boolean True is the value is missing, else it returns false
     # '''
     def isMissing(self, i, j):
-      return self.missing[i][j]
+      return self.__missing[i][j]
 
     # '''
     #  * It reads the whole input data-set and it stores each example and its associated output value in
@@ -228,24 +229,35 @@ class MyDataSet:
                     noOutputs = True
                     exit(1)
 
+                  print("define all the array in MyDataSet class......")
                    #Initialice and fill our own tables
-                  self.__X = [self.__nData][self.__nInputs]
-                  self.__missing = [self.__nData][self.__nInputs]
-                  self.__outputInteger = [self.__nData]
-                  self.__outputReal = [self.__nData]
-                  self.__output =[self.__nData]
+                  print("The two dimension array X, dimension 1 is :" + str(self.__nData)+"Dimension 2 is :" + str(self.__nInputs))
+
+                  nDataLength=self.__nData
+                  nInputLength=self.__nInputs
+                  self.__X =[[0 for x in range(nDataLength)] for y in range(nInputLength)]
+
+                  self.__missing = [[0 for x in range(nDataLength)] for y in range(nInputLength)]
+
+                  self.__outputInteger = [ 0 for x in range(nDataLength)]
+
+                  self.__outputReal = [ 0 for x in range(nDataLength)]
+                  self.__output =[ 0 for x in range(nDataLength)]
 
                 # Maximum and minimum of inputs
-                  self.emax =[self.__nInputs]
-                  self.emin = [self.__nInputs]
-                  for n in range( 0,self.__nInputs):
-                     self.emax[n] = Attributes.getAttribute(n).getMaxAttribute()
-                     self.emin[n] = Attributes.getAttribute(n).getMinAttribute()
+                  self.emax = [ 0 for x in range(nInputLength)]
+                  self.emin = [ 0 for x in range(nInputLength)]
+
+                  for n in range( 0,nInputLength):
+                     self.emax[n] = Attributes.getAttributeByPos(Attributes,n).getMaxAttribute()
+                     self.emin[n] = Attributes.getAttributeByPos(Attributes,n).getMinAttribute()
+                     print("self.emax[n]:"+ str(self.emax[n]))
+                     print("self.emin[n]:" + str(self.emin[n]))
                    # All values are casted into double/integer
                   nClasses = 0
-                  for i in range( 0, self.__nData) :
+                  for i in range( 0, nDataLength) :
                       inst = self.__instanceSet.getInstance(i)
-                      for j in range( 0, self.__nInputs):
+                      for j in range( 0, nInputLength):
                            self.__X[i][j] = self.__instanceSet.getInputNumericValue(i, j) #inst.getInputRealValues(j);
                            self.__missing[i][j] = inst.getInputMissingValues(j)
                            if (self.__missing[i][j]==True):
@@ -262,10 +274,9 @@ class MyDataSet:
                             nClasses = self.__outputInteger[i]
 
                   nClasses+=1
-                  print('Number of classes=' + nClasses)
+                  print('Number of classes=' + str(nClasses))
          except Exception as error:
                print("DBG: Exception in readSet, in readClassificationSet:" + str(error))
-
 
          self.computeStatistics()
          self.computeInstancesPerClass()
@@ -293,24 +304,25 @@ class MyDataSet:
             print("Out put attribute: ")
             outPutAttHeader=Attributes.getOutputAttributesHeader(Attributes)
             print(outPutAttHeader)
-            print("This algorithm can not process MIMO datasets");
-            print("All outputs but the first one will be removed");
-            exit(1);
+            print("This algorithm can not process MIMO datasets")
+            print("All outputs but the first one will be removed")
+            exit(1)
 
           noOutputs = False;
           if (Attributes.getOutputNumAttributes(Attributes) < 1):
             print("This algorithm can not process datasets without outputs")
             print("Zero-valued output generated")
             noOutputs = True
-            exit(1);
+            exit(1)
           # Initialice and fill our own tables
-          self.__X =[self.__nData][self.__nInputs]
-          self.__missing [self.__nData][self.__nInputs]
-          self.__outputInteger = int[self.__nData]
+
+          self.__X =[ (0.0 for x in range (self.__nData))for y in range (self.__nInputs)]
+          self.__missing=[(True for x in range(self.__nData)) for y in range (self.__nInputs)]
+          self.__outputInteger = [0 for x in range (self.__nData)]
 
           # Maximum and minimum of inputs
-          self.__emax = [self.__nInputs]
-          self.__emin = [self.__nInputs]
+          self.__emax = self.__nInputs
+          self.__emin = self.__nInputs
           for i in range( 0,self.__nInputs):
               self.__emax[i] = Attributes.getAttribute(i).getMaxAttribute()
               self.__emin[i] = Attributes.getAttribute(i).getMinAttribute()
@@ -361,13 +373,13 @@ class MyDataSet:
     # '''
     def normalize(self):
         atts = self.getnInputs()
-        maxs= float[atts]
+        maxs= [0.0 for x in range (atts)]
         for j in range( 0,atts):
           maxs[j] = 1.0 / (self.__emax[j] - self.__emin[j])
 
         for i in range(0,self.getnData()):
           for j in range(0,atts):
-            if (self.__isMissing(i, j)==False):#this process ignores missing values
+            if (self.isMissing(i, j)==False):#this process ignores missing values
               self.__X[i][j] = (self.__X[i][j] - self.__emin[j]) * maxs[j]
 
    # * It checks if the data-set has any real value
@@ -389,7 +401,6 @@ class MyDataSet:
     # '''
     def hasMissingAttributes(self):
         return (self.sizeWithoutMissing() < self.getnData())
-
 
     # '''
     #    * It return the size of the data-set without having account the missing values
@@ -419,39 +430,44 @@ class MyDataSet:
     #    * It computes the average and standard deviation of the input attributes
     # '''
     def  computeStatistics(self):
-        self.__stdev = float[self.getnVars()] # original was double ,changed into float in python
-        average = float[self.getnVars()]
+        try:
+            print("Begin computeStatistics......")
+            self.__stdev = [0 for x in range (self.getnVars())] # original was double ,changed into float in python
+            self.__average = [0 for x in range(self.getnVars())]
 
-        for i in range ( 0,self.getnInputs()):
-          average[i] = 0
-          for j in range (0, self.getnData()):
-            if (self.isMissing(j, i)==False):
-              average[i] += self.__X[j][i]
+            for i in range ( 0,self.getnInputs()):
+              self.__average[i] = 0
+              for j in range (0, self.getnData()):
+                if (self.isMissing(j, i)==False):
+                  self.__average[i] += self.__X[j][i]
+              if(self.getnData()!=0):
+                self.__average[i] /= self.getnData()
 
+            self.__average[len(self.__average) - 1] = 0
+            for j in range( 0, len(self.__outputReal)):
+              self.__average[len(self.__average) - 1] += self.__outputReal[j]
+            if(len(self.__outputReal)!=0):
+                self.__average[len(self.__average) - 1] /= len(self.__outputReal)
 
-          average[i] /= self.getnData()
+            for i in range( 0, self.getnInputs()):
+              sum = 0
+              for j in range (0, self.getnData()):
+                if (self.isMissing(j, i)==False):
+                  sum += (self.__X[j][i] - self.__average[i]) * (self.__X[j][i] - self.__average[i])
 
-        average[len(average) - 1] = 0
-        for j in range( 0, len(self.__outputReal)):
-          average[average.length - 1] += self.__outputReal[j]
+              if (self.getnData() != 0):
+                sum /= self.getnData()
+              self.__stdev[i] = math.sqrt(sum)
 
-        average[average.length - 1] /= len(self.__outputReal)
-
-        for i in range( 0, self.getnInputs()):
-          sum = 0
-          for j in range (0, self.getnData()):
-            if (self.isMissing(j, i)==False):
-              sum += (self.__X[j][i] - average[i]) * (self.__X[j][i] - self.__average[i])
-
-          sum /= self.getnData()
-          self.__stdev[i] = math.sqrt(sum)
-
-        sum = 0
-        for j in range(0, len(self.__outputReal)):
-          sum += (self.__outputReal[j] - average[average.length - 1]) *(self.__outputReal[j] - average[average.length - 1])
-
-        sum /= len(self.__outputReal)
-        self.__stdev[self.__stdev.length - 1] = math.sqrt(sum)
+            sum = 0
+            for j in range(0, len(self.__outputReal)):
+              sum += (self.__outputReal[j] - self.__average[len(self.__average) - 1]) *(self.__outputReal[j] - self.__average[len(self.__average) - 1])
+            if (len(self.__outputReal) != 0):
+                sum /= len(self.__outputReal)
+            self.__stdev[len(self.__stdev) - 1] = math.sqrt(sum)
+            print("sum is :" + str(sum) + "  self.__stdev :" + str(self.__stdev))
+        except Exception as error:
+            print("Exception in computeStatistics : " + str(error))
     # '''
     #    * It return the standard deviation of an specific attribute
     #    * @param position int attribute id (position of the attribute)
@@ -474,7 +490,7 @@ class MyDataSet:
     # '''
 
     def computeInstancesPerClass(self):
-        self.__instancesCl =  int[self.__nClasses]
+        self.__instancesCl = [0 for x in range(self.__nClasses)]
         for i in range( 0,self.getnData()):
          self.__instancesCl[self.__outputInteger[i]]+=1
 
@@ -538,19 +554,22 @@ class MyDataSet:
     #  * @return double[][] The minimum [0] and maximum [1] range of each variable
     # '''
     def getRanges(self):
-      rangos =  float[self.getnVars()][2]
+      rangos =  [[0.0 for x in range (2)] for y in range (self.getnVars())]
+      print("rangos has two dimensions, first is self.getnVars()"+ str(self.getnVars())+"second is 2")
       for i in range( 0, self.getnInputs()):
-        if (Attributes.getInputAttribute(i).getNumNominalValues(Attributes) > 0):
+        print("self.getnInputs()"+ str(self.getnInputs())+ " i = " + str(i))
+        attHere = Attributes.getInputAttribute(Attributes, i)
+        if (attHere.getNumNominalValues() > 0):
           rangos[i][0] = 0
-          rangos[i][1] = Attributes.getInputAttribute(i).getNumNominalValues(Attributes) - 1
+          rangos[i][1] = attHere.getNumNominalValues() - 1
 
         else:
-          rangos[i][0] = Attributes.getInputAttribute(i).getMinAttribute()
-          rangos[i][1] = Attributes.getInputAttribute(i).getMaxAttribute()
+          rangos[i][0] = attHere.getMinAttribute()
+          rangos[i][1] = attHere.getMaxAttribute()
 
 
-      rangos[self.getnVars() -1][0] = Attributes.getOutputAttribute(0).getMinAttribute()
-      rangos[self.getnVars() -1][1] = Attributes.getOutputAttribute(0).getMaxAttribute()
+      rangos[self.getnVars() -1][0] = Attributes.getOutputAttribute(Attributes,0).getMinAttribute()
+      rangos[self.getnVars() -1][1] = Attributes.getOutputAttribute(Attributes,0).getMaxAttribute()
       return rangos
 
     # '''
@@ -560,7 +579,7 @@ class MyDataSet:
     def getNames(self):
        nombres = ["" for x in range(self.__nInputs)]
        for i in range ( 0, self.__nInputs):
-          nombres[i] = Attributes.getInputAttribute(i).getName()
+          nombres[i] = Attributes.getInputAttribute(Attributes,i).getName()
        return nombres
     #
     # '''

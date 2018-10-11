@@ -37,45 +37,50 @@
 # '''
 class Fuzzy :
    # Default constructor
-  x0=0.0;
-  x1=0.0;
-  x3=0.0;
-  y =0.0;
-  def _init_(self):
-      self.data = []
+  x0=0.0
+  x1=0.0
+  x3=0.0
+  y =0.0
+  name=""
+  label=0
 
-'''
-   * If fuzzyfies a crisp value
-   * @param X double The crips value
-   * @return double the degree of membership
-   */
-'''
-def _init_( self,X) :
+  def __init__(self):
+      self.x0 = 0.0
+      self.x1 = 0.0
+      self.x3 = 0.0
+      self.y = 0.0
 
-    if ( (X <= self.x0) and (X >= self.x3)): # /* If X is not in the range of D, the */
 
-      return (0.0) #/* membership degree is 0 */
+   # * If fuzzyfies a crisp value
+   # * @param X double The crips value
+   # * @return double the degree of membership
+   # */
 
-    if (X < self.x1) :
-      return ( (X - self.x0) * (self.y / (self.x1 - self.x0)))
+  def setX( self,X) :
 
-    if (X > self.x1) :
-      return ( (self.x3 - X) * (self.y / (self.x3 - self.x1)))
-    else:
-      return self.y
+        if ( (X <= self.x0) and (X >= self.x3)): # /* If X is not in the range of D, the */
 
-'''
- /**
-   * It makes a copy for the object
-   * @return Fuzzy a copy for the object
-   */
-'''
-def  clone(self):
-    d = Fuzzy();
-    d.x0 = self.x0;
-    d.x1 = self.x1;
-    d.x3 = self.x3;
-    d.y = self.y;
-    d.name = self.name;
-    d.label = self.label;
-    return d;
+          return 0.0 #/* membership degree is 0 */
+
+        if (X < self.x1) :
+          return ( (X - self.x0) * (self.y / (self.x1 - self.x0)))
+
+        if (X > self.x1) :
+          return ( (self.x3 - X) * (self.y / (self.x3 - self.x1)))
+        else:
+          return self.y
+
+         # /**
+         #   * It makes a copy for the object
+         #   * @return Fuzzy a copy for the object
+         #   */
+
+  def  clone(self):
+        d = Fuzzy()
+        d.x0 = self.x0
+        d.x1 = self.x1
+        d.x3 = self.x3
+        d.y = self.y
+        d.name = self.name
+        d.label = self.label
+        return d

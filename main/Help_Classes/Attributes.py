@@ -693,7 +693,7 @@ class Attributes:
 #  */
   def finishStatistics(self):
     if (len(self.outputAttr) != 1):
-        return;
+        return
 
     for i in range (0,len(self.inputAttr)):
         (self.inputAttr[i]).finishStatistics()
