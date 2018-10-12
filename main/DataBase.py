@@ -52,7 +52,9 @@ class DataBase :
             self.n_variables = int(n_variables)
             self.n_labels = int(n_labels)
             print("self.n_variables: "+ str(self.n_variables)+" self.n_labels : "+str(self.n_labels))
-            dataBase = [[Fuzzy() for x in range( self.n_variables)] for y in range (self.n_labels)]
+            #First columns , Second rows
+            self.dataBase = [[Fuzzy() for x in range( self.n_labels)] for y in range (self.n_variables)]
+
             self.names = names
 
             marca=0.0
@@ -65,24 +67,24 @@ class DataBase :
 
                     for etq in range(0,self.n_labels):
                         print("etq= " + str(etq))
-                        dataBase[i][etq] =  Fuzzy()
-                        dataBase[i][etq].x0 = rangos[i][1] - 0.00000000000001
-                        dataBase[i][etq].x1 = rangos[i][1]
-                        dataBase[i][etq].x3 = rangos[i][1] + 0.00000000000001
-                        dataBase[i][etq].y = 1
-                        dataBase[i][etq].name = "L_" + str(etq)
-                        dataBase[i][etq].label = etq
+                        self.dataBase[i][etq] =  Fuzzy()
+                        self.dataBase[i][etq].x0 = rangos[i][1] - 0.00000000000001
+                        self.dataBase[i][etq].x1 = rangos[i][1]
+                        self.dataBase[i][etq].x3 = rangos[i][1] + 0.00000000000001
+                        self.dataBase[i][etq].y = 1
+                        self.dataBase[i][etq].name = "L_" + str(etq)
+                        self.dataBase[i][etq].label = etq
 
                 else:
                     print("Marca !=0 in DataBase init method...")
                     for etq in range(0, n_labels):
-                        dataBase[i][etq] =  Fuzzy()
-                        dataBase[i][etq].x0 = rangos[i][0] + marca * (etq - 1)
-                        dataBase[i][etq].x1 = rangos[i][0] + marca * etq
-                        dataBase[i][etq].x3 = rangos[i][0] + marca * (etq + 1)
-                        dataBase[i][etq].y = 1
-                        dataBase[i][etq].name = ("L_" + etq)
-                        dataBase[i][etq].label = etq
+                        self.dataBase[i][etq] =  Fuzzy()
+                        self.dataBase[i][etq].x0 = rangos[i][0] + marca * (etq - 1)
+                        self.dataBase[i][etq].x1 = rangos[i][0] + marca * etq
+                        self.dataBase[i][etq].x3 = rangos[i][0] + marca * (etq + 1)
+                        self.dataBase[i][etq].y = 1
+                        self.dataBase[i][etq].name = ("L_" + etq)
+                        self.dataBase[i][etq].label = etq
 
 
     # '''
@@ -106,7 +108,7 @@ class DataBase :
     #      */
     # '''
     def  membershipFunction(self,i, j, X):
-            return self.dataBase[i][j].Fuzzify(X)
+            return self.dataBase[i][j].Fuzzify().setX()
 
     # '''
     #      * It makes a copy of a fuzzy label
@@ -115,21 +117,34 @@ class DataBase :
     #      * @return Fuzzy a copy of a fuzzy label
     # '''
     def clone(self,i, j) :
-            return self.dataBase[i][j].clone()
+            return self.dataBase[i][j]
 
     # '''
     #      * It prints the Data Base into an string
     #      * @return String the data base
     # '''
     def printString(self) :
-            cadena = (
-                    "@Using Triangular Membership Functions as antecedent fuzzy sets\n")
+            cadena =  "@Using Triangular Membership Functions as antecedent fuzzy sets\n"
             cadena += "@Number of Labels per variable: " + str(self.n_labels) + "\n"
-            for i in range(0,self.n_variables):
+            numrows=len(self.dataBase)
+            print("numrows: " + str(numrows))
+            numcols=len(self.dataBase[0])
 
-                cadena += "\n" + self.names[i] + ":\n"
-                for j in range( 0,self.n_labels):
-                    cadena += " L_" + str(int(j + 1)) + ": (" + self.dataBase[i][j].x0 +  "," + self.dataBase[i][j].x1 + "," + self.dataBase[i][j].x3 + ")\n"
+            print("numrows: " + str(numrows) + "numcols:"+ str(numcols))
+            if(self.dataBase!=None):
+                print("cadena: "+cadena)
+                for j in range(0, self.n_labels):
+                    print("j = " + str(j))
+
+
+                    print("cadena: " + cadena)
+
+                    for i in range(0, self.n_variables):
+                        print("i = " + str(i))
+                        cadena += "\n" + self.names[i] + ":\n"
+                        cadena += " L_" + str(int(j + 1)) + ": (" + str(self.dataBase[i][j].x0) +  "," + str(self.dataBase[i][j].x1) + "," + str(self.dataBase[i][j].x3) + ")\n"
+            else:
+                print("self.dataBase is None")
 
             return cadena
 
@@ -137,9 +152,9 @@ class DataBase :
     #      * It writes the Data Base into an output file
     #      * @param filename String the name of the output file
     # '''
-    def writeFile(filename):
+    def writeFile(self,filename):
 
             file=open(filename, "w")
-            outputString = printString()
+            outputString = self.printString()
             file.write(outputString)
             file.close()

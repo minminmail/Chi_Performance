@@ -162,8 +162,8 @@ class Fuzzy_Chi :
               accTra = self.doOutput(self.val_myDataSet, self.outputTr)
               accTst = self.doOutput(self.test_myDataSet, self.outputTst)
 
-              print("Accuracy obtained in training: "+accTra)
-              print("Accuracy obtained in test: "+accTst)
+              print("Accuracy obtained in training: "+ str(accTra))
+              print("Accuracy obtained in test: "+ str(accTst))
               print("Algorithm Finished")
 
       # """
@@ -179,20 +179,26 @@ class Fuzzy_Chi :
               hits = 0
               self.output = dataset.copyHeader() #we insert the header in the output file
               #We write the output for each example
+              print("before loop in Fuzzy_Chi")
               for i in range( 0, dataset.getnData()):
                 #for classification:
+                print("before classificationOutput in Fuzzy_Chi")
                 classOut = self.classificationOutput(dataset.getExample(i))
+                print("before getOutputAsString in Fuzzy_Chi")
                 self.output += dataset.getOutputAsString(i) + " " + classOut + "\n"
+                print("before getOutputAsString in Fuzzy_Chi")
                 if (dataset.getOutputAsString(i).equalsIgnoreCase(classOut)):
                   hits+=1
-
+              print("before open file in Fuzzy_Chi")
               file = open(filename,"w")
               file.write(output)
               file.close()
           except Exception as excep:
-            print("There is exception in doOutput in Fuzzy chi class !!! The exception is :" + str(excep))
-
-          return (1.0*hits/dataset.size())
+              print("There is exception in doOutput in Fuzzy chi class !!! The exception is :" + str(excep))
+          if (dataset.size()!=0):
+              return (1.0*hits/dataset.size())
+          else:
+              return 0
 
            # * It returns the algorithm classification output given an input example
            # * @param example double[] The input example

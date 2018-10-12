@@ -102,18 +102,18 @@ class ErrorInfo :
     # /**
     #  * Message to be writen when showing the error
     #  */
-      __message="";
+      __message=""
 
     # /**
     #  * Creates a new instance of ErrorInfo
     #  */
       def __init__ErrorInfo(self):
-        typeOfError = -1
-        instanceNum = -1
-        fileLineNum = -1
-        attributeNum = -1
-        attDirection = Attribute.DIR_NOT_DEF
-        errorInTrain = False
+        self.typeOfError = -1
+        self.instanceNum = -1
+        self.fileLineNum = -1
+        self.attributeNum = -1
+        self.attDirection = Attribute.DIR_NOT_DEF
+        self.errorInTrain = False
       # end ErrorInfo
 
     #
@@ -121,27 +121,27 @@ class ErrorInfo :
     #  * Creates a new instance with the parameters passed.
     #  */
       def __init__ErrorInfo(self,_type,  _iNum,  _lNum, _atNum,  _atDir,  _train,  _msg):
-        self.typeOfError = _type;
-        self.instanceNum = _iNum;
-        self.fileLineNum = _lNum;
-        self.attributeNum = _atNum;
-        self.attDirection = _atDir;
-        self.errorInTrain = _train;
-        self.message = _msg;
+        self.typeOfError = _type
+        self.instanceNum = _iNum
+        self.fileLineNum = _lNum
+        self.attributeNum = _atNum
+        self.attDirection = _atDir
+        self.errorInTrain = _train
+        self.message = _msg
         # end ErrorInfo
     #
     # /**
     #  * It creates a new Error info with the message passed
     #  * @param msg is the error message
     #  */
-      def __init__(msg):
-        message = msg;
-        typeOfError = -1;
-        instanceNum = -1;
-        fileLineNum = -1;
-        attributeNum = -1;
-        attDirection = Attribute.DIR_NOT_DEF;
-        errorInTrain = False;
+      def __init__(self,msg):
+        self.message = msg
+        self.typeOfError = -1
+        self.instanceNum = -1
+        self.fileLineNum = -1
+        self.attributeNum = -1
+        self.attDirection = Attribute.DIR_NOT_DEF
+        self.errorInTrain = False
       # end ErrorInfo
 
     # /**
@@ -155,61 +155,61 @@ class ErrorInfo :
             print(self.message)
 
         elif(self.typeOfError== self.OutputMissingValue):
-            print("OutputMissingValueException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]");
+            print("OutputMissingValueException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]")
             print(self.message)
 
         elif(self.typeOfError==  self.BadNumericValue):
-           print("BadNumericValueException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]");
+           print("BadNumericValueException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]")
            print(self.message)
 
         elif(self.typeOfError==  self.TrainNominalOutOfRange):
-             print("TrainNominalOutOfRangeException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]");
-             print(self.message);
+             print("TrainNominalOutOfRangeException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]")
+             print(self.message)
 
         elif(self.typeOfError== self.TestNominalOutOfRange):
-             print("TestNominalOutOfRangeException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]");
-             print(self.message);
+             print("TestNominalOutOfRangeException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]")
+             print(self.message)
 
         elif(self.typeOfError== self.TrainNumberOutOfRange):
-             print("TrainNumberOutOfRangeException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]");
+             print("TrainNumberOutOfRangeException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]")
              print(self.message)
 
         elif(self.typeOfError==self.TestNumberOutOfRange):
-             print("TestNumberOutOfRangeException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]");
+             print("TestNumberOutOfRangeException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]")
              print(self.message)
 
         elif(self.typeOfError==self.TypeAlreadyFixed):
              print("TypeAlreadyFixedException >> [line: "+self.fileLineNum+", instance: "+self.instanceNum+", attributeNum: "+self.attributeNum+", INPUT/OUTPUT: "+dir[Attribute.OUTPUT-self.attDirection]+" Train DB: "+self.errorInTrain+"]");
-             print(self.message);
+             print(self.message)
 
         elif(self.typeOfError == self.AttributeNotDefinedInTrain):
 
-            print("AttributeNotDefinedInTrainException >> [line: "+self.fileLineNum+", attributeNum: "+self.attributeNum+", Train DB: "+self.errorInTrain+"]");
-            print(self.message);
+            print("AttributeNotDefinedInTrainException >> [line: "+self.fileLineNum+", attributeNum: "+self.attributeNum+", Train DB: "+self.errorInTrain+"]")
+            print(self.message)
         elif (self.typeOfError == self.InputTrainAttributeNotDefined):
 
-            print("InputTrainAttributeNotDefinedException >> [line: "+self.fileLineNum+", Train DB: "+self.errorInTrain+"]");
-            print(self.message);
+            print("InputTrainAttributeNotDefinedException >> [line: "+self.fileLineNum+", Train DB: "+self.errorInTrain+"]")
+            print(self.message)
         elif (self.typeOfError == self.InputTestAttributeNotDefined):
 
-           print("InputTestAttributeNotDefinedException >> [line: "+self.fileLineNum+", Train DB: "+self.errorInTrain+"]");
-           print(self.message);
+           print("InputTestAttributeNotDefinedException >> [line: "+self.fileLineNum+", Train DB: "+self.errorInTrain+"]")
+           print(self.message)
         elif (self.typeOfError == self.OutputTrainAttributeNotDefined):
 
-            print("OutputTrainAttributeNotDefinedException >> [line: "+self.fileLineNum+", Train DB: "+self.errorInTrain+"]");
-            print(self.message);
+            print("OutputTrainAttributeNotDefinedException >> [line: "+self.fileLineNum+", Train DB: "+self.errorInTrain+"]")
+            print(self.message)
         elif (self.typeOfError == self.OutputTestAttributeNotDefined):
 
-            print("OutputTestAttributeNotDefinedException >> [line: "+self.fileLineNum+", Train DB: "+self.errorInTrain+"]");
-            print(self.message);
+            print("OutputTestAttributeNotDefinedException >> [line: "+self.fileLineNum+", Train DB: "+self.errorInTrain+"]")
+            print(self.message)
         elif (self.typeOfError == self.InputsInTestNotEquals):
 
-            print("InputsInTestNotEqualsException >> [Train DB: "+self.errorInTrain+"]");
-            print(self.message);
+            print("InputsInTestNotEqualsException >> [Train DB: "+self.errorInTrain+"]")
+            print(self.message)
         elif (self.typeOfError == self.OutputsInTestNotEquals):
 
-            print("OutputsInTestNotEqualsException >> [Train DB: "+self.errorInTrain+"]");
-            print(self.message);
+            print("OutputsInTestNotEqualsException >> [Train DB: "+self.errorInTrain+"]")
+            print(self.message)
 
 
     # end print

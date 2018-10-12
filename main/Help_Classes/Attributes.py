@@ -605,9 +605,9 @@ class Attributes:
     self.undefPosition = self.searchUndefPosition(atToDel)
     self.undefinedAttr.insertElementAt(atToDel, self.undefPosition)
 
-    self.hasNominal = False;
-    self.hasInteger = False;
-    self.hasReal    = False;
+    self.hasNominal = False
+    self.hasInteger = False
+    self.hasReal    = False
     for index in range (0, 2):
         if index == 0:
             iterations = len(self.inputAttr)
@@ -714,7 +714,7 @@ class Attributes:
         else:
             print("UNDEFINED ATTRIBUTE:")
 
-        att.printAttr();
+        att.printAttr()
 
    #end print
 

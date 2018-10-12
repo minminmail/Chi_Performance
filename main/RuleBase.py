@@ -133,12 +133,12 @@ class RuleBase :
             cadena += "@Number of rules: " + str(len(self.ruleBase)) + "\n\n"
             for i in range( 0, len(self.ruleBase)):
                 rule = self.ruleBase[i]
-                cadena += (i + 1) + ": "
+                cadena += str(i + 1) + ": "
                 for j in range(0,  self.n_variables - 1) :
                     cadena += self.names[j] + " IS " + rule.antecedent[j].name + " AND "
                 cadena += self.names[j] + " IS " + rule.antecedent[j].name + ": " + self.classes[rule.clas] + " with Rule Weight: " + rule.weight + "\n"
-
-                return cadena
+            print("RuleBase cadena is:" + cadena)
+            return cadena
 
          # * It writes the rule base into an ouput file
          # * @param filename String the name of the output file

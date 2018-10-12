@@ -98,7 +98,7 @@ class Attribute:
 
  #It stores the name of the attribute.
 
- __name=''
+ __name=""
  # '''
  #  * Vector where all the values that can take this nominal attribute are going
  #  * to be stored.
@@ -137,7 +137,7 @@ class Attribute:
  #  * read in test
  #  '''
 
- __newValuesInTest=None;
+ __newValuesInTest=None
  # '''
  #  * It keeps the new values in test
  #  '''
@@ -153,9 +153,10 @@ class Attribute:
  # w, h = 8, 5;
  # Matrix = [[0 for x in range(w)] for y in range(h)]
  # '''
- w=0
- h=0
- __classFrequencies = [[0 for x in range(w)] for y in range(h)]
+ # w=0
+ # h=0
+ # __classFrequencies = [[0 for x in range(w)] for y in range(h)]
+ __classFrequencies = []
 
  # '''
  #  * It stores the most used value in a nominal attribute
@@ -260,7 +261,7 @@ class Attribute:
 
  def setBounds(self,minBound,maxBound) :
   if(self.__type != self.REAL and self.__type != self.INTEGER):
-   return;
+   return
    self.__fixedBounds=True;
    self.__min=minBound
    self.__max=maxBound
@@ -306,7 +307,7 @@ class Attribute:
   self.__countValues += 1
 
   if self.__fixedBounds:
-   return;
+   return
   if(value<self.__min):
     self.__min=value
   if(value>self.__max) :
@@ -605,7 +606,7 @@ class Attribute:
  #  '''
  def equals( self,attr) :
   if(not self.__name==attr.name):
-   return False;
+   return False
   if(attr.type!=self.__type) :
    return False;
   if(self.__type==self.NOMINAL) :
@@ -655,14 +656,14 @@ class Attribute:
  #  '''
  def toString(self):
   self.__typeNames = {"","integer","real"}
-  aux = "@attribute " + self.__name
+  aux = "@attribute " + str(self.__name)
   if(self.__type==self.NOMINAL):
 
     aux += "{"
     ending = ","
     for  i in range (0,len(self.__nominalValues)):
-     if (i == len(self.__nominalValues - 1)):
-      ending = "";
+     if (i == len(self.__nominalValues) - 1):
+      ending = ""
      aux += str(self.__nominalValues[i]) + ending
 
     aux +='}'
@@ -670,13 +671,14 @@ class Attribute:
     #//System.out.println("name->" + name);
   elif(self.__type==self.INTEGER):
 
-      aux += " integer["+str(int(self.__min))
+      aux += " integer[" + str(int(self.__min))
       aux += ","+ str(int(self.__max))+"]"
 
   elif(self.__type== self.REAL):
       aux += " real["+ str(float( self.__min))
       aux += ","+ str(float(self.__max))+"]"
-      return aux
+
+  return aux
  #end toString
  #
  # '''

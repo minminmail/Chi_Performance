@@ -359,13 +359,21 @@ class MyDataSet:
     # '''
     def copyHeader(self):
 
-        p = "";
-        p = "@relation " + Attributes.getRelationName() + "\n"
-        p += Attributes.getInputAttributesHeader()
-        p += Attributes.getOutputAttributesHeader()
-        p += Attributes.getInputHeader() + "\n"
-        p += Attributes.getOutputHeader() + "\n"
+        p = ""
+        print("P is :" + p)
+        p = "@relation " + Attributes.getRelationName(Attributes) + "\n"
+        print(" after relation P is :" + p)
+        p += Attributes.getInputAttributesHeader(Attributes)
+        print(" after getInputAttributesHeader P is :" + p)
+        p += Attributes.getOutputAttributesHeader(Attributes)
+        print(" after getOutputAttributesHeader P is :" + p)
+        p += Attributes.getInputHeader(Attributes) + "\n"
+        print(" after getInputHeader P is :" + p)
+        p += Attributes.getOutputHeader(Attributes) + "\n"
+        print(" after getOutputHeader P is :" + p)
         p += "@data\n"
+
+        print("P is :" +p)
         return p
 
     # '''
