@@ -91,8 +91,9 @@ class ParseParameters :
                     self.readOutputFiles(line[lineNumber])#We read all the output files
                 else: # read parameters and save into map
                     self.readAllParameters(line[lineNumber])  # We read all the possible parameters
+            print("********* Summary for readAllParameters :" + " *********")
             for key ,value in self.__parameters:
-                print("key :"+ key + "value :" + value)
+                print("********* parameters are : ("+ key + ", " + value +" ) *********")
 
 
      # """
@@ -153,9 +154,10 @@ class ParseParameters :
             for file in self.__inputFiles:
                 print("input file is :" + file)
 
-            print("The Input training file  is :" + str(self.__trainingFile))
-            print("The Input validation file  is :" + str(self.__validationFile))
-            print("The Input test file  is :" + str(self.__testFile))
+            print("********* Summary for readInputFiles :" + " *********")
+            print("********* The Input training file  is :" + str(self.__trainingFile) + " *********")
+            print("********* The Input validation file  is :" + str(self.__validationFile)+ " *********")
+            print("********* The Input test file  is :" + str(self.__testFile)+ " *********")
      # """
      #     * We read the output files for training and test and all the possible remaining output files
      #     * @param line StringTokenizer It is the line containing the output files.
@@ -177,36 +179,22 @@ class ParseParameters :
                  if (file_type == "txt" or file_type == "tra" or file_type == "tst"):
                     file_list.append(fileName)
 
-                 file_number = len(file_list)
-                 print("file_number" + str(file_number))
-                 for i in range(0, file_number):
-                     if i == 0:
-                         self.__outputTrFile = file_list[i]
-                     elif i == 1:
-                         self.__outputTstFile = file_list[i]
+             file_number = len(file_list)
+             print("file_number" + str(file_number))
+             for i in range(0, file_number):
+                 if i == 0:
+                    self.__outputTrFile = file_list[i]
+                 elif i == 1:
+                    self.__outputTstFile = file_list[i]
+                 else:
+                    self.__outputFiles.append(file_list[i])
 
-                     else:
-                         self.__outputFiles.append(file_list[i])
+             print("********* Summary for readOutputFiles :" + " *********")
+             print("*********  The output training file  is :" + str(self.__outputTrFile)+ " *********")
+             print("*********  The output test file  is :" + str(self.__outputTstFile)+ " *********")
 
-                 for file in self.__outputFiles:
-                     print("output file is :" + file)
-
-                 print("The output training file  is :" + str(self.__outputTrFile))
-                 print("The output test file  is :" + str(self.__outputTstFile))
-
-             #     if(fileName[-3:] == 'txt'):
-             #         self.__outputFiles.append(fileName)
-             #         print("Inside readOutputFiles, line " + str(lineNumber) + ",added txt fileName: " + str(fileName))
-             #     elif(fileName[-3:] == 'tra'):
-             #         self.__outputTraFiles.append(fileName)
-             #         print("Inside readOutputFiles, line " + str(lineNumber) + ",added tra fileName: " + str(fileName))
-             #     elif(fileName[-3:] == 'tst'):
-             #         self.__outputTstFiles.append(fileName)
-             #         print("Inside readOutputFiles, line " + str(lineNumber) + ",added tst fileName: " + str(fileName))
-             # print("The Output txt files number is :" + str(len(self.__inputFiles)))
-             # print("The Output tra files number is :" + str(len(self.__inputFiles)))
-             # print("The Output tst files number is :" + str(len(self.__inputFiles)))
-
+             for file in self.__outputFiles:
+                 print("********* output file is :" + file + " *********")
      # """
      #     * We read all the possible parameters of the algorithm
      #     * @param line StringTokenizer It contains all the parameters.
