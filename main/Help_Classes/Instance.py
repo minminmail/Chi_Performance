@@ -46,6 +46,7 @@ from Help_Classes.Attribute import Attribute
 from Help_Classes.Attributes import Attributes
 from Help_Classes.InstanceParser import InstanceParser
 from Help_Classes.ErrorInfo import ErrorInfo
+import Help_Classes.InstanceSet
 
 class Instance :
 
@@ -107,12 +108,18 @@ class Instance :
     #  * @param instanceNum is the number of the current instance. It's used to
     #  * write error message with the maximum amount of information.
     #  */
+    def __init__(self):
+        print("__init__ of Instance begin......")
+        self.__nominalValues=[]
 
-    def __init__(self,defStr, _isTrain,instanceNum) :
+    def setThreeParameters(self,defStr, _isTrain,instanceNum) :
+        print("setThreeParameters begin...... " )
         currentClass = -1
         #System.out.println ("Reading data: "+def);
-        st  = str.split(defStr,",") #Separator: "," and " "
+        print("defStr is : "+defStr)
 
+        st  = defStr.split(",") #Separator: "," and " "
+        print("inside setThreeParameters st length is :" + str(len(st)))
         self.initClassAttributes()
         self.isTrain  = _isTrain
 
@@ -124,33 +131,39 @@ class Instance :
         curCount=0
         for att in st:
             #Looking if the attribute is an input, an output or it's undefined
-            att = st.nextToken().trim()
-            curAt = Attributes.getAttribute(count)
+
+            curAt = Attributes.getAttributeByPos(Attributes,count)
+            print("inside setThreeParameters curAtis :" + str(curAt))
             directionAttr=curAt.getDirectionAttribute()
+            print("inside setThreeParameters directionAttr :" + str(directionAttr))
             if (directionAttr==Attribute.INPUT):
+                print("directionAttr==Attribute.INPUT")
                 inputOutput = Instance.ATT_INPUT
                 inAttCount= + 1
                 curCount = inAttCount
 
             elif (directionAttr==Attribute.OUTPUT):
+                print("directionAttr==Attribute.OUTPUT")
                 inputOutput = Instance.ATT_OUTPUT
                 if (curAt.getType() == Attribute.NOMINAL):
                     currentClass = curAt.convertNominalValue(att)
 
                     #System.out.println ( " The position of the current class "+ att +" is: "+ currentClass );
                 outAttCount += 1
-                curCount = outAttCount
+
 
             else:
+                print("Attribute not defined neither as input or output")
                 #Attribute not defined neither as input or output. So, it is not read.
                 inputOutput = Instance.ATT_NONDEF
-                indefCount+=1
-                curCount = indefCount
+            indefCount+=1
+            curCount = indefCount
 
             #The attribute is defined. So, its value is processed, and the attributes definitions
             #are checked to detect inconsistencies or to redefine undefined traits.
+            print("Before processReadValue......")
             self.processReadValue(curAt,defStr, att, inputOutput, count, curCount, instanceNum)
-
+            print("After processReadValue......")
             #Finally, the counter of read attributes is updated.
             count+=1
             #end of the while
@@ -170,14 +183,15 @@ class Instance :
                     if((atts[i].getType() == Attribute.NOMINAL) and (Attributes.getOutputNumAttributes() == 1)):
                         atts[i].increaseClassFrequency(currentClass, self.nominalValues[Instance.ATT_INPUT][i])
                     elif((atts[i].getType() == Attribute.INTEGER or atts[i].getType() == Attribute.REAL) and self.__missingValues[Instance.ATT_INPUT][i]==False):
-                        atts[i].addInMeanValue(currentClass, self.realValues[Instance.ATT_INPUT][i])
+                        atts[i].addInMeanValue(currentClass, self.__realValues[Instance.ATT_INPUT][i])
 
+        print("setThreeParameters begin...... ")
     #end Instance
 
          # * Creates a deep copy of the Instance
          # * @param inst Original Instance to be copied
 
-    def __init__(self,inst):
+    def  setOneParameter(self,inst):
         self.isTrain = inst.isTrain
         self.__numInputAttributes = inst.__numInputAttributes
         self.__numOutputAttributes = inst.__numOutputAttributes
@@ -194,9 +208,9 @@ class Instance :
             self.intNominalValues[i] = list.copyOf(inst.intNominalValues[i],inst.intNominalValues[i].length)
 
                              #float[inst.realValues.length][];
-        self.realValues = float[inst.realValues.length]
+        self.__realValues = float[inst.realValues.length]
         for i in range(0,len(self.realValues)):
-            self.realValues[i] = list.copyOf(inst.realValues[i],inst.realValues[i].length)
+            self.__realValues[i] = list.copyOf(inst.realValues[i],inst.realValues[i].length)
 
            #bool[inst.missingValues.length][];
         self.__missingValues = bool[inst.__missingValues.length]
@@ -212,7 +226,7 @@ class Instance :
      # * @param values A double array with the values (either real or nominals' index). Missing values are stored as Double.NaN
      # * @param ats The definition of the attributes (optional, if null we use Attributes definition).
 
-    def __init__(self,values,instanceAttrs):
+    def  setTwoParameters(self,values,instanceAttrs):
         curAt=Attribute()
         allat=[]
 
@@ -237,7 +251,7 @@ class Instance :
 
         self.intNominalValues =  []
         self.nominalValues =  []
-        self.realValues    =  []
+        self.__realValues    =  []
         self.__missingValues = []
         self.__nominalValues[0]    = str[self.__numInputAttributes]
         self.__nominalValues[1]    = str[self.__numOutputAttributes]
@@ -245,9 +259,9 @@ class Instance :
         self.intNominalValues[0] = int[self.__numInputAttributes]
         self.intNominalValues[1] = int[self.__numOutputAttributes]
         self.intNominalValues[2] = int[self.__numUndefinedAttributes]
-        self.realValues[0]       = float[self.__numInputAttributes]
-        self.realValues[1]       = float[self.__numOutputAttributes]
-        self.realValues[2]       = float[self.__numUndefinedAttributes]
+        self.__realValues[0]       = float[self.__numInputAttributes]
+        self.__realValues[1]       = float[self.__numOutputAttributes]
+        self.__realValues[2]       = float[self.__numUndefinedAttributes]
         self.__missingValues[0]    = float[self.__numInputAttributes]
         self.__missingValues[1]    = bool[self.__numOutputAttributes]
         self.__missingValues[2]    = bool[self.__numUndefinedAttributes]
@@ -292,30 +306,30 @@ class Instance :
 
             elif((curAt.getType()==Attribute.NOMINAL)==False): #is numerical?
                 if(inOut==0):
-                    self.realValues[inOut][inInt] = values[i]
+                    self.__realValues[inOut][inInt] = values[i]
                     inInt+=1
                 elif(inOut==1):
-                    self.realValues[inOut][out] = values[i]
+                    self.__realValues[inOut][out] = values[i]
                     out+=1
                 else:
-                    self.realValues[inOut][undef] = values[i]
+                    self.__realValues[inOut][undef] = values[i]
                     undef+=1
 
             else :#is nominal
 
                 if(inOut==0):
                     self.intNominalValues[inOut][inInt] = int(values[i])
-                    self.realValues[inOut][inInt] = values[i]
+                    self.__realValues[inOut][inInt] = values[i]
                     self.nominalValues[inOut][inInt] = curAt.getNominalValue(int(values[i]))
                     inInt+=1
                 elif(inOut==1):
                     self.intNominalValues[inOut][out] = int(values[i])
-                    self.realValues[inOut][out] = values[i]
+                    self.__realValues[inOut][out] = values[i]
                     self.nominalValues[inOut][out] = curAt.getNominalValue(int(values[i]))
                     out+=1
                 else:
                     self.intNominalValues[inOut][undef] = int(values[i])
-                    self.realValues[inOut][undef] = values[i]
+                    self.__realValues[inOut][undef] = values[i]
                     self.nominalValues[inOut][undef] = curAt.getNominalValue(int(values[i]))
                     undef+=1
 
@@ -334,98 +348,121 @@ class Instance :
     #  */
 
     def processReadValue(self,curAtt, defStr,  att,  inOut, count,  curCount,  instanceNum):
+        print("processReadValue begin......")
         #Checking if there is a missing value.
-        if(att.equalsIgnoreCase("<null>") or att.equalsIgnoreCase("?")) :
+        if(att=="<null>" or att=="?") :
+            print("att==<null> or att==?......")
             Attributes.hasMissing = True
             self.__missingValues[inOut][curCount]=True
             self.__anyMissingValue[inOut] = True
+
             if (inOut == 1): #If the output is a missing value, an error is generated.
-                er =  ErrorInfo (ErrorInfo.OutputMissingValue, instanceNum,
+                error_info_1 =  ErrorInfo(ErrorInfo.OutputMissingValue, instanceNum,
                                  InstanceParser.lineCounter, curCount, Attribute.OUTPUT,
                                  self.isTrain,
                                  ("Output attribute "+count+" of "+defStr+" with missing value."))
-                InstanceSet.errorLogger.setError(er)
+                # !!!! we need to fix the import problem , currently we only print th error
+                # InstanceSet.errorLogger.setError(er)
+                print(" !!!!!!!!! InstanceSet.errorLogger.setError: " + str(error_info_1))
 
-        elif(Attributes.getAttribute(count).getType()==Attribute.INTEGER or Attributes.getAttribute(count).getType()==Attribute.REAL) :
+        elif(Attributes.getAttributeByPos(Attributes,count).getType()==Attribute.INTEGER or Attributes.getAttributeByPos(Attributes,count).getType()==Attribute.REAL) :
+            print("getType()==Attribute.INTEGER......")
             try :
-                self.realValues[inOut][curCount]=float(att)
+                self.__realValues[inOut][curCount]=float(att)
             except  ValueError as valueError :
-                er =  ErrorInfo(ErrorInfo.BadNumericValue, instanceNum, InstanceParser.lineCounter, curCount, Attribute.INPUT+inOut, self.isTrain,
-                                ("Attribute "+count+" of "+defStr+" is not an integer or real value."))
-                print("There is an valueError in Instance init method:" + valueError)
-            InstanceSet.errorLogger.setError(valueError)
+                error_info_2 =  ErrorInfo(ErrorInfo.BadNumericValue, instanceNum,
+                                  InstanceParser.lineCounter, curCount, Attribute.INPUT+inOut,
+                                  self.isTrain,
+                                  ("Attribute "+count+" of "+defStr+" is not an integer or real value."))
+                print("There is an valueError in Instance init method:" + str(valueError))
+            #InstanceSet.errorLogger.setError(valueError)
+                print(" !!!!!!!!! InstanceSet.errorLogger.setError: " + str(error_info_2))
+                print(" !!!!!!!!! InstanceSet.errorLogger.setError: " + str(valueError))
 
             #Checking if the new train value exceedes the bounds definition in train. The condition
             #also checks if the attribute is defined (is an input or an output).
             if (self.isTrain and inOut != 2):
+                print("self.isTrain and inOut != 2......")
                 if (curAtt.getFixedBounds() and (curAtt.isInBounds(self.__realValues[inOut][curCount])==False)):
-                    er =  ErrorInfo(ErrorInfo.TrainNumberOutOfRange, instanceNum, InstanceParser.lineCounter, curCount, Attribute.INPUT+inOut, self.isTrain,
+                    error_info_3 =  ErrorInfo(ErrorInfo.TrainNumberOutOfRange, instanceNum, InstanceParser.lineCounter, curCount, Attribute.INPUT+inOut, self.isTrain,
                                     ("ERROR READING TRAIN FILE. Value "+self.__realValues[inOut][curCount]+" read for a numeric attribute that is not in the bounds fixed in the attribute '"+curAtt.getName()+"' definition."));
-                InstanceSet.errorLogger.setError(er)
+                #InstanceSet.errorLogger.setError(er)
+                    print(" !!!!!!!!! InstanceSet.errorLogger.setError: " + str(error_info_3))
 
-                curAtt.enlargeBounds(self.realValues[inOut][curCount])
+                curAtt.enlargeBounds(self.__realValues[inOut][curCount])
 
             elif(inOut!=2): #In test mode
-                self.realValues[inOut][curCount] = curAtt.rectifyValueInBounds(self.__realValues[inOut][curCount]);
+                print("self.isTrain and inOut != 2......")
+                self.__realValues[inOut][curCount] = curAtt.rectifyValueInBounds(self.__realValues[inOut][curCount]);
 
-        elif(Attributes.getAttribute(count).getType()==Attribute.NOMINAL) :
-            self.nominalValues[inOut][curCount]= att;
-        #Testing special cases.
-        if (self.isTrain and inOut!=2):
-            if (curAtt.getFixedBounds() and curAtt.isNominalValue(self.__nominalValues[inOut][curCount])==False):
-                er =  ErrorInfo(ErrorInfo.TrainNominalOutOfRange, instanceNum, InstanceParser.lineCounter, curCount, Attribute.INPUT+inOut, isTrain,("ERROR READING TRAIN FILE. Value '"+self.__nominalValues[inOut][curCount]+"' read for a nominal attribute that is not in the possible list of values fixed in the attribute '"+curAtt.getName()+"' definition."));
-                InstanceSet.errorLogger.setError(er);
+        elif(Attributes.getAttributeByPos(Attributes,count).getType()==Attribute.NOMINAL) :
+            self.nominalValues[inOut][curCount]= att
+            #Testing special cases.
+            if (self.isTrain and inOut!=2):
+                if (curAtt.getFixedBounds() and curAtt.isNominalValue(self.__nominalValues[inOut][curCount])==False):
+                    error_info_4 =  ErrorInfo(ErrorInfo.TrainNominalOutOfRange, instanceNum, InstanceParser.lineCounter, curCount, Attribute.INPUT+inOut, isTrain,("ERROR READING TRAIN FILE. Value '"+self.__nominalValues[inOut][curCount]+"' read for a nominal attribute that is not in the possible list of values fixed in the attribute '"+curAtt.getName()+"' definition."));
+                    #InstanceSet.errorLogger.setError(er)
+                    print(" !!!!!!!!! InstanceSet.errorLogger.setError: " + str(error_info_4))
 
                 curAtt.addNominalValue(self.nominalValues[inOut][curCount]);
             elif(inOut!=2):
                 if (curAtt.addTestNominalValue(self.__nominalValues[inOut][curCount])):
-                        er =  ErrorInfo(ErrorInfo.TestNominalOutOfRange, instanceNum, InstanceParser.lineCounter, curCount, Attribute.INPUT+inOut, self.isTrain,
+                    error_info_5 =  ErrorInfo(ErrorInfo.TestNominalOutOfRange, instanceNum, InstanceParser.lineCounter, curCount, Attribute.INPUT+inOut, self.isTrain,
                                         ("ERROR READING TEST FILE. Value '"+self.nominalValues[inOut][curCount]+"' read for a nominal attribute that is not in the possible list of values fixed in the attribute '"+curAtt.getName()+"' definition."));
-                        InstanceSet.errorLogger.setError(er);
+                        #InstanceSet.errorLogger.setError(er);
+                    print(" !!!!!!!!! InstanceSet.errorLogger.setError: " + str(error_info_5))
 
 
-                if (inOut != -2):
-                    self.intNominalValues[inOut][curCount] = curAtt.convertNominalValue(self.__nominalValues[inOut][curCount])
-                    self.__realValues[inOut][curCount] = self.intNominalValues[inOut][curCount]
+            if (inOut != -2):
+                self.intNominalValues[inOut][curCount] = curAtt.convertNominalValue(self.__nominalValues[inOut][curCount])
+                self.__realValues[inOut][curCount] = self.intNominalValues[inOut][curCount]
 
                     #end processReadValue
+        print("processReadValue finished......")
 
 
      # It reserves all the memory necessary for this instance
 
     def initClassAttributes(self):
-        self.__anyMissingValue = bool[3]
+        print("initClassAttributes begin......")
+        print("Length of self.__anyMissingValue  is : "+ str(len(self.__anyMissingValue )))
+        self.__anyMissingValue = [False for x in range (3)]
         self.__anyMissingValue[0] = False
         self.__anyMissingValue[1] = False
         self.__anyMissingValue[2] = False
-        self.__numInputAttributes  = Attributes.getInputNumAttributes();
-        self.__numOutputAttributes = Attributes.getOutputNumAttributes();
-        self.__numUndefinedAttributes = Attributes.getNumAttributes() - (self.__numInputAttributes+self.__numOutputAttributes)
-        self.intNominalValues = []
-        self.nominalValues = []
-        self.__realValues    = []
-        self.__missingValues = []
-        self.nominalValues[0]    = str[self.__numInputAttributes]
-        self.nominalValues[1]    = str[self.__numOutputAttributes]
-        self.nominalValues[2]    = str[self.__numUndefinedAttributes]
-        self.intNominalValues[0] = int[self.__numInputAttributes]
-        self.intNominalValues[1] = int[self.__numOutputAttributes]
-        self.intNominalValues[2] = int[self.__numUndefinedAttributes]
-        self.__realValues[0]       = float[self.__numInputAttributes]
-        self.__realValues[1]       = float[self.__numOutputAttributes]
-        self.__realValues[2]       = float[self.__numUndefinedAttributes]
-        self.__missingValues[0]    = float[self.__numInputAttributes]
-        self.__missingValues[1]    = float[self.__numOutputAttributes]
-        self.__missingValues[2]    = float[self.__numUndefinedAttributes]
+        self.__numInputAttributes  = Attributes.getInputNumAttributes(Attributes)
+        self.__numOutputAttributes = Attributes.getOutputNumAttributes(Attributes)
+        self.__numUndefinedAttributes = Attributes.getNumAttributes(Attributes) - (self.__numInputAttributes+self.__numOutputAttributes)
+        self.intNominalValues = [0 for x in range (3)]
+        self.nominalValues = ["" for x in range (3)]
+        self.__realValues    = [0.0 for x in range (3)]
+        self.__missingValues = [False for x in range (3)]
+        print("Length of self.nominalValues  is : " + str(len(self.nominalValues)))
+        self.nominalValues[0]    = ["" for x in range (self.__numInputAttributes)]
+        self.nominalValues[1]    = ["" for x in range (self.__numOutputAttributes)]
+        self.nominalValues[2]    = ["" for x in range (self.__numUndefinedAttributes)]
+        print("Length of self.intNominalValues  is : " + str(len(self.intNominalValues)))
+        self.intNominalValues[0] = [ 0 for x in range (self.__numInputAttributes)]
+        self.intNominalValues[1] = [0 for x in range (self.__numOutputAttributes)]
+        self.intNominalValues[2] = [0 for x in range (self.__numUndefinedAttributes)]
+        print("Length of self.__realValues  is : " + str(len(self.__realValues)))
+        self.__realValues[0]       = [0.0  for x in range(self.__numInputAttributes)]
+        self.__realValues[1]       = [0.0  for x in range(self.__numOutputAttributes)]
+        self.__realValues[2]       = [0.0  for x in range(self.__numUndefinedAttributes)]
+        print("Length of self.__missingValues  is : " + str(len(self.__missingValues)))
+        self.__missingValues[0]    = [0.0  for x in range(self.__numInputAttributes)]
+        self.__missingValues[1]    = [0.0  for x in range(self.__numOutputAttributes)]
+        self.__missingValues[2]    = [0.0  for x in range(self.__numUndefinedAttributes)]
 
         for i in range (0,self.__numInputAttributes):
             self.__missingValues[0][i]=False
-        for i in range(0,__numOutputAttributes):
+        for i in range(0,self.__numOutputAttributes):
             self.__missingValues[1][i]=False
 
-        for i in range(0,__numUndefinedAttributes):
+        for i in range(0,self.__numUndefinedAttributes):
             self.__missingValues[2][i]=False
 
+        print("initClassAttributes finished......")
        #end initClassAttributes
 
      # * It prints the instance to the specified PrintWriter.
@@ -459,7 +496,7 @@ class Instance :
                 outHere.print(self.__realValues[Instance.ATT_OUTPUT][i])
 
             outHere.print("\n    > Undefined: ");
-        for i in range(0,self.____numUndefinedAttributes):
+        for i in range(0,self.__numUndefinedAttributes):
             attrType=Attributes.getOutputAttribute(i).getType()
 
             if(attrType== Attribute.NOMINAL):
@@ -485,7 +522,7 @@ class Instance :
         count=0
         numAttributes = Attributes.getNumAttributes()
         for count in range (0, numAttributes):
-            at = Attributes.getAttribute(count)
+            at = Attributes.getAttributeByPos(count)
             directionAttr=at.getDirectionAttribute()
 
             if(directionAttr== Attribute.INPUT):
@@ -570,25 +607,25 @@ class Instance :
                 elif(outputAttr==Attribute.REAL):
                     print(self.__realValues[Instance.ATT_OUTPUT][i]);
 
-            print("  ");
+            print("  ")
         print("  > Undefined ("+self.__numUndefinedAttributes+"): ")
         for i in range(0, self.__numUndefinedAttributes):
             if(self.__missingValues[Instance.ATT_NONDEF][i]):
                 print("?");
 
             else:
-                undefinedAttrType=Attributes.getUndefinedAttribute(i).getType();
+                undefinedAttrType=Attributes.getUndefinedAttribute(i).getType()
 
                 if(undefinedAttrType== Attribute.NOMINAL):
-                    print(self.__nominalValues[Instance.ATT_NONDEF][i]);
+                    print(self.__nominalValues[Instance.ATT_NONDEF][i])
                 elif(undefinedAttrType == Attribute.INTEGER):
 
-                    print(self.__realValues[Instance.ATT_NONDEF][i]);
+                    print(self.__realValues[Instance.ATT_NONDEF][i])
 
                 elif(undefinedAttrType == Attribute.REAL):
-                     print(self.__realValues[Instance.ATT_NONDEF][i]);
+                     print(self.__realValues[Instance.ATT_NONDEF][i])
 
-        print("  ");
+        print("  ")
 
     #end print
 
@@ -606,7 +643,7 @@ class Instance :
      # * correspond to a real attribute has no rellevant data.
 
     def getInputRealValues(self):
-        return self.__realValues[0];
+        return self.__realValues[0]
     #end getInputRealAttributes
 
 
@@ -616,7 +653,7 @@ class Instance :
      # * doesn't correspond to a nominal attribute has no rellevant data.
 
     def getInputNominalValues(self):
-        return self.nominalValues[0];
+        return self.__nominalValues[0]
     #end getInputNominalValues
 
 
@@ -626,7 +663,7 @@ class Instance :
      # * input value is not known.
 
     def getInputMissingValues(self):
-        return self.__missingValues[0];
+        return self.__missingValues[0]
     #end getINputMissingValues
 
 
@@ -637,7 +674,7 @@ class Instance :
      # * correspond to a real attribute has no rellevant data.
 
     def getOutputRealValues(self):
-        return self.__realValues[1];
+        return self.__realValues[1]
     #end getOutputRealAttributes
 
 
@@ -647,7 +684,7 @@ class Instance :
      # * doesn't correspond to a nominal attribute has no rellevant data.
 
     def getOutputNominalValues(self):
-        return self.nominalValues[1];
+        return self.__nominalValues[1]
     #end getOutputNominalValues
 
 
@@ -657,7 +694,7 @@ class Instance :
      # * Output value is not known.
 
     def getOutputMissingValues(self):
-        return self.__missingValues[1];
+        return self.__missingValues[1]
     #end getOutputMissingValues
 
 
@@ -673,7 +710,7 @@ class Instance :
     #  */
 
     def getInputRealValues(self,pos):
-        return self.__realValues[0][pos];
+        return self.__realValues[0][pos]
     #end getInputRealAttributes
 
 
@@ -682,7 +719,7 @@ class Instance :
      * @return a string with the indicated nominal input value.
     '''
     def getInputNominalValues(self,pos):
-        return self.nominalValues[0][pos];
+        return self.__nominalValues[0][pos]
     #end getInputNominalValues
 
      # * It does return the input nominal value at the specified position. The
@@ -691,7 +728,7 @@ class Instance :
      # * @return an int with the nominal value.
 
     def getInputNominalValuesInt(self,pos):
-        return self.intNominalValues[0][pos];
+        return self.__intNominalValues[0][pos]
     #end getInputNominalValues
 
 
@@ -700,7 +737,7 @@ class Instance :
      * @return an int with the nominal value.
     '''
     def getInputNominalValuesInt(self):
-        return self.intNominalValues[0];
+        return self.__intNominalValues[0]
     #end getInputNominalValues
 
 
@@ -709,7 +746,7 @@ class Instance :
      * @return a boolean indicating if that input value is missing.
     '''
     def getInputMissingValues(self,pos):
-        return self.__missingValues[0][pos];
+        return self.__missingValues[0][pos]
     #end getINputMissingValues
 
 
@@ -717,7 +754,7 @@ class Instance :
      # * @return a double with the indicated real output value.
 
     def getOutputRealValues(self,pos):
-        return self.__realValues[1][pos];
+        return self.__realValues[1][pos]
     #end getOutputRealAttributes
 
 
@@ -726,7 +763,7 @@ class Instance :
      # * @return a string with the indicated nominal output value.
 
     def getOutputNominalValues(self,pos):
-        return self.nominalValues[1][pos];
+        return self.__nominalValues[1][pos]
     #end getOutputNominalValues
 
 
@@ -735,7 +772,7 @@ class Instance :
      # * @return an int with the nominal value.
 
     def getOutputNominalValuesInt(self,pos):
-        return self.intNominalValues[1][pos];
+        return self.__intNominalValues[1][pos]
     #end getInputNominalValues
 
 
@@ -743,7 +780,7 @@ class Instance :
      # * @return an int with the nominal value.
 
     def getOutputNominalValuesInt(self):
-        return self.intNominalValues[1];
+        return self.__intNominalValues[1]
     #end getInputNominalValues
 
 
@@ -771,7 +808,7 @@ class Instance :
     #  */
 
     def getAllInputValues(self):
-        return self.__realValues[0];
+        return self.__realValues[0]
     #end getAllInputValues
 
 
@@ -782,14 +819,14 @@ class Instance :
      # * In addition, missing values are represented with a -1 value.
 
     def getNormalizedInputValues(self):
-        norm = float[self.__realValues[0].length];
+        norm = [0.0 for x in range (len(self.__realValues[0]))]
         for i in range (0, len(norm)):
             if (self.__missingValues[0][i]==False):
-                norm[i] = Attributes.getInputAttribute(i).normalizeValue(self.realValues[0][i]);
+                norm[i] = Attributes.getInputAttribute(i).normalizeValue(self.__realValues[0][i])
             else:
-                norm[i] = -1.;
+                norm[i] = -1
 
-        return norm;
+        return norm
     #end getNormalizedInputValues
 
 
@@ -799,14 +836,14 @@ class Instance :
      # * value between [0..N], where N is the number of values that this nominal can take.
 
     def getNormalizedOutputValues(self):
-        norm = float[self.__realValues[1].length];
-        for i in range(0, norm.length):
+        norm = [0.0 for x in range (len(self.__realValues[1]))]
+        for i in range(0, len(norm)):
             if (self.__missingValues[1][i]==False):
-                norm[i] = Attributes.getOutputAttribute(i).normalizeValue(realValues[1][i]);
+                norm[i] = Attributes.getOutputAttribute(i).normalizeValue(self.__realValues[1][i])
             else:
-                norm[i] = -1.;
+                norm[i] = -1.
 
-        return norm;
+        return norm
     #end getNormalizedOutputValues
 
 
@@ -819,7 +856,7 @@ class Instance :
     #  */
 
     def getAllOutputValues(self):
-        return self.__realValues[1];
+        return self.__realValues[1]
     #end getAllOutputValues
 
 
@@ -837,21 +874,21 @@ class Instance :
     #  */
 
     def setInputNumericValue(self,pos, value):
-        at = Attribute(Attributes.getInputAttribute(pos));
+        at = Attribute(Attributes.getInputAttribute(pos))
         if (at.getType() == Attribute.NOMINAL) :
             return False;
         else:
             if (at.isInBounds(value)):
-                self.__realValues[0][pos] = value;
-                self.__missingValues[0][pos] = False;
+                self.__realValues[0][pos] = value
+                self.__missingValues[0][pos] = False
                 self.__anyMissingValue[0] = False;
-                for i in range(0, self.missingValues[0].length):
-                    self.__anyMissingValue[0] |= self.missingValues[0][i];
+                for i in range(0, len(self.__missingValues[0])):
+                    self.__anyMissingValue[0] |= self.missingValues[0][i]
 
             else :
-                return False;
+                return False
 
-        return True;
+        return True
     #end setInputNumericValue
 
     # /**
@@ -864,21 +901,21 @@ class Instance :
     #  */
 
     def setOutputNumericValue( self,pos,  value):
-        at = Attribute(Attributes.getOutputAttribute(pos));
+        at = Attribute(Attributes.getOutputAttribute(pos))
         if (at.getType() == Attribute.NOMINAL) :
             return False;
         else:
             if (at.isInBounds(value)):
-                self.__realValues[1][pos] = value;
-                self.__missingValues[1][pos] = False;
-                self.__anyMissingValue[1] = False;
+                self.__realValues[1][pos] = value
+                self.__missingValues[1][pos] = False
+                self.__anyMissingValue[1] = False
                 for i in range(0, len(self.__missingValues[1])):
-                    self.__anyMissingValue[1] |= self.__missingValues[1][i];
+                    self.__anyMissingValue[1] |= self.__missingValues[1][i]
 
             else:
-                return False;
+                return False
 
-        return True;
+        return True
       # end setInputNumericValue
 
     
@@ -890,23 +927,23 @@ class Instance :
     #  */
 
     def setInputNominalValue( self,pos,  value):
-        at = Attribute(Attributes.getInputAttribute(pos));
+        at = Attribute(Attributes.getInputAttribute(pos))
         if (at.getType() != Attribute.NOMINAL):
             return False;
         else:
             if (at.convertNominalValue(value) != -1):
-                self.__nominalValues[0][pos] = value;
-                self.__intNominalValues[0][pos] = at.convertNominalValue(value);
-                self.__realValues[0][pos] = self.__intNominalValues[0][pos];
-                self.__missingValues[0][pos] = False;
-                self.__anyMissingValue[0] = False;
+                self.__nominalValues[0][pos] = value
+                self.__intNominalValues[0][pos] = at.convertNominalValue(value)
+                self.__realValues[0][pos] = self.__intNominalValues[0][pos]
+                self.__missingValues[0][pos] = False
+                self.__anyMissingValue[0] = False
                 for i in range(0,self.__missingValues[0].length):
-                    self.__anyMissingValue[0] |= self.__missingValues[0][i];
+                    self.__anyMissingValue[0] |= self.__missingValues[0][i]
 
             else :
-                return False;
+                return False
 
-        return True;
+        return True
     #end setInputNominalValue
 
     # /**
@@ -917,23 +954,23 @@ class Instance :
     #  */
 
     def setOutputNominalValue(self, pos,  value):
-        at = Attribute(Attributes.getOutputAttribute(pos));
+        at = Attribute(Attributes.getOutputAttribute(pos))
         if (at.getType() != Attribute.NOMINAL) :
             return False;
         else:
             if (at.convertNominalValue(value) != -1):
-                self.__nominalValues[1][pos] = value;
-                self.__intNominalValues[1][pos] = at.convertNominalValue(value);
-                self.__realValues[1][pos] = self.__intNominalValues[0][pos];
-                self.__missingValues[1][pos] = False;
-                self.__anyMissingValue[1] = False;
-                for  i in range(0,self.missingValues[1].length):
-                    self.__anyMissingValue[1] |= self.__missingValues[1][i];
+                self.__nominalValues[1][pos] = value
+                self.__intNominalValues[1][pos] = at.convertNominalValue(value)
+                self.__realValues[1][pos] = self.__intNominalValues[0][pos]
+                self.__missingValues[1][pos] = False
+                self.__anyMissingValue[1] = False
+                for  i in range(0,len(self.__missingValues[1])):
+                    self.__anyMissingValue[1] |= self.__missingValues[1][i]
 
             else :
-                return False;
+                return False
 
-        return True;
+        return True
     #end setOutputNominalValue
 
 
@@ -947,7 +984,7 @@ class Instance :
     #  */
 
     def existsAnyMissingValue(self):
-        return (self.__anyMissingValue[0] or self.__anyMissingValue[1]);
+        return (self.__anyMissingValue[0] or self.__anyMissingValue[1])
     #end existsAnyMissingValue
 
     # /**
@@ -956,7 +993,7 @@ class Instance :
     #  */
 
     def existsInputMissingValues(self):
-        return self.__anyMissingValue[0];
+        return self.__anyMissingValue[0]
     #end existsInputMissingValues
 
 
@@ -966,7 +1003,7 @@ class Instance :
     #  */
 
     def existsOutputMissingValues(self):
-        return self.__anyMissingValue[1];
+        return self.__anyMissingValue[1]
     #end existsOutputMissingValues
 
 
@@ -988,7 +1025,7 @@ class Instance :
         index = 0
         if (inputAtt==False):
             newSize = --self.__numOutputAttributes
-            index = 1;
+            index = 1
         else:
             newSize = --self.__numInputAttributes
 
@@ -1016,12 +1053,12 @@ class Instance :
         self.__anyMissingValue[index] = False
         for i in range(0, newSize+1):
             if (i != whichAtt):
-                nominalValuesAux[k] = self.nominalValues[index][i]
-                intNominalValuesAux[k] = self.intNominalValues[index][i]
-                realValuesAux[k] = self.realValues[index][i]
-                missingValuesAux[k] = self.missingValues[index][i]
+                nominalValuesAux[k] = self.__nominalValues[index][i]
+                intNominalValuesAux[k] = self.__intNominalValues[index][i]
+                realValuesAux[k] = self.__realValues[index][i]
+                missingValuesAux[k] = self.__missingValues[index][i]
                 if (missingValuesAux[k]) :
-                    self.__anyMissingValue[index] = True;
+                    self.__anyMissingValue[index] = True
                 k+=1;
 
         else:
@@ -1074,12 +1111,12 @@ class Instance :
     #  */
 
     def toStringFunction(self):
-        aux = "";
-        ending = ",";
+        aux = ""
+        ending = ","
         for i in range(0,self.__numInputAttributes):
             if (i == self.__numInputAttributes-1 and self.__numOutputAttributes == 0) :
-                ending = "";
-            inputAttrType=Attributes.getInputAttribute(i).getType();
+                ending = ""
+            inputAttrType=Attributes.getInputAttribute(i).getType()
             if(inputAttrType== Attribute.NOMINAL):
                 aux += self.__nominalValues[0][i]
 
@@ -1116,37 +1153,37 @@ class Instance :
     def printFunction ( self,instAttributes,  out):
         out.print("    > Inputs: ");
         for i in range(0, self.__numInputAttributes):
-            inputAttrType=instAttributes.getInputAttribute(i).getType();
+            inputAttrType=instAttributes.getInputAttribute(i).getType()
             if (inputAttrType==Attribute.NOMINAL):
-                out.print(self.__nominalValues[Instance.ATT_INPUT][i]);
+                out.print(self.__nominalValues[Instance.ATT_INPUT][i])
 
             if(inputAttrType== Attribute.INTEGER):
-                out.print(self.__realValues[Instance.ATT_INPUT][i]);
+                out.print(self.__realValues[Instance.ATT_INPUT][i])
 
             if(inputAttrType== Attribute.REAL):
-                out.print(self.__realValues[Instance.ATT_INPUT][i]);
+                out.print(self.__realValues[Instance.ATT_INPUT][i])
 
-        out.print("\n    > Outputs: ");
+        out.print("\n    > Outputs: ")
         for i in range (0, self.__numOutputAttributes):
-            outputAttrType=self.__instAttributes.getOutputAttribute(i).getType();
+            outputAttrType=self.__instAttributes.getOutputAttribute(i).getType()
             if(outputAttrType== Attribute.NOMINAL):
-                out.print(self.nominalValues[Instance.ATT_OUTPUT][i]);
+                out.print(self.nominalValues[Instance.ATT_OUTPUT][i])
 
             if(outputAttrType== Attribute.INTEGER):
-                out.print(self.__realValues[Instance.ATT_OUTPUT][i]);
+                out.print(self.__realValues[Instance.ATT_OUTPUT][i])
 
             if(outputAttrType== Attribute.REAL):
-                out.print(self.__realValues[Instance.ATT_OUTPUT][i]);
+                out.print(self.__realValues[Instance.ATT_OUTPUT][i])
 
-        out.print("\n    > Undefined: ");
+        out.print("\n    > Undefined: ")
         for  i in range(0,self.__numUndefinedAttributes):
-           outputAttrType=instAttributes.getOutputAttribute(i).getType();
+           outputAttrType=instAttributes.getOutputAttribute(i).getType()
            if (outputAttrType== Attribute.NOMINAL):
-            out.print(self.__nominalValues[Instance.ATT_OUTPUT][i]);
+            out.print(self.__nominalValues[Instance.ATT_OUTPUT][i])
            elif(outputAttrType== Attribute.INTEGER):
-            out.print(self.__realValues[Instance.ATT_OUTPUT][i]);
+            out.print(self.__realValues[Instance.ATT_OUTPUT][i])
            elif(outputAttrType == Attribute.REAL):
-            out.print(self.__realValues[Instance.ATT_OUTPUT][i]);
+            out.print(self.__realValues[Instance.ATT_OUTPUT][i])
     #end print
 
      # * It prints the instance to the specified PrintWriter.
@@ -1161,7 +1198,7 @@ class Instance :
         count=0
         numAttributes = instAttributes.getNumAttributes()
         for count in range(0, numAttributes):
-            at = instAttributes.getAttribute(count)
+            at = instAttributes.getAttributeByPos(count)
             directionAttribute= at.getDirectionAttribute()
             if(directionAttribute== Attribute.INPUT):
                 self.printAttribute(out, Instance.ATT_INPUT,   inCount, at.getType())
@@ -1206,7 +1243,7 @@ class Instance :
 
 
 
-            print("  ");
+            print("  ")
 
         print("  > Outputs ("+self.__numOutputAttributes+"): ")
         for i in range (0,self.__numOutputAttributes):
@@ -1273,10 +1310,10 @@ class Instance :
      # * @return A new allocated array with the output values normalized
 
     def  getNormalizedOutputValues( self, instAttributes ):
-        norm = float[self.__realValues[1].length];
-        for i in range(0, norm.length):
+        norm = [0.0 for x in range (len(self.__realValues[1]))]
+        for i in range(0, len(norm)):
             if (self.__missingValues[1][i]==False):
-                norm[i] = instAttributes.getOutputAttribute(i).normalizeValue(__realValues[1][i]);
+                norm[i] = instAttributes.getOutputAttribute(i).normalizeValue(self.__realValues[1][i])
             else:
                 norm[i] = -1.
 
@@ -1297,8 +1334,8 @@ class Instance :
                 self.__realValues[0][pos] = value
                 self.__missingValues[0][pos] = False
                 self.__anyMissingValue[0] = False
-                for i in range(0, self.missingValues[0].length):
-                    self.__anyMissingValue[0] |= self.missingValues[0][i]
+                for i in range(0, self.__missingValues[0].length):
+                    self.__anyMissingValue[0] = self.__anyMissingValue[0]+self.__missingValues[0][i]
 
             else :
              return False
@@ -1322,8 +1359,8 @@ class Instance :
                 self.__realValues[1][pos] = value
                 self.__missingValues[1][pos] = False
                 self.__anyMissingValue[1] = False
-                for  i in range(0,self.missingValues[1].length):
-                    self.__anyMissingValue[1] |= self.missingValues[1][i]
+                for  i in range(0,len(self.__missingValues[1])):
+                    self.__anyMissingValue[1] = self.__anyMissingValue[1]+self.__missingValues[1][i]
 
             else :
               return False
@@ -1375,8 +1412,8 @@ class Instance :
                 self.__realValues[1][pos] = self.intNominalValues[0][pos]
                 self.__missingValues[1][pos] = False
                 self.__anyMissingValue[1] = False
-                for i in range (0, self.missingValues[1].length):
-                    self.__anyMissingValue[1] |= self.missingValues[1][i]
+                for i in range (0, len(self.__missingValues[1])):
+                    self.__anyMissingValue[1] |= self.__missingValues[1][i]
 
             else :
               return False
@@ -1403,29 +1440,29 @@ class Instance :
         undefPosition = instAttributes.searchUndefPosition(attToDel)
 
         #Reserving auxiliar memory to reconstruct the input or output
-        nominalValuesAux  = str[newSize]
-        intNominalValuesAux  = int[newSize]
-        realValuesAux     = float[newSize]
-        missingValuesAux = bool[newSize]
+        nominalValuesAux  = ["" for x in range (newSize)]
+        intNominalValuesAux  = [0 for x in range (newSize)]
+        realValuesAux     = [0.0 for x in range (newSize)]
+        missingValuesAux = [False for x in range (newSize)]
 
         #Reserving auxiliar memory to reconstruct the undefined att's
-        nominalValuesUndef    = str[self.__numUndefinedAttributes]
-        intNominalValuesUndef    = int[self.__numUndefinedAttributes]
-        realValuesUndef          = float[self.__numUndefinedAttributes]
-        missingValuesUndef      = float[self.__numUndefinedAttributes]
+        nominalValuesUndef    = ["" for x in range (self.__numUndefinedAttributes)]
+        intNominalValuesUndef    = [0 for x in range (self.__numUndefinedAttributes)]
+        realValuesUndef          = [0.0 for x in range (self.__numUndefinedAttributes)]
+        missingValuesUndef      = [False for x in range (self.__numUndefinedAttributes)]
 
         #Copying the values without the removed attribute
-        k=0;
+        k=0
         self.__anyMissingValue[index] = False
         for i in range(0, newSize+1):
             if (i != whichAtt):
-                nominalValuesAux[k] = self.nominalValues[index][i]
-                intNominalValuesAux[k] = self.intNominalValues[index][i]
-                realValuesAux[k] = self.realValues[index][i]
-                missingValuesAux[k] = self.missingValues[index][i]
+                nominalValuesAux[k] = self.__nominalValues[index][i]
+                intNominalValuesAux[k] = self.__intNominalValues[index][i]
+                realValuesAux[k] = self.__realValues[index][i]
+                missingValuesAux[k] = self.__missingValues[index][i]
                 if (missingValuesAux[k]) :
-                    self.__anyMissingValue[index] = True;
-                k+=1;
+                    self.__anyMissingValue[index] = True
+                k+=1
 
         else:
                 nominalValuesUndef[undefPosition]       = self.__nominalValues[index][i]
@@ -1480,13 +1517,13 @@ class Instance :
                 aux += str(float(self.__realValues[0][i]))
 
 
-        aux += ending;
+        aux += ending
 
         ending = ",";
         for i in range(0, self.__numOutputAttributes):
             if (i == self.__numOutputAttributes-1) :
                 ending = "";
-            instOutputAttrType=instAttributes.getOutputAttribute(i).getType();
+            instOutputAttrType=instAttributes.getOutputAttribute(i).getType()
             if(instOutputAttrType==Attribute.NOMINAL) :
               aux += self.__nominalValues[1][i]
 
@@ -1501,6 +1538,7 @@ class Instance :
     #end toString
 
     #end of the class Instance
+
 
 
 

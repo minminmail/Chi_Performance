@@ -31,7 +31,7 @@ class MyDataSet:
     __nInputs=0 #  Number of inputs
     __nClasses=0 #  Number of outputs
 
-    __instanceSet=InstanceSet() #  The whole instance set
+    __instanceSet=None #  The whole instance set
     __stdev=[]
     __average=[] #  standard deviation and average of each attribute
     __instancesCl=[]
@@ -45,7 +45,7 @@ class MyDataSet:
     #    * @return double[][] an array of examples with their corresponding attribute values
     #  '''
     def getX(self):
-        return self.X
+        return self.__X
     # '''
     #    * Output a specific example
     #    * @param pos int position (id) of the example in the data-set
@@ -54,10 +54,10 @@ class MyDataSet:
     def getExample(self,pos):
          return self.__X[pos]
 
-    '''
-       * Returns the output of the data-set as integer values
-       * @return int[] an array of integer values corresponding to the output values of the dataset
-    '''
+
+       # * Returns the output of the data-set as integer values
+       # * @return int[] an array of integer values corresponding to the output values of the dataset
+
     def getOutputAsInteger(self):
         size=len(self.__outputInteger)
         output = [0 for x in range (size)]
@@ -65,21 +65,21 @@ class MyDataSet:
              output[i] = self.__outputInteger[i]
         return output
 
-    # '''
+
     #    * Returns the output of the data-set as real values
     #    * @return double[] an array of real values corresponding to the output values of the dataset
-    # '''
+
     def getOutputAsReal(self):
         opRLength=len(self.__outputReal)
         output = [0 for x in range(opRLength)]
         for i in range( 0,len(self.__outputReal)):
           output[i] = self.__outputInteger[i]
         return output
-    # '''
+
     #    * Returns the output of the data-set as nominal values
     #    * @return String[] an array of nomianl values corresponding to the output values of the dataset
     #
-    # '''
+
     def getOutputAsString(self):
         opLength=len(self.__output)
         output = [0 for x in range (opLength)]
@@ -87,16 +87,15 @@ class MyDataSet:
           output[i] = self.__output[i]
 
         return output
-    #
-    # '''
+
     #    * It returns the output value of the example "pos"
     #    * @param pos int the position (id) of the example
     #    * @return String a string containing the output value
-    #
-    # '''
+
+
     def getOutputAsString(self,pos):
         return self.__output[pos]
-    # '''
+
     #    * It returns the output value of the example "pos"
     #    * @param pos int the position (id) of the example
     #    * @return int an integer containing the output value
@@ -104,97 +103,94 @@ class MyDataSet:
     def getOutputAsInteger(self,pos):
      return self.__outputInteger[pos]
 
-    # '''
+
     #    * It returns the output value of the example "pos"
     #    * @param pos int the position (id) of the example
     #    * @return double a real containing the output value
-    # '''
+
     def getOutputAsReal(self,pos):
      return self.__outputReal[pos]
 
-     # '''
+
      # *It returns an array with the maximum values of the attributes
      # * @ return double[] an array with the maximum values of the attributes
      #
-     # '''
+
     def getemax(self):
      return self.__emax
-     #
-     # '''
+
+
      # *It returns an array with the minimum values of the attributes
      # * @ return double[] an array with the minimum values of the attributes
-     # '''
+
     def getemin(self):
      return self.__emin
 
 
-    # '''
+
     # *It returns the maximum value of the given attribute
     # *
     # * @ param variable the index of the attribute
     # * @ return the maximum value of the given attribute
-    # '''
+
     def getMax(self, variable):
      return self.__emax[variable]
 
 
-    # '''
     # *It returns the minimum value of the given attribute
     #
     # * @ param variable the index of the attribute
     # * @ return the minimum value of the given attribute
-    # * /
-    #
-    # '''
+
+
     def getMin(self,variable):
      return self.__emin[variable]
 
-    # '''
+
     # *It gets the size of the data - set
     # * @ return int the number of examples in the data - set
-    # '''
+
     def getnData(self):
 
      return self.__nData
 
-    # '''
+
     # *It gets the number of variables of the data - set(including the output)
     # * @ return int the number of variables of the data - set(including the output)
-    # '''
+
     def getnVars(self):
      return self.__nVars
 
-    # '''
+
     #    * It gets the number of input attributes of the data-set
     #    * @return int the number of input attributes of the data-set
-    # '''
+
     def getnInputs(self):
      return self.__nInputs
 
-    #  '''
+
     #    * It gets the number of output attributes of the data-set (for example number of classes in classification)
     #    * @return int the number of different output values of the data-set
-    # '''
+
     def getnClasses(self):
         return self.__nClasses
 
-    #
-    # '''
+
     #  * This function checks if the attribute value is missing
     #  * @param i int Example id
     #  * @param j int Variable id
     #  * @return boolean True is the value is missing, else it returns false
-    # '''
+
     def isMissing(self, i, j):
       return self.__missing[i][j]
 
-    # '''
+
     #  * It reads the whole input data-set and it stores each example and its associated output value in
     #  * local arrays to ease their use.
     #  * @param datasetFile String name of the file containing the dataset
     #  * @param train boolean It must have the value "true" if we are reading the training data-set
     #  * @throws IOException If there ocurs any problem with the reading of the data-set
-    # '''
+
     def readClassificationSet( self,datasetFile,train) :
          try :
               # Load in memory a dataset that contains a classification problem
@@ -208,8 +204,11 @@ class MyDataSet:
                   self.__instanceSet.readSet(datasetFile, train)
                   print("begin getNumInstances ...... in readClassificationSet ")
                   self.__nData = self.__instanceSet.getNumInstances()
+                  print("In readClassificationSet , self.__nData is : "+str(self.__nData))
                   self.__nInputs = Attributes.getInputNumAttributes(Attributes)
+                  print("In readClassificationSet , self.__nInputs is : " + str(self.__nInputs))
                   self.__nVars = self.__nInputs + Attributes.getOutputNumAttributes(Attributes)
+                  print("In readClassificationSet , self.__nVars is : " + str(self.__nVars))
 
               # outputIntegerheck that there is only one output variable
                   if (Attributes.getOutputNumAttributes(Attributes) > 1) :
@@ -281,13 +280,13 @@ class MyDataSet:
          self.computeStatistics()
          self.computeInstancesPerClass()
 
-     # """
+
      #   * It reads the whole input data-set and it stores each example and its associated output value in
      #   * local arrays to ease their use.
      #   * @param datasetFile String name of the file containing the dataset
      #   * @param train boolean It must have the value "true" if we are reading the training data-set
      #   * @throws IOException If there ocurs any problem with the reading of the data-set
-     # """
+
     def readRegressionSet(self,datasetFile, train) :
 
         try :
@@ -296,10 +295,12 @@ class MyDataSet:
           self.__nData = self.__instanceSet.getNumInstances()
           self.__nInputs = Attributes.getInputNumAttributes(Attributes)
           self.__nVars = self.__nInputs + Attributes.getOutputNumAttributes(Attributes)
+          print("In readRegressionSet , self.__nData is : " + str(self.__nData))
+          print("In readRegressionSet , self.__nInputs is : " + str(self.__nInputs))
+          print("In readRegressionSet , self.__nVars is : " + str(self.__nVars))
 
           #outputIntegerheck that there is only one output variable
           if (Attributes.getOutputNumAttributes(Attributes) > 1):
-
 
             print("Out put attribute: ")
             outPutAttHeader=Attributes.getOutputAttributesHeader(Attributes)
@@ -308,7 +309,7 @@ class MyDataSet:
             print("All outputs but the first one will be removed")
             exit(1)
 
-          noOutputs = False;
+          noOutputs = False
           if (Attributes.getOutputNumAttributes(Attributes) < 1):
             print("This algorithm can not process datasets without outputs")
             print("Zero-valued output generated")
@@ -324,8 +325,8 @@ class MyDataSet:
           self.__emax = self.__nInputs
           self.__emin = self.__nInputs
           for i in range( 0,self.__nInputs):
-              self.__emax[i] = Attributes.getAttribute(i).getMaxAttribute()
-              self.__emin[i] = Attributes.getAttribute(i).getMinAttribute()
+              self.__emax[i] = Attributes.getAttributeByPos(Attributes,i).getMaxAttribute()
+              self.__emin[i] = Attributes.getAttributeByPos(Attributes,i).getMinAttribute()
 
             # All values are casted into double / integer
           self.__nClasses = 0
@@ -352,11 +353,10 @@ class MyDataSet:
          print(" In readRegressionSet other Exception  is :" + str(otherException))
 
         self.computeStatistics()
-    #
-    # '''
+
     # *It copies the header of the dataset
     # * @ return String A string containing all the data - set information
-    # '''
+
     def copyHeader(self):
 
         p = ""
@@ -376,9 +376,9 @@ class MyDataSet:
         print("P is :" +p)
         return p
 
-    # '''
+
     #    * It transform the input space into the [0,1] range
-    # '''
+
     def normalize(self):
         atts = self.getnInputs()
         maxs= [0.0 for x in range (atts)]
@@ -396,24 +396,24 @@ class MyDataSet:
     def hasRealAttributes(self):
         return Attributes.hasRealAttributes()
 
-    # '''
+
     #    * It checks if the data-set has any real value
     #    * @return boolean True if it has some real values, else false.
-    # '''
+
     def hasNumericalAttributes(self):
         return (Attributes.hasIntegerAttributes() or Attributes.hasRealAttributes())
 
-    # '''
+
     #    * It checks if the data-set has any missing value
     #    * @return boolean True if it has some missing values, else false.
-    # '''
+
     def hasMissingAttributes(self):
         return (self.sizeWithoutMissing() < self.getnData())
 
-    # '''
+
     #    * It return the size of the data-set without having account the missing values
     #    * @return int the size of the data-set without having account the missing values
-    # '''
+
 
     def sizeWithoutMissing(self):
 
@@ -426,17 +426,17 @@ class MyDataSet:
                      tam+=1
 
         return tam
-    # '''
+
     #    * It returns the number of examples
     #    *
     #    * @return the number of examples
-    # '''
+
     def size(self):
         return self.__nData
 
-    # '''
+
     #    * It computes the average and standard deviation of the input attributes
-    # '''
+
     def  computeStatistics(self):
         try:
             print("Begin computeStatistics......")
@@ -476,26 +476,25 @@ class MyDataSet:
             print("sum is :" + str(sum) + "  self.__stdev :" + str(self.__stdev))
         except Exception as error:
             print("Exception in computeStatistics : " + str(error))
-    # '''
+
     #    * It return the standard deviation of an specific attribute
     #    * @param position int attribute id (position of the attribute)
     #    * @return double the standard deviation  of the attribute
-    # '''
+
     def stdDev(self,position):
         return self.__stdev[position]
 
-    # '''
+
     #    * It return the average of an specific attribute
     #    * @param position int attribute id (position of the attribute)
     #    * @return double the average of the attribute
-    # '''
+
 
     def average( self,position):
         return self.__average[position]
 
-    # '''
     #     *It computes the number of examples per class
-    # '''
+
 
     def computeInstancesPerClass(self):
         self.__instancesCl = [0 for x in range(self.__nClasses)]
@@ -503,64 +502,64 @@ class MyDataSet:
          self.__instancesCl[self.__outputInteger[i]]+=1
 
 
-    # '''
+
     #     *It returns the number of examples for a given class
     #     * @ param clas int the class label id
     #     * @ return int the number of examples
     #     for the class
-    #     * /
-    #  '''
+
+
     def numberInstances(self,clas):
         return self.__instancesCl[clas]
 
-      #   '''
+
       # /**
       #  * It returns the number of labels for a nominal attribute
       #  * @param attribute int the attribute position in the data-set
       #  * @return int the number of labels for the attribute
       #  */
       #
-      #     '''
+
     def numberValues(self,attribute):
         return Attributes.getInputAttribute(attribute).getNumNominalValues(Attributes)
 
-    # '''
+
     #    * It returns the class label (string) given a class id (int)
     #    * @param intValue int the class id
     #    * @return String the corrresponding class label
     #
-    # '''
-    # '''
+
+
     #    * It returns the class label (string) given a class id (int)
     #    * @param intValue int the class id
     #    * @return String the corrresponding class label
-    # '''
+
     def getOutputValue( intValue) :
         return Attributes.getOutputAttribute(0).getNominalValue(intValue)
 
-    # '''
+
     #  * It returns the type of the variable
     #  * @param variable int the variable id
     #  * @return int a code for the type of the variable (INTEGER, REAL or NOMINAL)
-    # '''
+
 
     def getType( self,variable) :
-        if (Attributes.getAttribute(variable).getType() == Attributes.getAttribute(0).INTEGER):
+        if (Attributes.getAttribute(variable).getType() == Attributes.getAttributeByPos(Attributes,0).INTEGER):
           return self.INTEGER
 
-        if (Attributes.getAttribute(variable).getType() == Attributes.getAttribute(0).REAL):
+        if (Attributes.getAttribute(variable).getType() == Attributes.getAttributeByPos(Attributes,0).REAL):
           return self.REAL
 
-        if (Attributes.getAttribute(variable).getType() == Attributes.getAttribute(0).NOMINAL):
+        if (Attributes.getAttribute(variable).getType() == Attributes.getAttributeByPos(Attributes,0).NOMINAL):
           return self.NOMINAL
 
         return 0
 
 
-    # '''
+
     #  * It returns the discourse universe for the input and output variables
     #  * @return double[][] The minimum [0] and maximum [1] range of each variable
-    # '''
+
     def getRanges(self):
       rangos =  [[0.0 for x in range (2)] for y in range (self.getnVars())]
       print("rangos has two dimensions, first is self.getnVars()"+ str(self.getnVars())+"second is 2")
@@ -580,20 +579,20 @@ class MyDataSet:
       rangos[self.getnVars() -1][1] = Attributes.getOutputAttribute(Attributes,0).getMaxAttribute()
       return rangos
 
-    # '''
+
     #    * It returns the attribute labels for the input features
     #    * @return String[] the attribute labels for the input features
-    # '''
+
     def getNames(self):
        nombres = ["" for x in range(self.__nInputs)]
        for i in range ( 0, self.__nInputs):
           nombres[i] = Attributes.getInputAttribute(Attributes,i).getName()
        return nombres
-    #
-    # '''
+
+
     #    * It returns the class labels
     #    * @return String[] the class labels
-    # '''
+
     def getClasses(self):
         clases = ["" for x in range(self.__nClasses)]
 

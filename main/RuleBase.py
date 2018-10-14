@@ -89,6 +89,7 @@ class RuleBase :
          # * @param train myDataset the training data-set
 
     def Generation( self,train) :
+            print("In Generation, the size of train is :" +str(train.size()))
             for i in range( 0, train.size()) :
                 rule = self.searchForBestAntecedent(train.getExample(i),train.getOutputAsInteger(i))
                 rule.assingConsequent(train, self.ruleWeight)
@@ -102,12 +103,15 @@ class RuleBase :
 
     def searchForBestAntecedent(self,example,clas):
             rule = Rule(self.n_variables, self.compatibilityType)
+            print("In searchForBestAntecedent ,self.n_variables is :" + str(self.n_variables))
             rule.setClass(clas)
+            print("In searchForBestAntecedent ,self.n_labels is :" + str(self.n_labels))
             for i in range( 0,self.n_variables):
                 max = 0.0
                 etq = -1
                 per=0.0
                 for j in range( 0, self.n_labels) :
+                    print("Inside the second loop of searchForBestAntecedent......")
                     per = DataBase.membershipFunction(i, j, example[i])
                     if (per > max) :
                         max = per
@@ -118,7 +122,7 @@ class RuleBase :
                     for j in range(0,self.n_variables):
                         print(example[j] + "\t")
 
-                    print("Variable " + i)
+                    print("Variable " + str(i))
                     exit(1)
 
                     rule.antecedent[i] = self.dataBase.clone(i, etq)
@@ -186,12 +190,12 @@ class RuleBase :
             produc = rule.compatibility(example)
             produc *= rule.weight
             if (rule.clas > class_degrees.length - 1) :
-                aux = float[class_degrees.length]
-                for j in range( 0, aux.length):
+                aux = [ 0.0 for x in range (class_degrees.length)]
+                for j in range( 0, len(aux)):
                     aux[j] = class_degrees[j]
 
                 class_degrees = float[rule.clas + 1]
-                for j in range( 0,aux.length):
+                for j in range( 0,len(aux)):
                     class_degrees[j] = aux[j]
 
             class_degrees[rule.clas] += produc

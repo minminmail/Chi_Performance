@@ -101,6 +101,7 @@ class InstanceSet:
     # It instances a new instance of InstanceSet
     data_folder = Path("D:/pythonAlgorithms/PythonChi/Chi_RW/main/simpleTest/datasets/iris/")
     file_to_open= None
+    data_lines=None
 
     def __init__(self,storeAttributesAsNonStatic=False, ins=None):
 
@@ -121,7 +122,7 @@ class InstanceSet:
     def InstanceSetWithNonSAtrr(self, nonStaticAttributes):
         self.storeAttributesAsNonStatic = nonStaticAttributes
         # if ( storeAttributesAsNonStatic ) Attributes.clearAll();
-        attributes = None
+        self.attributes = None
 
     def InstanceSetWithIns(self, ins):
         self.instanceSet = ins.instanSet.copy()
@@ -204,11 +205,18 @@ class InstanceSet:
             print("Reading the data")
             tempSet = [[0] * 1000] * 10000
             print("begin instance_parser.getLines()...... ")
-            lines = instance_parser.getLines()
-            for line in lines :
-                if(line is not None):
+            lines = self.data_lines
+            new_data_lines=[]
+            print("*********  There are : "+ str(len(lines))+ "In original Data lines ********* ")
+            for line in lines:
+                if ("@relation" not in line) and ("@attribute" not in line) and ("@inputs" not in line) and ("@outputs" not in line) and ("@data" not in line):
+                    new_data_lines.append(line)
+            print("*********  There are : " + str(len(new_data_lines)) + " In new Data lines ********* ")
+            for line in new_data_lines :
+                if(new_data_lines is not None):
                     print( "Data line: " + str(line))
-                    newInstance = Instance(line, isTrain, len(tempSet))
+                    newInstance = Instance()
+                    newInstance.setThreeParameters(line, isTrain, len(tempSet))
                     tempSet.append(newInstance)
 
                  # The vector of instances is converted to an array of instances.
@@ -260,37 +268,43 @@ class InstanceSet:
 
         print("Begin to call the InstanceParser.getLines(),parser.getLines(), in InstanceSet.")
         lines = parser.getLines()
+        self.data_lines = lines
 
         for line in lines:
             line = str(line).strip().lower()
             print("In parseHeader method of InstanceSet, the line is:" + line)
             if (line=="@data".lower()):
+
                 break
             else:
                 print("  Line read: " + line +"." )
                 lineCount += 1
                 if ("@relation" in line):
+
                     if (isTrain):
                         relationName = str(line.replace("@relation", "")).strip()
                         print("set Relation name :" + str(relationName))
                         Attributes.setRelationName(self,relationName)
                 elif ("@attribute" in line):
+
                     if (isTrain):
                         print("Begin insertAttribute ......")
                         self.insertAttribute(line);
                         attCount += 1
 
                 elif ("@inputs" in line):
-                        print("@inputs in "+str(line))
-                        self.attHeader = self.header
-                        inputsDef = True
 
-                        aux = line[8:]
+                    print("@inputs in "+str(line))
+                    self.attHeader = self.header
+                    inputsDef = True
 
-                        if (isTrain):
-                            print("Has @inputs, aux is :" + aux)
-                            self.insertInputOutput(aux, lineCount, inputAttrNames, "inputs", isTrain);
+                    aux = line[8:]
+
+                    if (isTrain):
+                        print("Has @inputs, aux is :" + aux)
+                        self.insertInputOutput(aux, lineCount, inputAttrNames, "inputs", isTrain);
                 elif ("@outputs" in line ):
+
                     if (self.attHeader == None):
                         self.attHeader = self.header
                     outputsDef = True
@@ -410,7 +424,7 @@ class InstanceSet:
                 print("st2[1].strip() :"+st2[1])
                 minBound = float(st2[0].strip())
                 maxBound = float(st2[1].strip())
-                print("Before at.setBounds(minBound, maxBound)")
+                print("Before at.setBounds(minBound, maxBound): ( "+ str(minBound) + " , " + str(maxBound) + " )")
                 at.setBounds(minBound, maxBound)
 
         print("Before add attribute :::: ")
@@ -466,7 +480,7 @@ class InstanceSet:
                 print("is neither inputAtt no outputAtt")
                 posHere = Attributes.getNumAttributes(self) - 1
 
-                outputAttrNames.append(Attributes.getAttribute(self,posHere).getName())
+                outputAttrNames.append(Attributes.getAttributeByPos(self,posHere).getName())
                 inputAttrNames = Attributes.getAttributesExcept(Attributes,outputAttrNames)
                 self.outputInfered = True;
             elif (inputsDef == False and outputsDef == True):
@@ -500,8 +514,10 @@ class InstanceSet:
 
     def getNumInstances(self):
         if (self.instanceSet != None):
+            print("instanceSet is not None")
             return len(self.instanceSet)
         else:
+            print("instanceSet is  None !!!")
             return 0
         # end numInstances
 

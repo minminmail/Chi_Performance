@@ -225,7 +225,7 @@ class InstanceAttributes :
     def getAttribute( self,_name) :
         i=0
         for i in range (0,len(self.__attributes)):
-            if ( Attribute(self.__attributes[i]).getName().equals(_name)):
+            if ( Attribute(self.__attributes[i]).getName()==_name):
              break;
 
         if (i == len(self.__attributes)):

@@ -57,7 +57,7 @@ class Fuzzy :
    # */
 
   def setX( self,X) :
-
+        print("Set Fuzzy X method begin ......")
         if ( (X <= self.x0) and (X >= self.x3)): # /* If X is not in the range of D, the */
 
           return 0.0 #/* membership degree is 0 */

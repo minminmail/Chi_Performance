@@ -87,13 +87,16 @@ class Fuzzy_Chi :
               inputTrainingFile= parameters.getInputTrainingFiles()
               print("In Fuzzy Chi init method the training file is :" + inputTrainingFile)
               self.train_myDataSet.readClassificationSet(inputTrainingFile, True)
+              print(" ********* train_myDataSet.myDataSet readClassificationSet finished !!!!!! *********")
 
               print("Reading the validation set: ")
               inputValidationFile=parameters.getValidationInputFile()
               self.val_myDataSet.readClassificationSet(inputValidationFile, False)
+              print(" ********* val_myDataSet.myDataSet readClassificationSet finished !!!!!! *********")
 
               print("Reading the test set: ")
               self.test_myDataSet.readClassificationSet(parameters.getInputTestFiles(), False)
+              print(" ********* test_myDataSet.myDataSet readClassificationSet finished !!!!!! *********")
 
             except IOError as ioError :
                 print ("I/O error: "+ str(ioError))
@@ -104,6 +107,7 @@ class Fuzzy_Chi :
             #
             #     #We may check if there are some numerical attributes, because our algorithm may not handle them:
             #     #somethingWrong = somethingWrong || train.hasNumericalAttributes();
+            print(" ********* Three type of myDataSet readClassificationSet finished !!!!!! *********")
             self.somethingWrong = self.somethingWrong or self.train_myDataSet.hasMissingAttributes()
 
             self.outputTr = parameters.getTrainingOutputFile()
@@ -187,7 +191,7 @@ class Fuzzy_Chi :
                 print("before getOutputAsString in Fuzzy_Chi")
                 self.output += dataset.getOutputAsString(i) + " " + classOut + "\n"
                 print("before getOutputAsString in Fuzzy_Chi")
-                if (dataset.getOutputAsString(i).equalsIgnoreCase(classOut)):
+                if (dataset.getOutputAsString(i).lower()==classOut.lower()):
                   hits+=1
               print("before open file in Fuzzy_Chi")
               file = open(filename,"w")

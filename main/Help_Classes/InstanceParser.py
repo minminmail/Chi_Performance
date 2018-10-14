@@ -136,7 +136,7 @@ class InstanceParser:
         try:
             file_first_line = None
 
-            print("In getLines file is "+ str(self.file))
+            print("In InstanceParser getLines method, the file is "+ str(self.file))
             file_strings = self.file.read()
             file_lines=file_strings.splitlines()
 

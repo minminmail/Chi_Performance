@@ -415,7 +415,7 @@ class Attribute:
    return 0
   if(whichClass<0 or whichClass >= len(self.__meanValue)):
    return 0
-  return self.__meanValue[whichClass];
+  return self.__meanValue[whichClass]
  #end getMeanValue
 
  # '''
@@ -432,8 +432,8 @@ class Attribute:
    print("self.w = " + str(self.w))
    self.h=len(self.__nominalValues)
    print( "self.h = " + str(self.h))
-   self.__classFrequencies = [[0 for x in range(self.w)] for y in range(self.h)]
-   self.__numStatUpdates = int[classNumber]
+   self.__classFrequencies = [[0 for x in range(self.h)] for y in range(classNumber)]
+   self.__numStatUpdates = [0 for x in range (classNumber)]
    for i in range(0, classNumber):
     self.__numStatUpdates[i] = 0
     nominalValueLen=len(self.__nominalValues)
@@ -444,8 +444,8 @@ class Attribute:
   else:
    print("In initStatisticsTwo type is not Nominal")
    print("classNumber is :" + str(classNumber))
-   self.__meanValue = [None] * classNumber
-   self.__numStatUpdates = [None] * classNumber
+   self.__meanValue = [0.0 for x in range(classNumber) ]
+   self.__numStatUpdates = [0 for x in range (classNumber)]
    print("before the loop in not nominal block")
    for i in range (0,classNumber):
     self.__meanValue[i] = 0
@@ -462,7 +462,7 @@ class Attribute:
    return
   if (self.__type == self.NOMINAL):
    print("In Attribute class the type is nominal, in finishStatistics method")
-   mostUsedValue = str [len(self.__classFrequencies)]
+   mostUsedValue = ["" for x in range (len(self.__classFrequencies))]
    for i in range(0,len(mostUsedValue)):
     max = self.__classFrequencies[i][0]
     pos = 0
@@ -610,7 +610,7 @@ class Attribute:
   if(attr.type!=self.__type) :
    return False;
   if(self.__type==self.NOMINAL) :
-   if(nominalValues.equals(attr.nominalValues)==False):
+   if(self.__nominalValues.lower()!=attr.nominalValues.lower()):
     return False;
 
     return True;

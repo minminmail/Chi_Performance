@@ -108,7 +108,10 @@ class DataBase :
     #      */
     # '''
     def  membershipFunction(self,i, j, X):
-            return self.dataBase[i][j].Fuzzify().setX()
+
+            value = self.dataBase[i][j].setX(X)
+            print("Get value form Fuzzy setX is :" + str(value))
+            return value
 
     # '''
     #      * It makes a copy of a fuzzy label
