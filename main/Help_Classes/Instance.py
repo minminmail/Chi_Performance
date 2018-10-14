@@ -197,15 +197,15 @@ class Instance :
         self.__numOutputAttributes = inst.__numOutputAttributes
         self.__numUndefinedAttributes = inst.__numUndefinedAttributes
 
-        self.anyMissingValue = list.copyOf(inst.anyMissingValue, inst.anyMissingValue.length)
+        self.__anyMissingValue = list.copyOf(inst.anyMissingValue, inst.anyMissingValue.length)
                              #str[inst.nominalValues.length][];
-        self.nominalValues = str[inst.nominalValues.length]
+        self.__nominalValues = ["" for x in range(len(inst.nominalValues))]
         for i in range(0,len(self.nominalValues)):
-            self.nominalValues[i] = list.copyOf(inst.nominalValues[i],inst.nominalValues[i].length)
+            self.__nominalValues[i] = list.copyOf(inst.nominalValues[i],inst.nominalValues[i].length)
                                 #int[inst.intNominalValues.length][];
-        self.intNominalValues = int[inst.intNominalValues.length]
+        self.__intNominalValues = int[inst.intNominalValues.length]
         for i in range(0,len(self.nominalValues)):
-            self.intNominalValues[i] = list.copyOf(inst.intNominalValues[i],inst.intNominalValues[i].length)
+            self.__intNominalValues[i] = list.copyOf(inst.intNominalValues[i],inst.intNominalValues[i].length)
 
                              #float[inst.realValues.length][];
         self.__realValues = float[inst.realValues.length]

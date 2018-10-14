@@ -529,7 +529,7 @@ class InstanceSet:
 
 
     def getInstance(self, whichInstance):
-        if (whichInstance < 0 or whichInstance >= len(self.instanceSet.length)):
+        if (whichInstance < 0 or whichInstance >= len(self.instanceSet)):
             return None
         return self.instanceSet[whichInstance]
 
@@ -559,7 +559,7 @@ class InstanceSet:
 
     def getInputNumericValue(self, whichInst, whichAttr):
         if (whichInst < 0 or whichInst >= len(self.instanceSet)):
-            raise IndexError("You are trying to access to " + whichInst + " instance and there are only " + self.instanceSet.length + ".")
+            raise IndexError("You are trying to access to " + whichInst + " instance and there are only " + str(len(self.instanceSet)) + ".")
         return self.instanceSet[whichInst].getInputRealValues(whichAttr)
 
 
@@ -596,7 +596,7 @@ class InstanceSet:
 
     def getInputNominalValue(self,whichInst, whichAttr):
         if (whichInst < 0 or whichInst >= len(self.instanceSet)):
-            print(self.ArrayIndexOutOfBoundsException("You are trying to access to " + whichInst + " instance and there are only " + self.instanceSet.length + "."))
+            print(self.ArrayIndexOutOfBoundsException("You are trying to access to " + whichInst + " instance and there are only " + str(len(self.instanceSet)) + "."))
         return self.instanceSet[whichInst].getOutputNominalValues(whichAttr)
         # end getInputNominalValue
 
@@ -628,7 +628,7 @@ class InstanceSet:
     def removeInstance(self, instNum):
         if (instNum < 0 or instNum >= len(self.instanceSet)):
             return
-        aux = Instance[len(self.instanceSet) - 1]
+        aux = [Instance() for x in range(len(self.instanceSet) - 1)]
         add = 0
         for i in range(0, len(self.instanceSet)):
             if (instNum == i):
@@ -665,15 +665,15 @@ class InstanceSet:
         # Getting a reference to the attribute to del
         if (inputAtt == True):
             if (self.storeAttributesAsNonStatic and self.attributes != None):
-                attToDel = self.attributes.getInputAttribute(whichAtt);
+                attToDel = self.attributes.getInputAttribute(whichAtt)
             else:
-                attToDel = Attributes.getInputAttribute(whichAtt);
+                attToDel = Attributes.getInputAttribute(whichAtt)
 
         else:
             if (self.storeAttributesAsNonStatic and self.attributes != None):
-                attToDel = self.attributes.getOutputAttribute(whichAtt);
+                attToDel = self.attributes.getOutputAttribute(whichAtt)
             else:
-                attToDel = Attributes.getOutputAttribute(whichAtt);
+                attToDel = Attributes.getOutputAttribute(whichAtt)
 
         if (self.storeAttributesAsNonStatic == True and self.attributes != None):
             print("Removing the attribute");
@@ -694,8 +694,8 @@ class InstanceSet:
                 if (self.storeAttributesAsNonStatic == True and self.attributes != None):
                     tSet.instanceSet[i].removeAttribute(self.attributes, attToDel, inputAtt, whichAtt)
             else:
-                tSet.instanceSet[i].removeAttribute(attToDel, inputAtt, whichAtt);
-            return True;
+                tSet.instanceSet[i].removeAttribute(attToDel, inputAtt, whichAtt)
+            return True
 
 
     # end removeAttribute
@@ -707,7 +707,7 @@ class InstanceSet:
 
 
     def getHeader(self):
-        return self.header;
+        return self.header
 
 
     # end getHeader
@@ -764,14 +764,14 @@ class InstanceSet:
             line += self.attributes.getOutputHeader() + "\n"
 
         else:
-            attrs = Attributes.getOutputAttributes();
+            attrs = Attributes.getOutputAttributes()
             line += str(attrs[0]) + "\n"
 
         # Getting @inputs and @outputs
-        line += Attributes.getInputHeader() + "\n";
-        line += Attributes.getOutputHeader() + "\n";
+        line += Attributes.getInputHeader() + "\n"
+        line += Attributes.getOutputHeader() + "\n"
 
-        return line;
+        return line
 
 
     # end getNewHeader
@@ -790,15 +790,15 @@ class InstanceSet:
 
         # Getting the relation name and the attributes
         if (self.storeAttributesAsNonStatic and self.attributes != None):
-            line = "@relation " + self.attributes.getRelationName() + "\n";
+            line = "@relation " + self.attributes.getRelationName() + "\n"
             attrs = self.attributes.getAttributes()
 
         else:
-            line = "@relation " + Attributes.getRelationName() + "\n";
+            line = "@relation " + Attributes.getRelationName() + "\n"
             attrs = Attributes.getAttributes()
 
         for i in range(0, len(attrs)):
-            line = line + str(attrs[i]) + "\n";
+            line = line + str(attrs[i]) + "\n"
         return line
         # end getOriginalHeaderWithoutInOut;
 
@@ -849,7 +849,7 @@ class InstanceSet:
                 out.println(Attributes.getOutputHeader());
 
         print("@data");
-        for i in range(0, self.instanceSet.length):
+        for i in range(0, len(self.instanceSet)):
             print();
             if (self.storeAttributesAsNonStatic and self.attributes != None):
                 self.instanceSet[i].printAsOriginal(self.attributes, out)
@@ -897,12 +897,12 @@ class InstanceSet:
         i = 0
         nVector = []
         if (self.instanceSet != None):
-            nVector = Instance[self.instanceSet.length + 1];
-            for i in range(0, self.instanceSet.length):
+            nVector = [Instance() for x in range (len(self.instanceSet) + 1)]
+            for i in range(0, len(self.instanceSet)):
                 nVector[i] = self.instanceSet[i]
 
         else:
-            nVector = Instance[1];
+            nVector = Instance[1]
 
         nVector[i] = inst
         self.instanceSet = nVector
