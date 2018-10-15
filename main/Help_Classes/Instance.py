@@ -116,8 +116,8 @@ class Instance :
         print("setThreeParameters begin...... " )
         currentClass = -1
         #System.out.println ("Reading data: "+def);
-        print("defStr is : "+defStr)
-
+        print("In setThreeParameters,defStr is : "+defStr)
+        print("In setThreeParameters, instanceNum is : " + str(instanceNum))
         st  = defStr.split(",") #Separator: "," and " "
         print("inside setThreeParameters st length is :" + str(len(st)))
         self.initClassAttributes()
@@ -130,6 +130,7 @@ class Instance :
         inputOutput = 0
         curCount=0
         for att in st:
+            att=att.strip()
             #Looking if the attribute is an input, an output or it's undefined
 
             curAt = Attributes.getAttributeByPos(Attributes,count)
@@ -139,25 +140,28 @@ class Instance :
             if (directionAttr==Attribute.INPUT):
                 print("directionAttr==Attribute.INPUT")
                 inputOutput = Instance.ATT_INPUT
-                inAttCount= + 1
                 curCount = inAttCount
+                print("curCount is : " + str(curCount))
+                inAttCount = inAttCount + 1
+                print("inAttCount is : "+str(inAttCount))
 
             elif (directionAttr==Attribute.OUTPUT):
                 print("directionAttr==Attribute.OUTPUT")
                 inputOutput = Instance.ATT_OUTPUT
                 if (curAt.getType() == Attribute.NOMINAL):
+                    print("curAt.getType() == Attribute.NOMINAL")
                     currentClass = curAt.convertNominalValue(att)
 
                     #System.out.println ( " The position of the current class "+ att +" is: "+ currentClass );
-                outAttCount += 1
-
+                curCount = outAttCount
+                outAttCount = outAttCount + 1
 
             else:
                 print("Attribute not defined neither as input or output")
                 #Attribute not defined neither as input or output. So, it is not read.
                 inputOutput = Instance.ATT_NONDEF
-            indefCount+=1
-            curCount = indefCount
+                curCount = indefCount
+                indefCount = indefCount + 1
 
             #The attribute is defined. So, its value is processed, and the attributes definitions
             #are checked to detect inconsistencies or to redefine undefined traits.
@@ -349,7 +353,9 @@ class Instance :
 
     def processReadValue(self,curAtt, defStr,  att,  inOut, count,  curCount,  instanceNum):
         print("processReadValue begin......")
+        print("In processReadValue,count = "+ str(count))
         #Checking if there is a missing value.
+        print(" In processReadValue, att = " +att)
         if(att=="<null>" or att=="?") :
             print("att==<null> or att==?......")
             Attributes.hasMissing = True
@@ -368,7 +374,10 @@ class Instance :
         elif(Attributes.getAttributeByPos(Attributes,count).getType()==Attribute.INTEGER or Attributes.getAttributeByPos(Attributes,count).getType()==Attribute.REAL) :
             print("getType()==Attribute.INTEGER......")
             try :
-                self.__realValues[inOut][curCount]=float(att)
+                print("inOut is:"+str(inOut)+", curCount is: "+str(curCount))
+                print("The length of self.__realValues column is:  "+ str(len(self.__realValues[0])))
+                self.__realValues[inOut][curCount] = float(att)
+                print("self.__realValues["+str(inOut)+"]["+str(curCount)+"]=" + att)
             except  ValueError as valueError :
                 error_info_2 =  ErrorInfo(ErrorInfo.BadNumericValue, instanceNum,
                                   InstanceParser.lineCounter, curCount, Attribute.INPUT+inOut,
@@ -404,7 +413,7 @@ class Instance :
                     #InstanceSet.errorLogger.setError(er)
                     print(" !!!!!!!!! InstanceSet.errorLogger.setError: " + str(error_info_4))
 
-                curAtt.addNominalValue(self.nominalValues[inOut][curCount]);
+                curAtt.addNominalValue(self.nominalValues[inOut][curCount])
             elif(inOut!=2):
                 if (curAtt.addTestNominalValue(self.__nominalValues[inOut][curCount])):
                     error_info_5 =  ErrorInfo(ErrorInfo.TestNominalOutOfRange, instanceNum, InstanceParser.lineCounter, curCount, Attribute.INPUT+inOut, self.isTrain,
@@ -447,8 +456,11 @@ class Instance :
         self.intNominalValues[2] = [0 for x in range (self.__numUndefinedAttributes)]
         print("Length of self.__realValues  is : " + str(len(self.__realValues)))
         self.__realValues[0]       = [0.0  for x in range(self.__numInputAttributes)]
+        print("Length of self.__realValues[0]  is : " + str(self.__numInputAttributes))
         self.__realValues[1]       = [0.0  for x in range(self.__numOutputAttributes)]
+        print("Length of self.__realValues[1]  is : " + str(self.__numOutputAttributes))
         self.__realValues[2]       = [0.0  for x in range(self.__numUndefinedAttributes)]
+        print("Length of self.__realValues[2]  is : " + str(self.__numUndefinedAttributes))
         print("Length of self.__missingValues  is : " + str(len(self.__missingValues)))
         self.__missingValues[0]    = [0.0  for x in range(self.__numInputAttributes)]
         self.__missingValues[1]    = [0.0  for x in range(self.__numOutputAttributes)]

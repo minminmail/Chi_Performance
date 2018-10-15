@@ -203,7 +203,7 @@ class InstanceSet:
             # A temporal vector is used to store the instances read.
 
             print("Reading the data")
-            tempSet = [[0] * 1000] * 10000
+            tempSet = []
             print("begin instance_parser.getLines()...... ")
             lines = self.data_lines
             new_data_lines=[]
@@ -216,13 +216,14 @@ class InstanceSet:
                 if(new_data_lines is not None):
                     print( "Data line: " + str(line))
                     newInstance = Instance()
+                    print("tempSet that pass to setThreeParameters is: " + str(len(tempSet)))
                     newInstance.setThreeParameters(line, isTrain, len(tempSet))
                     tempSet.append(newInstance)
 
                  # The vector of instances is converted to an array of instances.
             sizeInstance = len(tempSet)
             print(" Number of instances read: " + str(sizeInstance))
-            instanceSet = []
+            instanceSet = [Instance() for x in range (sizeInstance)]
 
             for i in range(0, sizeInstance):
                 instanceSet.append (tempSet[i])

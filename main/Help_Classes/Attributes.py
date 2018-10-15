@@ -682,7 +682,7 @@ class Attributes:
         input_attr_length = len(self.inputAttr)
         print("class Number is bigger than 0, input_attr_length = " + str(input_attr_length))
         for i in range (0,input_attr_length):
-            print("Call Attribute.initStatisticsTwo in Attributes initStatistics......")
+            print("Call Attribute.initStatisticsTwo in Attributes initStatistics......classNumber = " + str(classNumber))
             (self.inputAttr[i]).initStatisticsTwo(classNumber)
 
     #end initStatistics

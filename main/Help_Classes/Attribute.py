@@ -382,7 +382,7 @@ class Attribute:
   if(self.__type!=self.NOMINAL) :
    return
   if (value not in self.__nominalValues):
-   print("add value:" + str(value) + "to __nominalValues")
+   print("self.__nominalValues ,add value:" + str(value) + ",to __nominalValues")
    self.__nominalValues.append(str(value))
 
  #end addNominalValue
@@ -492,9 +492,12 @@ class Attribute:
  #  * @param value is the nominal value which frequency has to be increased.
  #  '''
  def increaseClassFrequency(self, whichClass,  value):
+  print("increaseClassFrequency begin......")
   if (self.__makeStatistics and self.__classFrequencies != None and self.__classFrequencies[whichClass] != None and self.__classFrequencies[whichClass] != None):
-   _classFrequencies[whichClass] [convertNominalValue(value)]+=1;
-   _numStatUpdates[whichClass]+=1;
+   column_here=self.convertNominalValue(value)
+   print("self.__classFrequencies, row here is :"+whichClass+",column_here is :" + str(column_here) )
+   self.__classFrequencies[whichClass] [column_here] =self.__classFrequencies[whichClass] [column_here] + 1
+   self.__numStatUpdates[whichClass] =self.__numStatUpdates[whichClass] + 1
 
  #end increaseClassFrequency
 
@@ -594,7 +597,10 @@ class Attribute:
  #  * @return an int with the converted value.
  #  '''
  def convertNominalValue(self, value) :
-  return self.__nominalValues.index(value);
+  print("convertNominalValue begin......")
+  position_here =self.__nominalValues.index(value.strip())
+  print("position_here : "+ str(position_here))
+  return position_here
  #end convertNominalValue
 
 
