@@ -29,8 +29,8 @@
 
 **********************************************************************/
 '''
-from main import Fuzzy_Chi
-from main import Fuzzy
+import Fuzzy_Chi
+from Fuzzy import Fuzzy
 
 '''
  * <p>This class contains the structure of a Fuzzy Rule</p>

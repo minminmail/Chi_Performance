@@ -29,7 +29,7 @@
 # **********************************************************************/
 
 
-from main import Fuzzy
+from Fuzzy import Fuzzy
 from DataBase import DataBase
 import Rule
 import Fuzzy_Chi

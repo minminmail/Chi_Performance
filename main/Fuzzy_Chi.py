@@ -28,7 +28,7 @@
 
 #**********************************************************************/
 from DataBase import DataBase
-import RuleBase
+from RuleBase import RuleBase
 from MyDataSet import MyDataSet
  # * <p>It contains the implementation of the Chi algorithm</p>
  # *
@@ -154,7 +154,7 @@ class Fuzzy_Chi :
               self.dataBase = DataBase()
               self.dataBase.setMultipleParameters(self.train_myDataSet.getnInputs(), self.nLabels,self.train_myDataSet.getRanges(),self.train_myDataSet.getNames())
               print("DataBase object has been created......")
-              self.ruleBase = RuleBase.RuleBase(self.dataBase, self.inferenceType, self.combinationType,self.ruleWeight, self.train_myDataSet.getNames(), self.train_myDataSet.getClasses())
+              self.ruleBase = RuleBase(self.dataBase, self.inferenceType, self.combinationType,self.ruleWeight, self.train_myDataSet.getNames(), self.train_myDataSet.getClasses())
 
               print("Data Base:\n"+self.dataBase.printString())
               self.ruleBase.Generation(self.train_myDataSet)

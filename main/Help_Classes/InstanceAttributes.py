@@ -48,7 +48,7 @@
  # */
 
 
-from main.Help_Classes import Attribute, Attributes
+from Help_Classes import Attribute, Attributes
 
 
 class InstanceAttributes :
