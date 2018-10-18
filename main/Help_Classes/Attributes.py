@@ -241,13 +241,13 @@ class Attributes:
 
 # /**
 #  * It does return all the input attributes
-#      * @return all the input attributes
+#      * @return all the input attributesgetOutputHeader
 #  */
   def getInputAttributes(self):
     if (len(self.inputAttr) == 0) :
         return None
     attr = self.inputAttr
-    for i in range (0, attr.length):
+    for i in range (0, len(attr)):
       attr[i] = self.inputAttr[i]
 
     return attr
@@ -333,7 +333,7 @@ class Attributes:
   def  getOutputAttributesHeader(self):
     aux = ""
     for i in range (0, len(self.outputAttr)):
-        #Writting the name and type of the attribute
+        #Writting the name and type of the attributeoutputAttr
         aux += self.outputAttr[i].toString()+"\n"
     print("getOutputAttributesHeader, aux =" + aux)
     return aux
@@ -386,7 +386,16 @@ class Attributes:
 #  *
 
   def getAttributeByPos(self, pos):
-   return self.attributes[pos]
+      lengthAtt= len(self.attributes)
+      print("The size of attribute array is :" + str(lengthAtt))
+      print("The pos given is :" + str(pos))
+      if (pos<lengthAtt):
+          attStr=self.attributes[pos]
+          print("Return :"+ str(attStr))
+          return attStr
+      else:
+          print(" Return None !!! pos is bigger than array length, will cause out of index error .")
+          return None
   #end getAttribute
 
 # /**
@@ -665,7 +674,10 @@ class Attributes:
 #  */
 
   def initStatistics(self):
-    if (len(self.outputAttr) != 1):
+    print("In Attributes initStatistics begin.....")
+    outputAttNumber=len(self.outputAttr)
+    print("In initStatistics of Attributes, the outputAttNumber is " + str(outputAttNumber))
+    if (outputAttNumber != 1):
         return
     for out_put_att in self.outputAttr:
         name=out_put_att.getName()
@@ -673,7 +685,7 @@ class Attributes:
     print("outputAttr[0]"+str(self.outputAttr[0]))
     classNumber = self.outputAttr[0].getNumNominalValues()
     print("inside initStatistics the classNumber is:"+ str(classNumber))
-    #If the output attribute has not been defined as a nominal or it has not
+    #If the outpout_put_att isut attribute has not been defined as a nominal or it has not
     #any value in the nominal list, the initalization is aborted.
     if classNumber<=0:
         print("class Number is smaller than 0, return")

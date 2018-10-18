@@ -200,7 +200,7 @@ class MyDataSet:
               if(self.__instanceSet is None):
                   print("self.__instanceSet is Null")
               else :
-                  print("self.__instanceSet is not None")
+                  print("self.__instanceSet is not None, train = " +str(train))
                   self.__instanceSet.readSet(datasetFile, train)
                   print("begin getNumInstances ...... in readClassificationSet ")
                   self.__nData = self.__instanceSet.getNumInstances()
@@ -360,7 +360,7 @@ class MyDataSet:
     def copyHeader(self):
 
         p = ""
-        print("P is :" + p)
+        print("copyHeader begin...., P is :" + p)
         p = "@relation " + Attributes.getRelationName(Attributes) + "\n"
         print(" after relation P is :" + p)
         p += Attributes.getInputAttributesHeader(Attributes)

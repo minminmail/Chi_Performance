@@ -77,13 +77,14 @@ class DataBase :
 
                 else:
                     print("Marca !=0 in DataBase init method...")
-                    for etq in range(0, n_labels):
-                        self.dataBase[i][etq] =  Fuzzy()
+                    print("n_labels = "+n_labels)
+                    for etq in range(0, int(n_labels)):
+                        print(" i = " + str(i) + ",etq = " + str(etq))
                         self.dataBase[i][etq].x0 = rangos[i][0] + marca * (etq - 1)
                         self.dataBase[i][etq].x1 = rangos[i][0] + marca * etq
                         self.dataBase[i][etq].x3 = rangos[i][0] + marca * (etq + 1)
                         self.dataBase[i][etq].y = 1
-                        self.dataBase[i][etq].name = ("L_" + etq)
+                        self.dataBase[i][etq].name = ("L_" + str(etq))
                         self.dataBase[i][etq].label = etq
 
 

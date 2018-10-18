@@ -1,54 +1,54 @@
-'''
-*********************************************************************
 
-	This file is part of KEEL-software, the Data Mining tool for regression,
-	classification, clustering, pattern mining and so on.
+# *********************************************************************
+#
+# 	This file is part of KEEL-software, the Data Mining tool for regression,
+# 	classification, clustering, pattern mining and so on.
+#
+# 	Copyright (C) 2004-2010
+#
+# 	F. Herrera (herrera@decsai.ugr.es)
+#     L. S谩nchez (luciano@uniovi.es)
+#     J. Alcal谩-Fdez (jalcala@decsai.ugr.es)
+#     S. Garc铆a (sglopez@ujaen.es)
+#     A. Fern谩ndez (alberto.fernandez@ujaen.es)
+#     J. Luengo (julianlm@decsai.ugr.es)
+#
+# 	This program is free software: you can redistribute it and/or modify
+# 	it under the terms of the GNU General Public License as published by
+# 	the Free Software Foundation, either version 3 of the License, or
+# 	(at your option) any later version.
+#
+# 	This program is distributed in the hope that it will be useful,
+# 	but WITHOUT ANY WARRANTY; without even the implied warranty of
+# 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# 	GNU General Public License for more details.
+#
+# 	You should have received a copy of the GNU General Public License
+# 	along with this program.  If not, see http://www.gnu.org/licenses/
+#
+# *********************************************************************
 
-	Copyright (C) 2004-2010
+# Attribute.java
+#
+# * <b> Attribute </b>
+#
+# * It contains an attribute representation. The class attributes are enough to
+# * descrive completly an attribute: name, type, possible values, minimums and
+# * maximums, etc. It offers a collection of functions to get all this information.
+# *
+# * @author Albert Orriols Puig
+# * @version keel0.1
 
-	F. Herrera (herrera@decsai.ugr.es)
-    L. S谩nchez (luciano@uniovi.es)
-    J. Alcal谩-Fdez (jalcala@decsai.ugr.es)
-    S. Garc铆a (sglopez@ujaen.es)
-    A. Fern谩ndez (alberto.fernandez@ujaen.es)
-    J. Luengo (julianlm@decsai.ugr.es)
-
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see http://www.gnu.org/licenses/
-
-*********************************************************************
-
-Attribute.java
-
-* <b> Attribute </b>
-
-* It contains an attribute representation. The class attributes are enough to
-* descrive completly an attribute: name, type, possible values, minimums and
-* maximums, etc. It offers a collection of functions to get all this information.
-*
-* @author Albert Orriols Puig
-* @version keel0.1
-'''
 class Attribute:
 
- '''
-/////////////////////////////////////////////////////////////////////////////
-//////////////// CONSTANTS OF THE ATTRIBUTE CLASS ///////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-
-
- * Label for NOMINAL values.
-'''
+#  '''
+# /////////////////////////////////////////////////////////////////////////////
+# //////////////// CONSTANTS OF THE ATTRIBUTE CLASS ///////////////////////////
+# /////////////////////////////////////////////////////////////////////////////
+#
+#
+#  * Label for NOMINAL values.
+# '''
 
  NOMINAL = 0
 
@@ -273,6 +273,8 @@ class Attribute:
  #  '''
 
  def getFixedBounds(self):
+
+  print("self.__fixedBounds: "+str(self.__fixedBounds))
   return self.__fixedBounds
  #end getFixedBounds
 
@@ -598,8 +600,10 @@ class Attribute:
  #  '''
  def convertNominalValue(self, value) :
   print("convertNominalValue begin......")
-  position_here =self.__nominalValues.index(value.strip())
-  print("position_here : "+ str(position_here))
+  for value_inside in self.__nominalValues:
+   print("value in self.__nominalValues is :" + str(value_inside))
+  position_here =self.__nominalValues.index(value.strip().lower())
+  print("for value pass :" + str(value) + ", position_here : "+ str(position_here))
   return position_here
  #end convertNominalValue
 

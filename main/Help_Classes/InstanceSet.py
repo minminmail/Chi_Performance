@@ -197,6 +197,7 @@ class InstanceSet:
             self.parseHeader(instance_parser, isTrain)
             print(" The number of output attributes is: " + str(Attributes.getOutputNumAttributes(Attributes)))
                 # The attributes statistics are init if we are in train mode.
+            print("In readSet, isTrain is " + str(isTrain))
             if isTrain and Attributes.getOutputNumAttributes(Attributes) == 1:
                 print("Begin Attributes.initStatistics......")
                 Attributes.initStatistics(Attributes)
@@ -483,7 +484,7 @@ class InstanceSet:
 
                 outputAttrNames.append(Attributes.getAttributeByPos(self,posHere).getName())
                 inputAttrNames = Attributes.getAttributesExcept(Attributes,outputAttrNames)
-                self.outputInfered = True;
+                self.outputInfered = True
             elif (inputsDef == False and outputsDef == True):
                 print("inputsDef == False and outputsDef == True")
                 inputAttrNames = Attributes.getAttributesExcept(Attributes,outputAttrNames)
@@ -749,10 +750,10 @@ class InstanceSet:
         # Getting the relation name and the attributes
         if (self.storeAttributesAsNonStatic == True and self.attributes != None):
             line = "@relation " + self.attributes.getRelationName() + "\n"
-            attrs = self.attributes.getInputAttributes()
+            attrs = self.attributes.getInputAttributes(Attributes)
         else:
             line = "@relation " + Attributes.getRelationName() + "\n"
-            attrs = Attributes.getInputAttributes()
+            attrs = Attributes.getInputAttributes(Attributes)
 
         for i in range(0, attrs.length):
             line += attrs[i].toString() + "\n"

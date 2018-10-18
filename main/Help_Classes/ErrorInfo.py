@@ -107,7 +107,7 @@ class ErrorInfo :
     # /**
     #  * Creates a new instance of ErrorInfo
     #  */
-      def __init__ErrorInfo(self):
+      def __init__(self):
         self.typeOfError = -1
         self.instanceNum = -1
         self.fileLineNum = -1
@@ -120,7 +120,7 @@ class ErrorInfo :
     # /**
     #  * Creates a new instance with the parameters passed.
     #  */
-      def __init__ErrorInfo(self,_type,  _iNum,  _lNum, _atNum,  _atDir,  _train,  _msg):
+      def set_Eight_Parameters(self,_type,  _iNum,  _lNum, _atNum,  _atDir,  _train,  _msg):
         self.typeOfError = _type
         self.instanceNum = _iNum
         self.fileLineNum = _lNum
