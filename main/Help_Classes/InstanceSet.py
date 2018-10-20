@@ -224,10 +224,10 @@ class InstanceSet:
                  # The vector of instances is converted to an array of instances.
             sizeInstance = len(tempSet)
             print(" Number of instances read: " + str(sizeInstance))
-            instanceSet = [Instance() for x in range (sizeInstance)]
+            self.instanceSet = [Instance() for x in range (sizeInstance)]
 
             for i in range(0, sizeInstance):
-                instanceSet.append (tempSet[i])
+                self.instanceSet.append (tempSet[i])
             print("After converting all instances")
                      # System.out.println("The error logger has any error: "+errorLogger.getNumErrors());
             if self.errorLogger.getNumErrors() > 0:
@@ -560,9 +560,22 @@ class InstanceSet:
 
 
     def getInputNumericValue(self, whichInst, whichAttr):
+        print("InstanceSet, getInputNumericValue begin...")
+        print("whichInst = "+ str(whichInst)+ ", whichAttr =" + str(whichAttr))
+        print("len(self.instanceSet) = " + str(len(self.instanceSet)))
+
+
         if (whichInst < 0 or whichInst >= len(self.instanceSet)):
             raise IndexError("You are trying to access to " + whichInst + " instance and there are only " + str(len(self.instanceSet)) + ".")
-        return self.instanceSet[whichInst].getInputRealValues(whichAttr)
+        instanceHere = self.instanceSet[whichInst]
+        print("instanceHere = " + str(instanceHere))
+        numericValue=0.0
+        try:
+            numericValue=instanceHere.getInputRealValues(instanceHere)
+        except Exception as error:
+            print("getInputRealValues has exception!! : "+str(error))
+
+        return numericValue
 
 
     # end getInputNumericValue

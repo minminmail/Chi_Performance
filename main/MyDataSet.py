@@ -230,22 +230,26 @@ class MyDataSet:
 
                   print("define all the array in MyDataSet class......")
                    #Initialice and fill our own tables
-                  print("The two dimension array X, dimension 1 is :" + str(self.__nData)+"Dimension 2 is :" + str(self.__nInputs))
+                  print("The two dimension array X, dimension 1 is :" + str(self.__nData)+" ,Dimension 2 is :" + str(self.__nInputs))
 
                   nDataLength=self.__nData
                   nInputLength=self.__nInputs
-                  self.__X =[[0 for x in range(nDataLength)] for y in range(nInputLength)]
+                  print("nDataLength = " +str(nDataLength))
+                  print("nInputLength = " + str(nInputLength))
+                  #[[0 for j in range(m)] for i in range(n)] first column, then row
 
-                  self.__missing = [[0 for x in range(nDataLength)] for y in range(nInputLength)]
+                  self.__X = [[0.0 for y in range(nInputLength)] for x in range(nDataLength)]
+
+                  self.__missing = [[False for y in range(nInputLength)]for x in range(nDataLength)]
 
                   self.__outputInteger = [ 0 for x in range(nDataLength)]
 
-                  self.__outputReal = [ 0 for x in range(nDataLength)]
-                  self.__output =[ 0 for x in range(nDataLength)]
+                  self.__outputReal = [ 0.0 for x in range(nDataLength)]
+                  self.__output =[ "" for x in range(nDataLength)]
 
                 # Maximum and minimum of inputs
-                  self.emax = [ 0 for x in range(nInputLength)]
-                  self.emin = [ 0 for x in range(nInputLength)]
+                  self.emax = [ 0.0 for x in range(nInputLength)]
+                  self.emin = [ 0.0 for x in range(nInputLength)]
 
                   for n in range( 0,nInputLength):
                      self.emax[n] = Attributes.getAttributeByPos(Attributes,n).getMaxAttribute()
@@ -257,25 +261,30 @@ class MyDataSet:
                   for i in range( 0, nDataLength) :
                       inst = self.__instanceSet.getInstance(i)
                       for j in range( 0, nInputLength):
+                           print("i = "+ str(i)+",j = "+ str(j))
                            self.__X[i][j] = self.__instanceSet.getInputNumericValue(i, j) #inst.getInputRealValues(j);
+                           print("after get self.__X[i][j]")
                            self.__missing[i][j] = inst.getInputMissingValues(j)
+                           print("after self.__missing[i][j]")
                            if (self.__missing[i][j]==True):
                              self.__X[i][j] = self.emin[j] - 1
 
                       if (noOutputs==True):
+                            print("noOutputs==True")
                             self.__outputInteger[i] = 0
                             self.__output[i] = ""
                       else:
+                            print("noOutputs==False")
                             self.__outputInteger[i] = self.__instanceSet.getOutputNumericValue(i, 0)
                             self.__output[i] = self.__instanceSet.getOutputNominalValue(i, 0)
 
                       if(self.__outputInteger[i] > nClasses):
                             nClasses = self.__outputInteger[i]
 
-                  nClasses+=1
+                  nClasses = nClasses + 1
                   print('Number of classes=' + str(nClasses))
          except Exception as error:
-               print("DBG: Exception in readSet, in readClassificationSet:" + str(error))
+               print("readClassificationSet: Exception in readSet, in readClassificationSet:" + str(error))
 
          self.computeStatistics()
          self.computeInstancesPerClass()
@@ -416,10 +425,8 @@ class MyDataSet:
 
 
     def sizeWithoutMissing(self):
-
         tam = 0
         for i in range( 0, self.__nData):
-
             for j in range(1 ,self.__nInputs):
                # changed the isMissing condition inside if
                   if (self.isMissing(i, j)==True) and (j == self.__nInputs) :
@@ -440,10 +447,14 @@ class MyDataSet:
     def  computeStatistics(self):
         try:
             print("Begin computeStatistics......")
-            self.__stdev = [0 for x in range (self.getnVars())] # original was double ,changed into float in python
-            self.__average = [0 for x in range(self.getnVars())]
+            varNum = self.getnVars()
+            print("varNum = " + str(varNum))
+            self.__stdev = [0 for x in range (varNum)] # original was double ,changed into float in python
+            self.__average = [0 for x in range(varNum)]
 
-            for i in range ( 0,self.getnInputs()):
+            inputNum=self.getnInputs()
+            print("inputNum = " + str(inputNum))
+            for i in range ( 0,inputNum):
               self.__average[i] = 0
               for j in range (0, self.getnData()):
                 if (self.isMissing(j, i)==False):

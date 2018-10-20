@@ -529,7 +529,7 @@ class Instance :
             elif(attrType== Attribute.REAL):
                 outHere.print(self.__realValues[Instance.ATT_OUTPUT][i])
 
-            outHere.print("\n    > Undefined: ");
+            outHere.print("\n    > Undefined: ")
         for i in range(0,self.__numUndefinedAttributes):
             attrType=Attributes.getOutputAttribute(i).getType()
 
@@ -628,7 +628,7 @@ class Instance :
         print("  > Outputs ("+self.__numOutputAttributes+"): ")
         for i in range (0,self.__numOutputAttributes):
             if (self.__missingValues[Instance.ATT_OUTPUT][i]):
-                print("?");
+                print("?")
 
             else:
                 outputAttr=Attributes.getOutputAttribute(i).getType()
@@ -645,7 +645,7 @@ class Instance :
         print("  > Undefined ("+self.__numUndefinedAttributes+"): ")
         for i in range(0, self.__numUndefinedAttributes):
             if(self.__missingValues[Instance.ATT_NONDEF][i]):
-                print("?");
+                print("?")
 
             else:
                 undefinedAttrType=Attributes.getUndefinedAttribute(i).getType()
@@ -677,7 +677,16 @@ class Instance :
      # * correspond to a real attribute has no rellevant data.
 
     def getInputRealValues(self):
-        return self.__realValues[0]
+        print("getInputRealValues begin......")
+        try:
+
+            print(" len(self.__realValues)= " + str(len(self.__realValues)))
+            if(self.__realValues[0] !=None):
+                return self.__realValues[0]
+            else:
+                return 0
+        except Exception as error:
+            print("inside getInputRealValues method, it has error:"+ str(error))
     #end getInputRealAttributes
 
 
@@ -697,6 +706,7 @@ class Instance :
      # * input value is not known.
 
     def getInputMissingValues(self):
+        print("getInputMissingValues begin......")
         return self.__missingValues[0]
     #end getINputMissingValues
 
@@ -823,7 +833,7 @@ class Instance :
      # * @return a boolean indicating if that output value is missing.
 
     def  getOutputMissingValues(self,pos):
-        return self.__missingValues[1][pos];
+        return self.__missingValues[1][pos]
     #end getOutputMissingValues
 
 
@@ -910,12 +920,12 @@ class Instance :
     def setInputNumericValue(self,pos, value):
         at = Attribute(Attributes.getInputAttribute(pos))
         if (at.getType() == Attribute.NOMINAL) :
-            return False;
+            return False
         else:
             if (at.isInBounds(value)):
                 self.__realValues[0][pos] = value
                 self.__missingValues[0][pos] = False
-                self.__anyMissingValue[0] = False;
+                self.__anyMissingValue[0] = False
                 for i in range(0, len(self.__missingValues[0])):
                     self.__anyMissingValue[0] |= self.__missingValues[0][i]
 
@@ -937,7 +947,7 @@ class Instance :
     def setOutputNumericValue( self,pos,  value):
         at = Attribute(Attributes.getOutputAttribute(pos))
         if (at.getType() == Attribute.NOMINAL) :
-            return False;
+            return False
         else:
             if (at.isInBounds(value)):
                 self.__realValues[1][pos] = value
@@ -1094,7 +1104,7 @@ class Instance :
                 missingValuesAux[k] = self.__missingValues[index][i]
                 if (missingValuesAux[k]) :
                     self.__anyMissingValue[index] = True
-                k+=1;
+                k+=1
 
         else:
                 nominalValuesUndef[undefPosition]       = self.__nominalValues[index][i]
@@ -1226,7 +1236,7 @@ class Instance :
      # * original file.
      # * @param out is the PrintWriter where to print.
 
-    def printAsOriginal ( self,instAttributes,  out):
+    def printAsOriginal( self,instAttributes,  out):
         inCount = 0
         outCount = 0
         undefCount=0
@@ -1297,7 +1307,7 @@ class Instance :
                     print(self.__realValues[Instance.ATT_OUTPUT][i])
 
 
-        print("  ");
+        print("  ")
 
 
         print("  > Undefined ("+self.__numUndefinedAttributes+"): ")
@@ -1536,11 +1546,11 @@ class Instance :
      # * @return A new allocated String with the instance in KEEL format (CSV).
 
     def toString(self, instAttributes):
-        aux = "";
+        aux = ""
         ending = ","
         for i in range(0, self.__numInputAttributes):
             if (i == self.__numInputAttributes-1 and self.__numOutputAttributes == 0):
-                ending = "";
+                ending = ""
             instAttrType=instAttributes.getInputAttribute(i).getType()
             if(instAttrType== Attribute.NOMINAL):
                 aux += self.__nominalValues[0][i]
@@ -1554,10 +1564,10 @@ class Instance :
 
         aux += ending
 
-        ending = ",";
+        ending = ","
         for i in range(0, self.__numOutputAttributes):
             if (i == self.__numOutputAttributes-1) :
-                ending = "";
+                ending = ""
             instOutputAttrType=instAttributes.getOutputAttribute(i).getType()
             if(instOutputAttrType==Attribute.NOMINAL) :
               aux += self.__nominalValues[1][i]

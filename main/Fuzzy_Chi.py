@@ -160,6 +160,8 @@ class Fuzzy_Chi :
       print("Data Base:\n"+self.dataBase.printString())
       self.ruleBase.Generation(self.train_myDataSet)
 
+      print("self.fileDB = " + str(self.fileDB))
+      print("self.fileRB = " + str(self.fileRB))
       self.dataBase.writeFile(self.fileDB)
       self.ruleBase.writeFile(self.fileRB)
 
@@ -185,6 +187,7 @@ class Fuzzy_Chi :
           self.output = dataset.copyHeader() #we insert the header in the output file
           #We write the output for each example
           print("before loop in Fuzzy_Chi")
+          print("dataset.getnData()"+ str(dataset.getnData()))
           for i in range( 0, dataset.getnData()):
             #for classification:
             print("before classificationOutput in Fuzzy_Chi")
