@@ -678,6 +678,7 @@ class Instance :
 
     def getInputRealValues(self):
         print("getInputRealValues begin......")
+
         try:
 
             print(" len(self.__realValues)= " + str(len(self.__realValues)))
@@ -754,6 +755,7 @@ class Instance :
     #  */
 
     def getInputRealValues(self,pos):
+        print("getInputRealValues, [0]["+str(pos)+"]")
         return self.__realValues[0][pos]
     #end getInputRealAttributes
 

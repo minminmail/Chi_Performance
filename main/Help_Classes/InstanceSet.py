@@ -103,21 +103,11 @@ class InstanceSet:
     file_to_open= None
     data_lines=None
 
-    def __init__(self,storeAttributesAsNonStatic=False, ins=None):
 
+    def __init__(self):
         print("In __init__ method in InstanceSet.")
-
-        if(ins!=None):
-            self.instanceSet = ins.instanSet.copy()
-
-            self.header = str(ins.header)
-            self.attHeader = str(ins.attHeader)
-            self.attributes = str(ins.attributes)
-            self.storeAttributesAsNonStatic = ins.storeAttributesAsNonStatic
-        else:
-            self.storeAttributesAsNonStatic = storeAttributesAsNonStatic
-            self.attributes = None
-    # end InstanceSet
+        self.storeAttributesAsNonStatic = False
+        self.attributes = None
 
     def InstanceSetWithNonSAtrr(self, nonStaticAttributes):
         self.storeAttributesAsNonStatic = nonStaticAttributes
@@ -224,7 +214,7 @@ class InstanceSet:
                  # The vector of instances is converted to an array of instances.
             sizeInstance = len(tempSet)
             print(" Number of instances read: " + str(sizeInstance))
-            self.instanceSet = [Instance() for x in range (sizeInstance)]
+            self.instanceSet = []
 
             for i in range(0, sizeInstance):
                 self.instanceSet.append (tempSet[i])
@@ -291,7 +281,7 @@ class InstanceSet:
 
                     if (isTrain):
                         print("Begin insertAttribute ......")
-                        self.insertAttribute(line);
+                        self.insertAttribute(line)
                         attCount += 1
 
                 elif ("@inputs" in line):
@@ -516,8 +506,9 @@ class InstanceSet:
 
     def getNumInstances(self):
         if (self.instanceSet != None):
-            print("instanceSet is not None")
-            return len(self.instanceSet)
+            instanceNumber=len(self.instanceSet)
+            print("instanceSet is not None, instanceNumber = " +str(instanceNumber))
+            return instanceNumber
         else:
             print("instanceSet is  None !!!")
             return 0
@@ -561,17 +552,18 @@ class InstanceSet:
 
     def getInputNumericValue(self, whichInst, whichAttr):
         print("InstanceSet, getInputNumericValue begin...")
+        instance_number=len(self.instanceSet)
         print("whichInst = "+ str(whichInst)+ ", whichAttr =" + str(whichAttr))
-        print("len(self.instanceSet) = " + str(len(self.instanceSet)))
+        print("len(self.instanceSet) = " + str(instance_number))
 
 
-        if (whichInst < 0 or whichInst >= len(self.instanceSet)):
-            raise IndexError("You are trying to access to " + whichInst + " instance and there are only " + str(len(self.instanceSet)) + ".")
+        if (whichInst < 0 or whichInst >= instance_number):
+            raise IndexError("You are trying to access to " + whichInst + " instance and there are only " + str(instance_number) + ".")
         instanceHere = self.instanceSet[whichInst]
         print("instanceHere = " + str(instanceHere))
         numericValue=0.0
         try:
-            numericValue=instanceHere.getInputRealValues(instanceHere)
+            numericValue=instanceHere.getInputRealValues(whichAttr)
         except Exception as error:
             print("getInputRealValues has exception!! : "+str(error))
 
