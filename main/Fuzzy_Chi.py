@@ -36,7 +36,7 @@ from MyDataSet import MyDataSet
  # * @version 1.0
  # * @since JDK1.5
 
-class Fuzzy_Chi :
+class Fuzzy_Chi:
   train_myDataSet=MyDataSet()
   val_myDataSet=MyDataSet()
   test_myDataSet=MyDataSet()
@@ -196,7 +196,7 @@ class Fuzzy_Chi :
             self.output += dataset.getOutputAsString(i) + " " + classOut + "\n"
             print("before getOutputAsString in Fuzzy_Chi")
             if (dataset.getOutputAsString(i).lower()==classOut.lower()):
-              hits+=1
+              hits=hits+1
           print("before open file in Fuzzy_Chi")
           file = open(filename,"w")
           file.write(output)

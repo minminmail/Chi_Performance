@@ -31,7 +31,7 @@
 
 from Fuzzy import Fuzzy
 from DataBase import DataBase
-import Rule
+from Rule import Rule
 import Fuzzy_Chi
 
  # * This class contains the representation of a Rule Set
@@ -102,9 +102,10 @@ class RuleBase :
          # * @return Rule the fuzzy rule with the highest membership degree with the example
 
     def searchForBestAntecedent(self,example,clas):
-            rule = Rule(self.n_variables, self.compatibilityType)
+            ruleInstance=Rule( )
+            ruleInstance.setTwoParameters(self.n_variables, self.compatibilityType)
             print("In searchForBestAntecedent ,self.n_variables is :" + str(self.n_variables))
-            rule.setClass(clas)
+            ruleInstance.setClass(clas)
             print("In searchForBestAntecedent ,self.n_labels is :" + str(self.n_labels))
             for i in range( 0,self.n_variables):
                 max = 0.0
@@ -112,7 +113,7 @@ class RuleBase :
                 per=0.0
                 for j in range( 0, self.n_labels) :
                     print("Inside the second loop of searchForBestAntecedent......")
-                    per = DataBase.membershipFunction(i, j, example[i])
+                    per = self.dataBase.membershipFunction(i, j, example[i])
                     if (per > max) :
                         max = per
                         etq = j
@@ -125,8 +126,8 @@ class RuleBase :
                     print("Variable " + str(i))
                     exit(1)
 
-                    rule.antecedent[i] = self.dataBase.clone(i, etq)
-            return rule
+                    ruleInstance.antecedent[i] = self.dataBase.clone(i, etq)
+            return ruleInstance
          # * It prints the rule base into an string
          # * @return String an string containing the rule base
 

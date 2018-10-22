@@ -1,215 +1,225 @@
-'''
 
-/***********************************************************************
+# /***********************************************************************
+#
+# 	This file is part of KEEL-software, the Data Mining tool for regression,
+# 	classification, clustering, pattern mining and so on.
+#
+# 	Copyright (C) 2004-2010
+#
+# 	F. Herrera (herrera@decsai.ugr.es)
+#     L. S谩nchez (luciano@uniovi.es)
+#     J. Alcal谩-Fdez (jalcala@decsai.ugr.es)
+#     S. Garc铆a (sglopez@ujaen.es)
+#     A. Fern谩ndez (alberto.fernandez@ujaen.es)
+#     J. Luengo (julianlm@decsai.ugr.es)
+#
+# 	This program is free software: you can redistribute it and/or modify
+# 	it under the terms of the GNU General Public License as published by
+# 	the Free Software Foundation, either version 3 of the License, or
+# 	(at your option) any later version.
+#
+# 	This program is distributed in the hope that it will be useful,
+# 	but WITHOUT ANY WARRANTY; without even the implied warranty of
+# 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# 	GNU General Public License for more details.
+#
+# 	You should have received a copy of the GNU General Public License
+# 	along with this program.  If not, see http://www.gnu.org/licenses/
+#
+# **********************************************************************/
 
-	This file is part of KEEL-software, the Data Mining tool for regression,
-	classification, clustering, pattern mining and so on.
-
-	Copyright (C) 2004-2010
-
-	F. Herrera (herrera@decsai.ugr.es)
-    L. S谩nchez (luciano@uniovi.es)
-    J. Alcal谩-Fdez (jalcala@decsai.ugr.es)
-    S. Garc铆a (sglopez@ujaen.es)
-    A. Fern谩ndez (alberto.fernandez@ujaen.es)
-    J. Luengo (julianlm@decsai.ugr.es)
-
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see http://www.gnu.org/licenses/
-
-**********************************************************************/
-'''
 import Fuzzy_Chi
 from Fuzzy import Fuzzy
 
-'''
- * <p>This class contains the structure of a Fuzzy Rule</p>
- *
- * @author Written by Alberto Fern谩ndez (University of Granada) 29/10/2007
- * @version 1.0
- * @since JDK1.5
-'''
 
-def __init__():
+ # * <p>This class contains the structure of a Fuzzy Rule</p>
+ # *
+ # * @author Written by Alberto Fern谩ndez (University of Granada) 29/10/2007
+ # * @version 1.0
+ # * @since JDK1.5
 
-  antecedent=[];
-  clas=0;
-  weight=0.0;
-  compatibilityType=0;
+class Rule:
 
+  antecedent=[]
+  clas=0
+  weight=0.0
+  compatibilityType=0
 
-  #Default constructor
+  def __init__(self):
 
-'''
-   * Constructor with parameters
-   * @param n_variables int
-   * @param compatibilityType int
-'''
-def __init__( self,n_variables,  compatibilityType):
-    antecedent = Fuzzy[n_variables];
-    self.compatibilityType = compatibilityType;
+    self.antecedent=[]
+    self.clas=0
+    self.weight=0.0
+    self.compatibilityType=0
 
-'''
-   * It assigns the class of the rule
-   * @param clas int
-'''
-def setClass(self, clas):
-    self.clas = clas;
+    #Default constructor
 
-'''
- * It assigns the rule weight to the rule
- * @param train myDataset the training set
- * @param ruleWeight int the type of rule weight
-'''
-def assingConsequent( train, ruleWeight) :
-  if (ruleWeight == Fuzzy_Chi.CF) :
-    consequent_CF(train);
+     # * Constructor with parameters
+     # * @param n_variables int
+     # * @param compatibilityType int
 
-  elif (ruleWeight == Fuzzy_Chi.PCF_II):
-    consequent_PCF2(train);
+  def setTwoParameters( self,n_variables,  compatibilityType):
+    self.antecedent = [Fuzzy() for x in range(n_variables)]
+    self.compatibilityType = compatibilityType
 
-  elif (ruleWeight == Fuzzy_Chi.PCF_IV):
-    consequent_PCF4(train);
+     # * It assigns the class of the rule
+     # * @param clas int
 
-  elif (ruleWeight == Fuzzy_Chi.NO_RW) :
-    weight = 1.0;
+  def setClass(self, clas):
+    self.clas = clas
 
-'''
- * It computes the compatibility of the rule with an input example
- * @param example double[] The input example
- * @return double the degree of compatibility
-'''
-def compatibility(self,example):
-  if (self.compatibilityType == Fuzzy_Chi.MINIMUM):
-    return minimumCompatibility(example);
+   # * It assigns the rule weight to the rule
+   # * @param train myDataset the training set
+   # * @param ruleWeight int the type of rule weight
 
-  else :
-    return productCompatibility(example);
+  def assingConsequent(self,train, ruleWeight) :
+    if ruleWeight == Fuzzy_Chi.Fuzzy_Chi.CF:
+      self.consequent_CF(train)
 
-'''
- * Operator T-min
- * @param example double[] The input example
- * @return double the computation the the minimum T-norm
-'''
-def minimumCompatibility(self,example):
-  minimum=0.0,
-  membershipDegree=0.0;
-  minimum = 1.0;
-  for i in range(0, self.antecedent.length):
-    membershipDegree = self.antecedent[i].Fuzzify(example[i]);
-    minimum = min(membershipDegree, minimum);
+    elif ruleWeight == Fuzzy_Chi.Fuzzy_Chi.PCF_II:
+      self.consequent_PCF2(train)
 
-  return (minimum);
+    elif ruleWeight == Fuzzy_Chi.Fuzzy_Chi.PCF_IV:
+      self.consequent_PCF4(train)
 
-'''
- * Operator T-product
- * @param example double[] The input example
- * @return double the computation the the product T-norm
-'''
-def productCompatibility(self, example):
-  product=0.0,
-  membershipDegree=0.0;
-  product = 1.0;
-  for i in range( 0, self.antecedent.length):
-    membershipDegree = self.antecedent[i].Fuzzify(example[i]);
-    product = product * membershipDegree;
+    elif ruleWeight == Fuzzy_Chi.Fuzzy_Chi.NO_RW:
+      self.weight = 1.0
 
-  return (product);
+   # * It computes the compatibility of the rule with an input example
+   # * @param example double[] The input example
+   # * @return double the degree of compatibility
 
-'''
- * Classic Certainty Factor weight
- * @param train myDataset training dataset
-'''
-def consequent_CF( self,train):
-  classes_sum = float [train.getnClasses()];
-  for i in range( 0,train.getnClasses()):
-     classes_sum[i] = 0.0;
+  def compatibility(self,example):
+    if (self.compatibilityType == Fuzzy_Chi.Fuzzy_Chi.MINIMUM):
+      print("self.compatibilityType == Fuzzy_Chi.Fuzzy_Chi.MINIMUM")
+      return self.minimumCompatibility(example)
 
-  total = 0.0;
-  comp = 0.0;
-  #Computation of the sum by classes */
-  for i in range( 0,train.size()):
-    comp = self.compatibility(train.getExample(i));
-    classes_sum[train.getOutputAsInteger(i)] += comp;
-    total += comp;
-
-  weight = classes_sum[self.clas] / total;
+    else :
+      print("self.compatibilityType != Fuzzy_Chi.Fuzzy_Chi.MINIMUM")
+      return self.productCompatibility(example)
 
 
-'''
- * Penalized Certainty Factor weight II (by Ishibuchi)
- * @param train myDataset training dataset
-'''
-def consequent_PCF2(self,train) :
-  classes_sum = float [train.getnClasses()];
-  for i in range (0, train.getnClasses()):
-     classes_sum[i] = 0.0;
+   # * Operator T-min
+   # * @param example double[] The input example
+   # * @return double the computation the the minimum T-norm
+
+  def minimumCompatibility(self,example):
+    minimum=0.0
+    membershipDegree=0.0
+    minimum = 1.0
+    for i in range(0, len(self.antecedent)):
+      print("example["+str(i)+"] = "+example[i])
+      membershipDegree = self.antecedent[i].setX(example[i])
+      minimum = min(membershipDegree, minimum)
+
+    return (minimum)
 
 
-  total = 0.0;
-  comp = 0.0;
-# Computation of the sum by classes */
-  for i in range (0,  train.size()):
-    comp = self.compatibility(train.getExample(i));
-    classes_sum[train.getOutputAsInteger(i)] += comp;
-    total += comp;
+   # * Operator T-product
+   # * @param example double[] The input example
+   # * @return double the computation the the product T-norm
 
-    sum = (total - classes_sum[self.clas]) / (train.getnClasses() - 1.0);
-    weight = (classes_sum[self.clas] - sum) / total;
+  def productCompatibility(self, example):
+    product=None
+    membershipDegree=None
+    product = 1.0
+    antecedent_number=len(self.antecedent)
+    print("antecedent_number = " + str(antecedent_number))
+    for i in range( 0, antecedent_number):
+      print("example[i="+ str(i)+"]"+":"+ str(example[i]))
+      membershipDegree = self.antecedent[i].setX(example[i])
+      print("membershipDegree = " +str(membershipDegree))
+      product = product * membershipDegree
+    print("product: "+ str(product))
+    return (product)
 
 
-'''
- * Penalized Certainty Factor weight IV (by Ishibuchi)
- * @param train myDataset training dataset
-'''
-def consequent_PCF4( self,train) :
-  classes_sum = float [train.getnClasses()];
-  for  i in range( 0, train.getnClasses()):
-    classes_sum[i] = 0.0;
+   # * Classic Certainty Factor weight
+   # * @param train myDataset training dataset
 
-  total = 0.0;
-  comp=0.0;
+  def consequent_CF( self,train):
+    train_Class_Number = train.getnClasses()
+    classes_sum = [0.0 for x in range(train_Class_Number)]
+    for i in range( 0,train.getnClasses()):
+       classes_sum[i] = 0.0
+
+    total = 0.0
+    comp = 0.0
+    #Computation of the sum by classes */
+    for i in range( 0,train.size()):
+      comp = self.compatibility(train.getExample(i))
+      classes_sum[train.getOutputAsInteger(i)] = classes_sum[train.getOutputAsInteger(i)]+ comp
+      total =total+ comp
+
+    self.weight = classes_sum[self.clas] / total
+
+
+
+   # * Penalized Certainty Factor weight II (by Ishibuchi)
+   # * @param train myDataset training dataset
+
+  def consequent_PCF2(self,train) :
+    classes_sum = float [train.getnClasses()]
+    for i in range (0, train.getnClasses()):
+       classes_sum[i] = 0.0
+
+    total = 0.0
+    comp = 0.0
   # Computation of the sum by classes */
-  for i in range( 0, train.size()):
-    comp = self.compatibility(train.getExample(i));
-    classes_sum[train.getOutputAsInteger(i)] += comp;
-    total += comp;
+    for i in range (0,  train.size()):
+      comp = self.compatibility(train.getExample(i))
+      classes_sum[train.getOutputAsInteger(i)] = classes_sum[train.getOutputAsInteger(i)]+comp
+      total = total+comp
 
-  sum = total - classes_sum[self.clas];
-  weight = (classes_sum[self.clas] - sum) / total;
+      sum = (total - classes_sum[self.clas]) / (train.getnClasses() - 1.0)
+      self.weight = (classes_sum[self.clas] - sum) / total
 
 
-'''
- * This function detects if one rule is already included in the Rule Set
- * @param r Rule Rule to compare
- * @return boolean true if the rule already exists, else false
-'''
-def comparison(self,rule) :
-  contador = 0;
-  for j in range (0, self.antecedent.length):
-    if (self.antecedent[j].label == rule.antecedent[j].label) :
-      contador+=1;
 
-  if (contador == rule.antecedent.length):
-    if (self.clas != rule.clas) : #Comparison of the rule weights
-      if (self.weight < rule.weight) :
-        #Rule Update
-        self.clas = rule.clas;
-        self.weight = rule.weight;
+   # * Penalized Certainty Factor weight IV (by Ishibuchi)
+   # * @param train myDataset training dataset
 
-    return True;
+  def consequent_PCF4( self,train) :
+    classes_sum =  [0.0 for x in range(train.getnClasses())]
+    for  i in range( 0, train.getnClasses()):
+      classes_sum[i] = 0.0
 
-  return False;
+    total = 0.0
+    comp= None
+
+    train_size=train.size()
+    print("train_size: " + str(train_size))
+    # Computation of the sum by classes */
+    for i in range( 0, train_size):
+      comp = self.compatibility(train.getExample(i))
+      print("comp = " + str(comp))
+      classes_sum[train.getOutputAsInteger(i)] = classes_sum[train.getOutputAsInteger(i)]+ comp
+      total = total+ comp
+
+    print("self.clas ="+ str(self.clas)+"classes_sum[self.clas] :" + str(classes_sum[self.clas]))
+    sum = total - classes_sum[self.clas]
+    self.weight = (classes_sum[self.clas] - sum) / total
+
+   # * This function detects if one rule is already included in the Rule Set
+   # * @param r Rule Rule to compare
+   # * @return boolean true if the rule already exists, else false
+
+  def comparison(self,rule) :
+    contador = 0
+    for j in range (0, len(self.antecedent)):
+      if (self.antecedent[j].label == rule.antecedent[j].label) :
+        contador= contador + 1
+
+    if (contador == len(rule.antecedent)):
+      if (self.clas != rule.clas) : #Comparison of the rule weights
+        if (self.weight < rule.weight) :
+          #Rule Update
+          self.clas = rule.clas
+          self.weight = rule.weight
+
+      return True
+
+    return False
 
 
 

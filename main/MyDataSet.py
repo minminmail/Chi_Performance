@@ -52,6 +52,7 @@ class MyDataSet:
     #    * @return double[] the attributes of the given example
     # '''
     def getExample(self,pos):
+         print(" In getExample, len(self.__X) = " + str(len(self.__X)))
          return self.__X[pos]
 
 
@@ -257,12 +258,14 @@ class MyDataSet:
                      print("self.emax[n]:"+ str(self.emax[n]))
                      print("self.emin[n]:" + str(self.emin[n]))
                    # All values are casted into double/integer
-                  nClasses = 0
+                  self.__nClasses = 0
                   for i in range( 0, nDataLength) :
                       inst = self.__instanceSet.getInstance(i)
                       for j in range( 0, nInputLength):
-                           print("i = "+ str(i)+",j = "+ str(j))
-                           self.__X[i][j] = self.__instanceSet.getInputNumericValue(i, j) #inst.getInputRealValues(j);
+                           input_Numeric_Value = self.__instanceSet.getInputNumericValue(i, j)
+                           print("self.__X [i] = "+ str(i)+",[j] = "+ str(j)+",input_Numeric_Value:"+str(input_Numeric_Value))
+
+                           self.__X[i][j] = input_Numeric_Value #inst.getInputRealValues(j);
                            print("after get self.__X[i][j]")
                            self.__missing[i][j] = inst.getInputMissingValues(j)
                            print("after self.__missing[i][j]")
@@ -276,13 +279,14 @@ class MyDataSet:
                       else:
                             print("noOutputs==False")
                             self.__outputInteger[i] = self.__instanceSet.getOutputNumericValue(i, 0)
+                            print("self.__outputInteger["+str(i)+"] = "+str(self.__outputInteger[i]))
                             self.__output[i] = self.__instanceSet.getOutputNominalValue(i, 0)
 
-                      if(self.__outputInteger[i] > nClasses):
-                            nClasses = self.__outputInteger[i]
+                      if(self.__outputInteger[i] > self.__nClasses):
+                            self.__nClasses = self.__outputInteger[i]
 
-                  nClasses = nClasses + 1
-                  print('Number of classes=' + str(nClasses))
+                  self.__nClasses = self.__nClasses + 1
+                  print('Number of classes=' + str(self.__nClasses))
          except Exception as error:
                print("readClassificationSet: Exception in readSet, in readClassificationSet:" + str(error))
 
@@ -429,9 +433,11 @@ class MyDataSet:
         for i in range( 0, self.__nData):
             for j in range(1 ,self.__nInputs):
                # changed the isMissing condition inside if
-                  if (self.isMissing(i, j)==True) and (j == self.__nInputs) :
-                     tam+=1
-
+                if (self.isMissing(i, j)==False):
+                    j=j+1
+            if(j == self.__nInputs) :
+                tam=tam+1
+        print("tam="+str(tam))
         return tam
 
     #    * It returns the number of examples
@@ -449,33 +455,36 @@ class MyDataSet:
             print("Begin computeStatistics......")
             varNum = self.getnVars()
             print("varNum = " + str(varNum))
-            self.__stdev = [0 for x in range (varNum)] # original was double ,changed into float in python
-            self.__average = [0 for x in range(varNum)]
+            self.__stdev = [0.0 for x in range (varNum)] # original was double ,changed into float in python
+            self.__average = [0.0 for x in range(varNum)]
 
-            inputNum=self.getnInputs()
-            print("inputNum = " + str(inputNum))
+            inputNum = self.getnInputs()
+            dataNum = self.getnData()
+            print("inputNum = " + str(inputNum)+",dataNum = " + str(dataNum))
             for i in range ( 0,inputNum):
               self.__average[i] = 0
-              for j in range (0, self.getnData()):
+              for j in range (0,dataNum ):
                 if (self.isMissing(j, i)==False):
-                  self.__average[i] += self.__X[j][i]
-              if(self.getnData()!=0):
-                self.__average[i] /= self.getnData()
-
-            self.__average[len(self.__average) - 1] = 0
+                  self.__average[i] =self.__average[i]+ self.__X[j][i]
+              if(dataNum!=0):
+                self.__average[i] = self.__average[i] /dataNum
+            average_length = len(self.__average)
+            self.__average[average_length - 1] = 0
             for j in range( 0, len(self.__outputReal)):
-              self.__average[len(self.__average) - 1] += self.__outputReal[j]
+              self.__average[average_length - 1] = self.__average[average_length - 1]+self.__outputReal[j]
             if(len(self.__outputReal)!=0):
-                self.__average[len(self.__average) - 1] /= len(self.__outputReal)
+                self.__average[average_length - 1] =self.__average[average_length - 1]/ len(self.__outputReal)
 
-            for i in range( 0, self.getnInputs()):
+            for i in range( 0, inputNum):
               sum = 0
-              for j in range (0, self.getnData()):
+              for j in range (0, dataNum):
                 if (self.isMissing(j, i)==False):
-                  sum += (self.__X[j][i] - self.__average[i]) * (self.__X[j][i] - self.__average[i])
+                  print("self.isMissing(j, i)==False")
+                  sum = sum+ (self.__X[j][i] - self.__average[i]) * (self.__X[j][i] - self.__average[i])
 
-              if (self.getnData() != 0):
-                sum /= self.getnData()
+              if (dataNum != 0):
+                print("dataNum != 0"+" , dataNum="+str(dataNum))
+                sum = sum/dataNum
               self.__stdev[i] = math.sqrt(sum)
 
             sum = 0
@@ -508,9 +517,15 @@ class MyDataSet:
 
 
     def computeInstancesPerClass(self):
+        print("computeInstancesPerClass begin..., self.__nClasses = " + str(self.__nClasses))
         self.__instancesCl = [0 for x in range(self.__nClasses)]
-        for i in range( 0,self.getnData()):
-         self.__instancesCl[self.__outputInteger[i]]+=1
+        dataNum=self.getnData()
+        print("dataNum = " + str(dataNum))
+
+        for i in range( 0,dataNum):
+         integerInLoop= self.__outputInteger[i]
+         print("outputInteger["+str(i)+"]"+str(integerInLoop))
+         self.__instancesCl[integerInLoop]=self.__instancesCl[integerInLoop]+1
 
 
 
@@ -608,6 +623,6 @@ class MyDataSet:
         clases = ["" for x in range(self.__nClasses)]
 
         for i in range( 0, self.__nClasses):
-          clases[i] = Attributes.getOutputAttribute(0).getNominalValue(i)
+          clases[i] = Attributes.getOutputAttribute(Attributes,0).getNominalValue(i)
         return clases
 

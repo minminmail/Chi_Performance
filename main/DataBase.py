@@ -49,6 +49,7 @@ class DataBase :
           # @param names String[] Labels for the input attributes
 
     def setMultipleParameters(self, n_variables, n_labels, rangos, names):
+            print("setMultipleParameters begin...")
             self.n_variables = int(n_variables)
             self.n_labels = int(n_labels)
             print("self.n_variables: "+ str(self.n_variables)+" self.n_labels : "+str(self.n_labels))
@@ -109,7 +110,7 @@ class DataBase :
     #      */
     # '''
     def  membershipFunction(self,i, j, X):
-
+            print("len(self.dataBase[0])"+str(len(self.dataBase)))
             value = self.dataBase[i][j].setX(X)
             print("Get value form Fuzzy setX is :" + str(value))
             return value
