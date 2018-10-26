@@ -40,25 +40,22 @@ from Fuzzy import Fuzzy
 
 class Rule:
 
-  antecedent=[]
-  clas=0
-  weight=0.0
-  compatibilityType=0
+  antecedent=None
+  clas=None
+  weight=None
+  compatibilityType=None
 
   def __init__(self):
+    print("__init__ of Rule")
 
-    self.antecedent=[]
-    self.clas=0
-    self.weight=0.0
-    self.compatibilityType=0
-
-    #Default constructor
+  #Default constructor
 
      # * Constructor with parameters
      # * @param n_variables int
      # * @param compatibilityType int
 
   def setTwoParameters( self,n_variables,  compatibilityType):
+    print("In rule calss , setTwoParameters method, the n_variables = "+str(n_variables))
     self.antecedent = [Fuzzy() for x in range(n_variables)]
     self.compatibilityType = compatibilityType
 
@@ -95,7 +92,7 @@ class Rule:
       return self.minimumCompatibility(example)
 
     else :
-      print("self.compatibilityType != Fuzzy_Chi.Fuzzy_Chi.MINIMUM")
+      print("self.compatibilityType != Fuzzy_Chi.Fuzzy_Chi.MINIMUM"+", self.compatibilityType = "+ str(self.compatibilityType))
       return self.productCompatibility(example)
 
 
@@ -110,9 +107,10 @@ class Rule:
     for i in range(0, len(self.antecedent)):
       print("example["+str(i)+"] = "+example[i])
       membershipDegree = self.antecedent[i].setX(example[i])
+      print("membershipDegree in minimumCompatibility = " + str(membershipDegree))
       minimum = min(membershipDegree, minimum)
 
-    return (minimum)
+    return minimum
 
 
    # * Operator T-product
@@ -128,10 +126,10 @@ class Rule:
     for i in range( 0, antecedent_number):
       print("example[i="+ str(i)+"]"+":"+ str(example[i]))
       membershipDegree = self.antecedent[i].setX(example[i])
-      print("membershipDegree = " +str(membershipDegree))
+      print("membershipDegree in productCompatibility  = " +str(membershipDegree))
       product = product * membershipDegree
     print("product: "+ str(product))
-    return (product)
+    return product
 
 
    # * Classic Certainty Factor weight

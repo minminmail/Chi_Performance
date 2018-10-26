@@ -217,6 +217,7 @@ class Fuzzy_Chi:
           # classification output from the input example
         classOut = self.ruleBase.FRM(example)
         if (classOut >= 0):
+          print("In Fuzzy_Chi,classOut >= 0, to call getOutputValue")
           self.output = self.train_myDataSet.getOutputValue(classOut)
         return self.output
 

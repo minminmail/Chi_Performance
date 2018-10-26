@@ -63,6 +63,7 @@ class RuleBase :
         #  */
 
     def __init__(self, dataBase,  inferenceType,  compatibilityType, ruleWeight, names,  classes):
+            print("RuleBase init begin...")
             self.ruleBase = []
             self.dataBase = dataBase
             self.n_variables = dataBase.numVariables()
@@ -126,7 +127,7 @@ class RuleBase :
                     print("Variable " + str(i))
                     exit(1)
 
-                    ruleInstance.antecedent[i] = self.dataBase.clone(i, etq)
+                ruleInstance.antecedent[i] = self.dataBase.clone(i, etq)
             return ruleInstance
          # * It prints the rule base into an string
          # * @return String an string containing the rule base
@@ -141,7 +142,7 @@ class RuleBase :
                 cadena += str(i + 1) + ": "
                 for j in range(0,  self.n_variables - 1) :
                     cadena += self.names[j] + " IS " + rule.antecedent[j].name + " AND "
-                cadena += self.names[j] + " IS " + rule.antecedent[j].name + ": " + self.classes[rule.clas] + " with Rule Weight: " + rule.weight + "\n"
+                cadena += self.names[j] + " IS " + rule.antecedent[j].name + ": " + str(self.classes[rule.clas]) + " with Rule Weight: " + str(rule.weight) + "\n"
             print("RuleBase cadena is:" + cadena)
             return cadena
 
@@ -159,7 +160,7 @@ class RuleBase :
          # * @return int the predicted class label (id)
 
     def FRM(self,example):
-          if (self.inferenceType == Fuzzy_Chi.WINNING_RULE):
+          if (self.inferenceType == Fuzzy_Chi.Fuzzy_Chi.WINNING_RULE):
                 return self.FRM_WR(example)
           else :
                 return self.FRM_AC(example)

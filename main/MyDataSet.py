@@ -52,7 +52,7 @@ class MyDataSet:
     #    * @return double[] the attributes of the given example
     # '''
     def getExample(self,pos):
-         print(" In getExample, len(self.__X) = " + str(len(self.__X)))
+         print(" In getExample, len(self.__X) = " + str(len(self.__X))+", pos = " + str(pos))
          return self.__X[pos]
 
 
@@ -560,8 +560,11 @@ class MyDataSet:
     #    * @param intValue int the class id
     #    * @return String the corrresponding class label
 
-    def getOutputValue( intValue) :
-        return Attributes.getOutputAttribute(0).getNominalValue(intValue)
+    def getOutputValue(self,intValue):
+        print("Before att get ")
+        att=Attributes.getOutputAttribute(Attributes,0)
+        print("After att get ")
+        return att.getNominalValue(intValue)
 
 
     #  * It returns the type of the variable

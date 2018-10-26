@@ -585,10 +585,10 @@ class Attribute:
  #  * @param pos indicate which attribute value is wanted.
  #  * @return a string with the value.
  #  '''
- def getNominalValue(self, pos) :
+ def getNominalValue(self, pos):
   if(self.__type!=self.NOMINAL):
-   return None;
-  return str(self.__nominalValues[pos]);
+   return None
+  return str(self.__nominalValues[pos])
  #end getNominalValue
 
 
