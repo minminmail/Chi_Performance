@@ -32,14 +32,14 @@
 from Fuzzy import Fuzzy
 class DataBase :
 
-    n_variables = 0
-    n_labels = 0
+    n_variables = None
+    n_labels = None
     dataBase = []
     names = []
      # Default constructor
     def __init__(self):
-        self.n_variables = 0
-        self.n_labels = 0
+        self.n_variables = None
+        self.n_labels = None
 
           # Constructor with parameters. It performs a homegeneous partition of the input space for
           # a given number of fuzzy labels.
@@ -54,7 +54,7 @@ class DataBase :
             self.n_labels = int(n_labels)
             print("self.n_variables: "+ str(self.n_variables)+" self.n_labels : "+str(self.n_labels))
             #First columns , Second rows
-            self.dataBase = [[Fuzzy() for x in range( self.n_labels)] for y in range (self.n_variables)]
+            self.dataBase = [[Fuzzy() for y in range(self.n_labels)] for x in range (self.n_variables)]
 
             self.names = names
 
@@ -138,15 +138,12 @@ class DataBase :
             print("numrows: " + str(numrows) + "numcols:"+ str(numcols))
             if(self.dataBase!=None):
                 print("cadena: "+cadena)
-                for j in range(0, self.n_labels):
-                    print("j = " + str(j))
-
-
+                for i in range(0, self.n_variables):
+                    print("i = " + str(i))
                     print("cadena: " + cadena)
-
-                    for i in range(0, self.n_variables):
+                    cadena += "\n" + self.names[i] + ":\n";
+                    for j in range(0, self.n_labels):
                         print("i = " + str(i))
-                        cadena += "\n" + self.names[i] + ":\n"
                         cadena += " L_" + str(int(j + 1)) + ": (" + str(self.dataBase[i][j].x0) +  "," + str(self.dataBase[i][j].x1) + "," + str(self.dataBase[i][j].x3) + ")\n"
             else:
                 print("self.dataBase is None")
