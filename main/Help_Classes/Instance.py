@@ -360,8 +360,8 @@ class Instance :
         print("In processReadValue,count = "+ str(count))
         #Checking if there is a missing value.
         print(" In processReadValue, att = " +att)
-        if(att=="<null>" or att=="?") :
-            print("att==<null> or att==?......")
+        if(att==None or att=="?") :
+            print("att==None or att==?......")
             Attributes.hasMissing = True
             self.__missingValues[inOut][curCount]=True
             self.__anyMissingValue[inOut] = True

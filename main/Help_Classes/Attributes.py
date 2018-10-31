@@ -320,7 +320,7 @@ class Attributes:
     for i in range (0, len(self.outputAttr)):
       if (i == len(self.outputAttr) - 1):
 
-          aux += self.outputAttr[i].getName() + ending
+          aux = aux+ self.outputAttr[i].getName() + ending
 
     return aux
   #end getOutputHeader
@@ -334,7 +334,7 @@ class Attributes:
     aux = ""
     for i in range (0, len(self.outputAttr)):
         #Writting the name and type of the attributeoutputAttr
-        aux += self.outputAttr[i].toString()+"\n"
+        aux = aux + self.outputAttr[i].toString()+"\n"
     print("getOutputAttributesHeader, aux =" + aux)
     return aux
   #end getOutputAttributesHeader
@@ -472,12 +472,12 @@ class Attributes:
         att = self.attributes[i]
 
         attName = att.getName()
-        attName =attName.strip().lower()
+        attName =attName.strip()
         print("attName is:" + str(attName))
 
         if (attName in inAttNames):
             print("attName in inAttNames")
-            if( not self.hasSameAttributeName(attName,self.inputAttr)):
+            if(not self.hasSameAttributeName(attName,self.inputAttr)):
                 print("add in input attribute list, attName is:"+attName)
                 att.setDirectionAttribute(Attribute.INPUT)
                 self.inputAttr.append(self.attributes[i])
@@ -486,7 +486,7 @@ class Attributes:
                 print("add in out attribute list, attName is:" + attName)
                 att.setDirectionAttribute(Attribute.OUTPUT)
                 self.outputAttr.append(self.attributes[i])
-        elif(not self.hasSameAttributeName(attName,self.undefinedAttr)):
+        elif(self.hasSameAttributeName(attName,self.undefinedAttr)==False):
             print("add in undefinedAttr attribute list, attName is:" + attName)
             self.undefinedAttr.append(self.attributes[i])
 

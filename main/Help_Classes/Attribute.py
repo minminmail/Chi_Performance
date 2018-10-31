@@ -603,7 +603,7 @@ class Attribute:
   print("convertNominalValue begin......")
   for value_inside in self.__nominalValues:
    print("value in self.__nominalValues is :" + str(value_inside))
-  position_here =self.__nominalValues.index(value.strip().lower())
+  position_here =self.__nominalValues.index(value.strip())
   print("for value pass :" + str(value) + ", position_here : "+ str(position_here))
   return position_here
  #end convertNominalValue

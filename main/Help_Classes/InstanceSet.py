@@ -263,7 +263,7 @@ class InstanceSet:
         self.data_lines = lines
 
         for line in lines:
-            line = str(line).strip().lower()
+            line = str(line).strip()
             print("In parseHeader method of InstanceSet, the line is:" + line)
             if (line=="@data".lower()):
 
