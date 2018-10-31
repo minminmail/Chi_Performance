@@ -624,7 +624,7 @@ class MyDataSet:
 
     def getClasses(self):
         clases = ["" for x in range(self.__nClasses)]
-
+        print(" getClasses,self.__nClasses: " + str(self.__nClasses))
         for i in range( 0, self.__nClasses):
           clases[i] = Attributes.getOutputAttribute(Attributes,0).getNominalValue(i)
         return clases

@@ -172,7 +172,7 @@ class Attributes:
 #      * @return True if there is any integer attribute, False otherwise.
 #  */
   def hasIntegerAttributes(self):
-    return self.hasInteger;
+    return self.hasInteger
    #end hasIntegerAttributes
 
 # /**
@@ -205,7 +205,7 @@ class Attributes:
         print("size of attributes = "+ str(size))
         attribute = self.attributes[i]
         if  attribute.getName()==_name:
-            break;
+            break
         stopPos=i
 
     if (stopPos == size) :
@@ -472,7 +472,7 @@ class Attributes:
         att = self.attributes[i]
 
         attName = att.getName()
-        attName =attName.strip()
+        attName =attName.strip().lower()
         print("attName is:" + str(attName))
 
         if (attName in inAttNames):
@@ -481,10 +481,11 @@ class Attributes:
                 print("add in input attribute list, attName is:"+attName)
                 att.setDirectionAttribute(Attribute.INPUT)
                 self.inputAttr.append(self.attributes[i])
-        elif (attName in outAttNames and not self.hasSameAttributeName(attName,self.outputAttr)):
-            print("add in out attribute list, attName is:" + attName)
-            att.setDirectionAttribute(Attribute.OUTPUT)
-            self.outputAttr.append(self.attributes[i])
+        elif (attName in outAttNames):
+            if(not self.hasSameAttributeName(attName,self.outputAttr)):
+                print("add in out attribute list, attName is:" + attName)
+                att.setDirectionAttribute(Attribute.OUTPUT)
+                self.outputAttr.append(self.attributes[i])
         elif(not self.hasSameAttributeName(attName,self.undefinedAttr)):
             print("add in undefinedAttr attribute list, attName is:" + attName)
             self.undefinedAttr.append(self.attributes[i])
@@ -608,7 +609,7 @@ class Attributes:
     else :# output attribute
         atToDel = self.outputAttr[whichAtt]
         atToDel.setDirectionAttribute(Attribute.DIR_NOT_DEF)
-        self.outputAttr.removeElementAt(whichAtt);
+        self.outputAttr.removeElementAt(whichAtt)
 
     #We get the position where it has to go in the undefined attributes vector.
     self.undefPosition = self.searchUndefPosition(atToDel)
@@ -624,10 +625,7 @@ class Attributes:
             iterations = len(self.outputAttr)
 
         for i in range (0,iterations):
-            if index == 0:
-                att = self.inputAttr[i]
-            else:
-                self.outputAttr[i]
+
             if self.index == 0:
                 att = self.inputAttr[i]
             else:
@@ -718,7 +716,7 @@ class Attributes:
   def  printAttributes(self):
     print("@relation = "+ self.relationName)
     for i in range(0,len(self.attributes)):
-        att = self.attributes[i];
+        att = self.attributes[i]
         if (att.getDirectionAttribute() == Attribute.INPUT):
             print("INPUT ATTRIBUTE:")
         elif (att.getDirectionAttribute() == Attribute.OUTPUT):

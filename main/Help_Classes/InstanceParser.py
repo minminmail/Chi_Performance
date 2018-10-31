@@ -95,7 +95,7 @@ class InstanceParser:
             print("The exception in init of InstanceParse is: " + format(error))
             exit(1)
 
-        self.__isTrain = _isTrain;
+        self.__isTrain = _isTrain
         self.__attributeCount = 0
     # end of Parser constructor
 
@@ -147,8 +147,8 @@ class InstanceParser:
                 print("file_lines is empty!!")
 
             for line in file_lines:
-                if (line !="" or (line !=None and not line.startswith("%"))): # line is not empty
-                    self.lineCounter = +1
+                if ( (line !="" or line !=None) and not line.startswith("%")): # line is not empty
+                    self.lineCounter = self.lineCounter + 1
                     file_first_line = line
 
             print("file_lines: "+ str(file_lines))

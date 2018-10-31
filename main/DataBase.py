@@ -19,15 +19,12 @@
 # GNU General Public License for more details. You should have received a copy of the GNU General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses/
 
-
-
   # This class contains the representation of a Fuzzy Data Base</p>
   #
   # @author Written by Alberto Fern谩ndez (University of Granada) 28/10/2007
   # @author Modified by Alberto Fern谩ndez (University of Granada) 12/11/2008
   # @version 1.1
   # @since JDK1.5
-
 
 from Fuzzy import Fuzzy
 class DataBase :
@@ -87,8 +84,6 @@ class DataBase :
                         self.dataBase[i][etq].y = 1
                         self.dataBase[i][etq].name = ("L_" + str(etq))
                         self.dataBase[i][etq].label = etq
-
-
     # '''
     #      * @return int the number of input variables
     # '''
@@ -141,7 +136,7 @@ class DataBase :
                 for i in range(0, self.n_variables):
                     print("i = " + str(i))
                     print("cadena: " + cadena)
-                    cadena += "\n" + self.names[i] + ":\n";
+                    cadena += "\n" + self.names[i] + ":\n"
                     for j in range(0, self.n_labels):
                         print("i = " + str(i))
                         cadena += " L_" + str(int(j + 1)) + ": (" + str(self.dataBase[i][j].x0) +  "," + str(self.dataBase[i][j].x1) + "," + str(self.dataBase[i][j].x3) + ")\n"

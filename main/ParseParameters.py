@@ -226,7 +226,7 @@ class ParseParameters :
      # * @return the name of the parameters
      # """
      def getParameters(self):
-        param = self.___parameters
+        param = self.__parameters
         return param
 
 
@@ -238,7 +238,7 @@ class ParseParameters :
      # """
      def getParameter(self,pos):
 
-        return self.__parameters[pos]
+        return self.__parameters[pos][1]
 
      # """
      # * It returns the input files

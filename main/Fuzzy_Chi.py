@@ -37,9 +37,9 @@ from MyDataSet import MyDataSet
  # * @since JDK1.5
 
 class Fuzzy_Chi:
-  train_myDataSet=MyDataSet()
-  val_myDataSet=MyDataSet()
-  test_myDataSet=MyDataSet()
+  train_myDataSet=None
+  val_myDataSet=None
+  test_myDataSet=None
   outputTr=""
   outputTst=""
   fileDB=""
@@ -49,7 +49,7 @@ class Fuzzy_Chi:
   combinationType=0
   inferenceType=0
   ruleWeight=0
-  dataBase=DataBase()
+  dataBase=None
   ruleBase=None
 
    # Configuration flags.
@@ -119,14 +119,14 @@ class Fuzzy_Chi:
              #Now we parse the parameters
 
         #self.nLabels = parameters.getParameter(0)
-        self.nLabels = parameters.getParameter(1)[1]
+        self.nLabels = parameters.getParameter(0)
         print("nLabels is :" + str(self.nLabels))
-        aux = str(parameters.getParameter(2)).lower() #Computation of the compatibility degree
+        aux = str(parameters.getParameter(1)).lower() #Computation of the compatibility degree
         print("parameter 1 aux is :" + str(aux))
         self.combinationType = self.PRODUCT
         if (aux == "minimum"):
             self.combinationType = self.MINIMUM
-        aux = str(parameters.getParameter(3)).lower()
+        aux = str(parameters.getParameter(2)).lower()
         print("parameter 2 aux is :" + str(aux))
         self.ruleWeight = self.PCF_IV
         if (aux == "Certainty_Factor".lower()):
@@ -135,7 +135,7 @@ class Fuzzy_Chi:
             self.ruleWeight = self.PCF_II
         elif (aux=="No_Weights".lower()):
             self.ruleWeight = self.NO_RW
-        aux = str(parameters.getParameter(4)).lower()
+        aux = str(parameters.getParameter(3)).lower()
         print("parameter 3 aux is :" + str(aux))
         self.inferenceType = self.WINNING_RULE
         if(aux ==("Additive_Combination").lower()) :

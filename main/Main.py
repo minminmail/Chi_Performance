@@ -41,7 +41,7 @@ from pathlib import Path
 
 class Main :
 
-    data_folder = Path("simpleTest/scripts/FARCHD/iris")
+    data_folder = Path("simpleTest/scripts/Chi-RW-C/iris")
     file_to_open = None
        # Default Constructor
 

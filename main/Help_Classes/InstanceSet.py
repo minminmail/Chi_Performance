@@ -270,7 +270,7 @@ class InstanceSet:
                 break
             else:
                 print("  Line read: " + line +"." )
-                lineCount += 1
+                lineCount =lineCount + 1
                 if ("@relation" in line):
 
                     if (isTrain):
@@ -282,7 +282,7 @@ class InstanceSet:
                     if (isTrain):
                         print("Begin insertAttribute ......")
                         self.insertAttribute(line)
-                        attCount += 1
+                        attCount = attCount + 1
 
                 elif ("@inputs" in line):
 
@@ -294,22 +294,22 @@ class InstanceSet:
 
                     if (isTrain):
                         print("Has @inputs, aux is :" + aux)
-                        self.insertInputOutput(aux, lineCount, inputAttrNames, "inputs", isTrain);
+                        self.insertInputOutput(aux, lineCount, inputAttrNames, "inputs", isTrain)
                 elif ("@outputs" in line ):
 
                     if (self.attHeader == None):
                         self.attHeader = self.header
                     outputsDef = True
                     print( "Defining the output in line :"+ line)
-
-                    aux = line[9:]
+                    sub_line=line.split()# To get the output attribute name
+                    aux = sub_line[1]
                     if (isTrain):
                         print("Has @outputs, aux is :" + aux)
                         self.insertInputOutput(aux, lineCount, outputAttrNames, "outputs", isTrain)
 
                         print("Size of the output is: " + str(len(outputAttrNames)))
 
-                self.header += line + "\n";
+                self.header += line + "\n"
         if (self.attHeader == None):
             self.attHeader = self.header
         self.processInputsAndOutputs(isTrain, inputsDef, outputsDef, outputAttrNames, inputAttrNames)
@@ -324,16 +324,17 @@ class InstanceSet:
         # Treating string and declaring a string tokenizer
         if "{" in line:
             token_str = "{"
-            token_str_right="}"
+
         elif "[" in line:
             token_str = "["
-            token_str_right = "]"
+
         token_withT= "\t" + token_str
 
         line=line.replace(token_str,token_withT)
         print("token_double is:" + token_withT + ", line is :" + line)
         # System.out.println ("  > Processing line: "+  line );
         #st = line.split(" [{\t");
+
         st = line.split("\t")# first we need to split the attribute line into two part , attribute name and attribute values
 
 
@@ -344,9 +345,7 @@ class InstanceSet:
         first_part=st[0].split()
 
         at = Attribute()
-        print("before getType")
-        type_string = at.getType()
-        print("after getType")
+
             # print("Get type once get instance object, at.getType() = " + str(type_string))
         at.setName(first_part[0])
         print("att set name as first_part[0] is:" + first_part[0])
@@ -354,14 +353,10 @@ class InstanceSet:
 
         # to get the class name values we need to split the second part of the attribute line, to get values of attribute
 
-        second_part = st[1].split()
-        second_part[1]=second_part[1].strip()
-        print("second_part[1] is:" + str(second_part[1]))
-
 
         # Next action depends on the type of attribute: continuous or nominal
-        if (len(second_part)==1):  # Parsing a nominal attribute with no definition of values
-            print("Parsing nominal attribute without values: setType=0 ")
+        if (len(st)==1):  # Parsing a nominal attribute with no definition of values
+            print("Parsing nominal attribute without values: setType=0")
             #print("Get type =" + at.getType())
             at.setType(Attribute.NOMINAL)
 
@@ -377,7 +372,7 @@ class InstanceSet:
             #print("indexL: " + indexL )
             indexR = line.index("}")
             #print("indexR: " + str(indexR))
-
+            print("indexL : " + str(indexL)+"indexR : " +str(indexR))
             #print( "The Nominal values are: " + line[indexL: indexR]);
             lineSub = line[indexL: indexR]
             print("The lineSub : " + lineSub)
@@ -387,22 +382,20 @@ class InstanceSet:
                 at.addNominalValue(nominalStr.strip())
 
         else:  # Parsing an integer or real
-            attName= first_part[0]
-            at.setName(attName)
-            attType = first_part[1].lower()
-            print("set Name and type for attribute: " + str(attName) + ", attType = "+ str(attType))
 
+            attType = first_part[1].lower()
+            print("attribute Name : " + str(first_part[0]) + ", attribute type = "+ str(attType))
 
             # System.out.println ("    > Parsing "+ type + " attributes");
 
             if (attType == "integer"):
-                at.setType(Attribute.INTEGER);
+                at.setType(Attribute.INTEGER)
                 print("set integer type")
             if (attType == "real"):
-                at.setType(Attribute.REAL);
+                at.setType(Attribute.REAL)
                 print("set real type")
-            indexL = line.index("[");
-            indexR = line.index("]");
+            indexL = line.index("[")
+            indexR = line.index("]")
 
             print("indexL is: "+ str(indexL)+ " indexR: "+str(indexR))
 
@@ -668,7 +661,7 @@ class InstanceSet:
 
 
     def removeAttribute(self, tSet, inputAtt, whichAtt):
-        attToDel = None;
+        attToDel = None
         # Getting a reference to the attribute to del
         if (inputAtt == True):
             if (self.storeAttributesAsNonStatic and self.attributes != None):
@@ -683,12 +676,12 @@ class InstanceSet:
                 attToDel = Attributes.getOutputAttribute(whichAtt)
 
         if (self.storeAttributesAsNonStatic == True and self.attributes != None):
-            print("Removing the attribute");
+            print("Removing the attribute")
         if (self.attributes.removeAttribute(inputAtt, whichAtt) == False or (tSet != None and tSet.attributes.removeAttribute(inputAtt, whichAtt)) == False):
             return False
         else:
             if (Attributes.removeAttribute(inputAtt, whichAtt) == False):
-                return False;
+                return False
         for i in range(0, len(self.instanceSet)):
             if (self.storeAttributesAsNonStatic and self.attributes != None):
                 self.instanceSet[i].removeAttribute(self.attributes, attToDel, inputAtt, whichAtt)
@@ -843,21 +836,21 @@ class InstanceSet:
 
         if (self.storeAttributesAsNonStatic and self.attributes != None):
             if (self.printInOut == 1 or self.printInOut == 3):
-                print(self.attributes.getInputHeader());
+                print(self.attributes.getInputHeader())
 
         if (self.printInOut == 2 or self.printInOut == 3):
 
-            print(self.attributes.getOutputHeader());
+            print(self.attributes.getOutputHeader())
 
         else:
             if (self.printInOut == 1 or self.printInOut == 3):
-                out.println(Attributes.getInputHeader());
+                out.println(Attributes.getInputHeader())
             if (self.printInOut == 2 or self.printInOut == 3):
-                out.println(Attributes.getOutputHeader());
+                out.println(Attributes.getOutputHeader())
 
-        print("@data");
+        print("@data")
         for i in range(0, len(self.instanceSet)):
-            print();
+            print()
             if (self.storeAttributesAsNonStatic and self.attributes != None):
                 self.instanceSet[i].printAsOriginal(self.attributes, out)
         else:
