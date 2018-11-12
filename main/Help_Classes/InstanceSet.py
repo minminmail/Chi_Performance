@@ -875,7 +875,7 @@ class InstanceSet:
             if (self.storeAttributesAsNonStatic and self.attributes != None):
                 self.instanceSet[i].printInsSet(self.attributes)
         else:
-            self.instanceSet[i].printInsSet();
+            self.instanceSet[i].printInsSet()
 
 
     # end print
@@ -884,7 +884,7 @@ class InstanceSet:
     # Remove all instances from this InstanceSet
 
     def clearInstances(self):
-        self.instanceSet = None;
+        self.instanceSet = None
 
 
     # '''

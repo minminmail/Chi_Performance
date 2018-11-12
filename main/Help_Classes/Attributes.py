@@ -486,7 +486,7 @@ class Attributes:
                 print("add in out attribute list, attName is:" + attName)
                 att.setDirectionAttribute(Attribute.OUTPUT)
                 self.outputAttr.append(self.attributes[i])
-        elif(self.hasSameAttributeName(attName,self.undefinedAttr)==False):
+        elif(not self.hasSameAttributeName(attName,self.undefinedAttr)):
             print("add in undefinedAttr attribute list, attName is:" + attName)
             self.undefinedAttr.append(self.attributes[i])
 
@@ -525,11 +525,18 @@ class Attributes:
 #  * @param outputNames is a vector with all input attribute names.
 #  */
   def hasSameAttributeName(attrName,attr_list):
+      hasSame=False
+      print("attrName ==" + attrName)
       for item_in_list in attr_list:
+          name=item_in_list.getName()
+          print("item_in_list.getName() =="+name)
+
           if item_in_list.getName()== attrName:
-              return True
-          else:
-              return False
+              hasSame= True
+              break
+
+      print(" return hasSame ==" + str(hasSame))
+      return hasSame
 
   def areAllDefinedAsInputs(self,inputNames):
     if len(inputNames) != len(self.inputAttr):

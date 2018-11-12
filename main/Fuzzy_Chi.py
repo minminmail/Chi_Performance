@@ -193,9 +193,9 @@ class Fuzzy_Chi:
             print("before classificationOutput in Fuzzy_Chi")
             classOut = self.classificationOutput(dataset.getExample(i))
             print("before getOutputAsString in Fuzzy_Chi")
-            self.output += dataset.getOutputAsString(i) + " " + classOut + "\n"
+            self.output = self.output + dataset.getOutputAsString(i) + " " + classOut + "\n"
             print("before getOutputAsString in Fuzzy_Chi")
-            if (dataset.getOutputAsString(i).lower()==classOut.lower()):
+            if (dataset.getOutputAsString(i)==classOut):
               hits=hits+1
           print("before open file in Fuzzy_Chi")
           file = open(filename,"w")

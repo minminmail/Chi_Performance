@@ -348,7 +348,7 @@ class MyDataSet:
                 inst = self.__instanceSet.getInstance(i)
                 for j in range( 0, self.__nInputs):
                   self.__X[i][j] = self.__instanceSet.getInputNumericValue(i, j) #inst.getInputRealValues(j);
-                  self.__missing[i][j] = inst.getInputMissingValues(j);
+                  self.__missing[i][j] = inst.getInputMissingValues(j)
                   if (self.__missing[i][j]):
                     self.__X[i][j] = self.__emin[j] - 1
 

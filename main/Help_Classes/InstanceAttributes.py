@@ -226,10 +226,10 @@ class InstanceAttributes :
         i=0
         for i in range (0,len(self.__attributes)):
             if ( Attribute(self.__attributes[i]).getName()==_name):
-             break;
+             break
 
         if (i == len(self.__attributes)):
-            return None;
+            return None
         return Attribute(self.__attributes[i])
       #end getAttribute
 
@@ -239,7 +239,7 @@ class InstanceAttributes :
 
     def  getAttributes(self):
         if (len(self.__attributes) == 0) :
-            return None;
+            return None
         attr = Attribute[len(self.__attributes)]
         for i in range (0, len(attr)):
           attr[i] = Attribute(self.__attributes[i])
@@ -251,8 +251,8 @@ class InstanceAttributes :
 
     def getInputAttribute( self,pos) :
         if (pos<0 or pos >= len(self.__inputAttr)) :
-            return None;
-        return Attribute(self.__inputAttr[pos]);
+            return None
+        return Attribute(self.__inputAttr[pos])
       #end getInputAttribute
 
 
@@ -264,7 +264,7 @@ class InstanceAttributes :
             return None
         attr = Attribute[len(self.__inputAttr)]
         for i in range (0,len(attr)):
-           attr[i] = Attribute(self.__inputAttr[i]);
+           attr[i] = Attribute(self.__inputAttr[i])
            return attr
     #end getInputAttribute
     

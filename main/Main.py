@@ -30,6 +30,8 @@
 
 from ParseParameters import ParseParameters
 from Fuzzy_Chi import Fuzzy_Chi
+from os import listdir
+from os.path import isfile,join
 import sys
 from pathlib import Path
 
@@ -41,7 +43,7 @@ from pathlib import Path
 
 class Main :
 
-    data_folder = Path("simpleTest/scripts/Chi-RW-C/iris")
+    config_files_folder=Path("c:/pythonAlgorithms/PythonChi/Chi_RW/main/simpleTest/scripts/Chi-RW-C/iris")
     file_to_open = None
        # Default Constructor
 
@@ -54,6 +56,13 @@ class Main :
         parameters.parseConfigurationFile(config_file)
         fuzzy_chi =Fuzzy_Chi(parameters)
         fuzzy_chi.execute()
+
+    def executeMultiFiles(self,config_file):
+            print("MaultiMain execute begin...")
+            parameters = ParseParameters()
+            parameters.parseConfigurationFile(config_file)
+            fuzzy_chi = Fuzzy_Chi(parameters)
+            fuzzy_chi.execute()
 
            # * Main Program
            # * @param args It contains the name of the configuration file
@@ -69,6 +78,7 @@ class Main :
 
     if __name__=='__main__':
         print("Executing Algorithm.")
+
         print("sys.argv: " + sys.argv[1])
         execute(sys.argv[1])
 
