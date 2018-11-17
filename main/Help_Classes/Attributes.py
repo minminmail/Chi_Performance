@@ -135,19 +135,20 @@ class Attributes:
 #  * @param attr is the new attribute to be added.
 #  */
   def addAttribute(self, attr):
-    print("In Atrributes class ,addAttribute begin......")
-    self.attributes.append(attr)
-    attType = attr.getType()
-    print("Attribute type is :" + str(attType))
-    if(attType==Attribute.NOMINAL):
-        self.hasNominal= True
-        print("hasNominal is true")
-    elif(attType==Attribute.INTEGER) :
-        self.hasInteger= True
-        print("hasInteger is true")
-    elif(attType==Attribute.REAL):
-        self.hasReal = True
-        print("hasReal is true")
+    if(not self.isExistent(self,attr)):
+        print("In Atrributes class ,addAttribute begin......")
+        self.attributes.append(attr)
+        attType = attr.getType()
+        print("Attribute type is :" + str(attType))
+        if(attType==Attribute.NOMINAL):
+            self.hasNominal= True
+            print("hasNominal is true")
+        elif(attType==Attribute.INTEGER) :
+            self.hasInteger= True
+            print("hasInteger is true")
+        elif(attType==Attribute.REAL):
+            self.hasReal = True
+            print("hasReal is true")
 
     numberAttribute=len(self.attributes)
     print("There are " + str(numberAttribute) + "attribute in Attribute class")
@@ -157,6 +158,17 @@ class Attributes:
 
    #end addAttribute
 
+#  * The function returns true if the attribute is existent,
+#      will return True else return False otherwise.
+#  */
+  def  isExistent(self,attr):
+    result = False
+    for attrExistent in self.attributes:
+        if attr.getName()==attrExistent.getName():
+            result = True
+            break
+    return result
+   #end isExistent
 
 # /**
 #  * The function returns if there is any nominal attribute
