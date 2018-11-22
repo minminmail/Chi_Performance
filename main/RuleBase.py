@@ -27,8 +27,6 @@
 # 	along with this program.  If not, see http://www.gnu.org/licenses/
 #
 # **********************************************************************/
-
-
 from Fuzzy import Fuzzy
 from DataBase import DataBase
 from Rule import Rule
@@ -44,11 +42,11 @@ class RuleBase :
 
     ruleBase=[]
     dataBase=DataBase()
-    n_variables=0
-    n_labels=0
-    ruleWeight=0
-    inferenceType=0
-    compatibilityType=0
+    n_variables= None
+    n_labels= None
+    ruleWeight= None
+    inferenceType= None
+    compatibilityType= None
     names=[]
     classes=[]
 
@@ -81,7 +79,7 @@ class RuleBase :
     def duplicated(self,rule):
             i = 0
             found = False
-            while ((i < len(self.ruleBase)) and (found==False)):
+            while ((i < len(self.ruleBase)) and (not found)):
                 found = self.ruleBase[i].comparison(rule)
                 i+=1
             return found
@@ -94,7 +92,7 @@ class RuleBase :
             for i in range( 0, train.size()) :
                 rule = self.searchForBestAntecedent(train.getExample(i),train.getOutputAsInteger(i))
                 rule.assingConsequent(train, self.ruleWeight)
-                if ((self.duplicated(rule)==False) and(rule.weight > 0)):
+                if (not (self.duplicated(rule)) and(rule.weight > 0)):
                     self.ruleBase.append(rule)
          # * This function obtains the best fuzzy label for each variable of the example and assigns
          # * it to the rule
@@ -111,7 +109,7 @@ class RuleBase :
             for i in range( 0,self.n_variables):
                 max = 0.0
                 etq = -1
-                per=0.0
+                per= None
                 for j in range( 0, self.n_labels) :
                     print("Inside the second loop of searchForBestAntecedent......")
                     per = self.dataBase.membershipFunction(i, j, example[i])
@@ -133,8 +131,8 @@ class RuleBase :
          # * @return String an string containing the rule base
 
     def printString(self) :
-            i=0
-            j=0
+            i=None
+            j= None
             cadena = ""
             cadena += "@Number of rules: " + str(len(self.ruleBase)) + "\n\n"
             for i in range( 0, len(self.ruleBase)):
@@ -196,7 +194,7 @@ class RuleBase :
                 for j in range( 0, len(aux)):
                     aux[j] = class_degrees[j]
 
-                class_degrees = float[rule.clas + 1]
+                class_degrees = [ 0.0 for x in range (rule.clas+1)]
                 for j in range( 0,len(aux)):
                     class_degrees[j] = aux[j]
 

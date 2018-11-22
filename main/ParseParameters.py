@@ -138,7 +138,7 @@ class ParseParameters :
                 #     elif typeInputFile=='tst':
                 #         self.__inputTstFiles.append(fileName)
             file_number=len(file_list)
-            print("file_number"+ str(file_number))
+            print("file_number :"+ str(file_number))
             for i in range(0, file_number):
                 if i==0:
                     self.__trainingFile= file_list[i]
@@ -149,7 +149,7 @@ class ParseParameters :
                 else:
                     self.__inputFiles.append(file_list[i])
 
-            print("The Input files number is :" + str(len(self.__inputFiles)))
+            print("The other remaining Input files number is :" + str(len(self.__inputFiles)))
 
             for file in self.__inputFiles:
                 print("input file is :" + file)

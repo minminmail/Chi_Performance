@@ -101,8 +101,8 @@ class Rule:
    # * @return double the computation the the minimum T-norm
 
   def minimumCompatibility(self,example):
-    minimum=0.0
-    membershipDegree=0.0
+    minimum=None
+    membershipDegree=None
     minimum = 1.0
     for i in range(0, len(self.antecedent)):
       print("example["+str(i)+"] = "+example[i])
@@ -111,7 +111,6 @@ class Rule:
       minimum = min(membershipDegree, minimum)
 
     return minimum
-
 
    # * Operator T-product
    # * @param example double[] The input example
@@ -142,7 +141,7 @@ class Rule:
        classes_sum[i] = 0.0
 
     total = 0.0
-    comp = 0.0
+    comp = None
     #Computation of the sum by classes */
     for i in range( 0,train.size()):
       comp = self.compatibility(train.getExample(i))
@@ -150,8 +149,6 @@ class Rule:
       total =total+ comp
 
     self.weight = classes_sum[self.clas] / total
-
-
 
    # * Penalized Certainty Factor weight II (by Ishibuchi)
    # * @param train myDataset training dataset
@@ -162,17 +159,15 @@ class Rule:
        classes_sum[i] = 0.0
 
     total = 0.0
-    comp = 0.0
+    comp = None
   # Computation of the sum by classes */
     for i in range (0,  train.size()):
       comp = self.compatibility(train.getExample(i))
       classes_sum[train.getOutputAsInteger(i)] = classes_sum[train.getOutputAsInteger(i)]+comp
       total = total+comp
 
-      sum = (total - classes_sum[self.clas]) / (train.getnClasses() - 1.0)
-      self.weight = (classes_sum[self.clas] - sum) / total
-
-
+    sum = (total - classes_sum[self.clas]) / (train.getnClasses() - 1.0)
+    self.weight = (classes_sum[self.clas] - sum) / total
 
    # * Penalized Certainty Factor weight IV (by Ishibuchi)
    # * @param train myDataset training dataset
@@ -216,8 +211,8 @@ class Rule:
           self.weight = rule.weight
 
       return True
-
-    return False
+    else:
+      return False
 
 
 
