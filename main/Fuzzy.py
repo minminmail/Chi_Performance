@@ -37,18 +37,15 @@
 # '''
 class Fuzzy :
    # Default constructor
-  x0=0.0
-  x1=0.0
-  x3=0.0
-  y =0.0
+  x0= None
+  x1= None
+  x3= None
+  y = None
   name=""
-  label=0
+  label= None
 
   def __init__(self):
-      self.x0 = 0.0
-      self.x1 = 0.0
-      self.x3 = 0.0
-      self.y = 0.0
+     print("init of Fuzzy Class ")
 
 
    # * If fuzzyfies a crisp value
@@ -70,8 +67,8 @@ class Fuzzy :
         if (X > self.x1) :
           print("X > self.x1")
           return ( (self.x3 - X) * (self.y / (self.x3 - self.x1)))
-        else:
-          return self.y
+
+        return self.y
 
          # /**
          #   * It makes a copy for the object
