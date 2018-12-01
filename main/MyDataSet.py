@@ -26,10 +26,10 @@ class MyDataSet:
     __emax=[] #  max value of an attribute private
     __emin=[] #  min value of an attribute
 
-    __nData=0 #  Number of examples
-    __nVars=0 #  Numer of variables
-    __nInputs=0 #  Number of inputs
-    __nClasses=0 #  Number of outputs
+    __nData= None #  Number of examples
+    __nVars= None #  Numer of variables
+    __nInputs= None #  Number of inputs
+    __nClasses= None #  Number of outputs
 
     __instanceSet=None #  The whole instance set
     __stdev=[]
@@ -72,7 +72,7 @@ class MyDataSet:
 
     def getOutputAsReal(self):
         opRLength=len(self.__outputReal)
-        output = [0 for x in range(opRLength)]
+        output = [0.0 for x in range(opRLength)]
         for i in range( 0,len(self.__outputReal)):
           output[i] = self.__outputInteger[i]
         return output
@@ -83,7 +83,7 @@ class MyDataSet:
 
     def getOutputAsString(self):
         opLength=len(self.__output)
-        output = [0 for x in range (opLength)]
+        output = ["" for x in range (opLength)]
         for  i in range ( 0, opLength):
           output[i] = self.__output[i]
 
@@ -94,14 +94,14 @@ class MyDataSet:
     #    * @return String a string containing the output value
 
 
-    def getOutputAsString(self,pos):
+    def getOutputAsStringWithPos(self,pos):
         return self.__output[pos]
 
     #    * It returns the output value of the example "pos"
     #    * @param pos int the position (id) of the example
     #    * @return int an integer containing the output value
 
-    def getOutputAsInteger(self,pos):
+    def getOutputAsIntegerWithPos(self,pos):
      return self.__outputInteger[pos]
 
 
@@ -109,7 +109,7 @@ class MyDataSet:
     #    * @param pos int the position (id) of the example
     #    * @return double a real containing the output value
 
-    def getOutputAsReal(self,pos):
+    def getOutputAsRealWithPos(self,pos):
      return self.__outputReal[pos]
 
 
@@ -240,13 +240,13 @@ class MyDataSet:
                   print("nInputLength = " + str(nInputLength))
                   #[[0 for j in range(m)] for i in range(n)] first column, then row
 
-                  self.__X = [[0.0 for y in range(nInputLength)] for x in range(nDataLength)]
+                  self.__X = [[None for y in range(nInputLength)] for x in range(nDataLength)]
 
-                  self.__missing = [[False for y in range(nInputLength)]for x in range(nDataLength)]
+                  self.__missing = [[None for y in range(nInputLength)]for x in range(nDataLength)]
 
-                  self.__outputInteger = [ 0 for x in range(nDataLength)]
+                  self.__outputInteger = [ None for x in range(nDataLength)]
 
-                  self.__outputReal = [ 0.0 for x in range(nDataLength)]
+                  self.__outputReal = [ None for x in range(nDataLength)]
                   self.__output =[ "" for x in range(nDataLength)]
 
                 # Maximum and minimum of inputs
@@ -268,12 +268,12 @@ class MyDataSet:
 
                            self.__X[i][j] = input_Numeric_Value #inst.getInputRealValues(j);
                            print("after get self.__X[i][j]")
-                           self.__missing[i][j] = inst.getInputMissingValues(j)
+                           self.__missing[i][j] = inst.getInputMissingValuesWithPos(j)
                            print("after self.__missing[i][j]")
-                           if (self.__missing[i][j]==True):
+                           if (self.__missing[i][j]):
                              self.__X[i][j] = self.emin[j] - 1
 
-                      if (noOutputs==True):
+                      if noOutputs:
                             print("noOutputs==True")
                             self.__outputInteger[i] = 0
                             self.__output[i] = ""
@@ -330,14 +330,13 @@ class MyDataSet:
             noOutputs = True
             exit(1)
           # Initialice and fill our own tables
-
-          self.__X =[ (0.0 for x in range (self.__nData))for y in range (self.__nInputs)]
-          self.__missing=[(True for x in range(self.__nData)) for y in range (self.__nInputs)]
+          self.__X = [[0.0 for y in range(self.__nInputs)] for x in range(self.__nData)]
+          self.__missing = [[False for y in range(self.__nInputs)] for x in range(self.__nData)]
           self.__outputInteger = [0 for x in range (self.__nData)]
 
           # Maximum and minimum of inputs
-          self.__emax = self.__nInputs
-          self.__emin = self.__nInputs
+          self.__emax = [None for x in range (self.__nInputs)]
+          self.__emin = [None for x in range (self.__nInputs)]
           for i in range( 0,self.__nInputs):
               self.__emax[i] = Attributes.getAttributeByPos(Attributes,i).getMaxAttribute()
               self.__emin[i] = Attributes.getAttributeByPos(Attributes,i).getMinAttribute()
@@ -401,7 +400,7 @@ class MyDataSet:
 
         for i in range(0,self.getnData()):
           for j in range(0,atts):
-            if (self.isMissing(i, j)==False):#this process ignores missing values
+            if not self.isMissing(i, j):#this process ignores missing values
               self.__X[i][j] = (self.__X[i][j] - self.__emin[j]) * maxs[j]
 
    # * It checks if the data-set has any real value
@@ -431,11 +430,15 @@ class MyDataSet:
 
     def sizeWithoutMissing(self):
         tam = 0
+        print("self.__nData is :"+str(self.__nData)+", self.__nInputs :" + str(self.__nInputs))
         for i in range( 0, self.__nData):
             for j in range(1 ,self.__nInputs):
                # changed the isMissing condition inside if
-                if (self.isMissing(i, j)==False):
-                    j=j+1
+                if self.isMissing(i, j):
+                    print("It is missing value is i = " +str(i)+",j==" +str(j))
+                    break
+            j=j+1;
+            print("sizeWithoutMissing,  i = " + str(i) + ",j==" + str(j))
             if(j == self.__nInputs) :
                 tam=tam+1
         print("tam="+str(tam))
@@ -465,7 +468,7 @@ class MyDataSet:
             for i in range ( 0,inputNum):
               self.__average[i] = 0
               for j in range (0,dataNum ):
-                if (self.isMissing(j, i)==False):
+                if not self.isMissing(j, i):
                   self.__average[i] =self.__average[i]+ self.__X[j][i]
               if(dataNum!=0):
                 self.__average[i] = self.__average[i] /dataNum
@@ -477,9 +480,9 @@ class MyDataSet:
                 self.__average[average_length - 1] =self.__average[average_length - 1]/ len(self.__outputReal)
 
             for i in range( 0, inputNum):
-              sum = 0
+              sum = 0.0
               for j in range (0, dataNum):
-                if (self.isMissing(j, i)==False):
+                if not self.isMissing(j, i):
                   print("self.isMissing(j, i)==False")
                   sum = sum+ (self.__X[j][i] - self.__average[i]) * (self.__X[j][i] - self.__average[i])
 
@@ -488,9 +491,9 @@ class MyDataSet:
                 sum = sum/dataNum
               self.__stdev[i] = math.sqrt(sum)
 
-            sum = 0
+            sum = 0.0
             for j in range(0, len(self.__outputReal)):
-              sum += (self.__outputReal[j] - self.__average[len(self.__average) - 1]) *(self.__outputReal[j] - self.__average[len(self.__average) - 1])
+              sum += (self.__outputReal[j] - self.__average[average_length - 1]) *(self.__outputReal[j] - self.__average[average_length - 1])
             if (len(self.__outputReal) != 0):
                 sum /= len(self.__outputReal)
             self.__stdev[len(self.__stdev) - 1] = math.sqrt(sum)
@@ -591,7 +594,8 @@ class MyDataSet:
     #  * @return double[][] The minimum [0] and maximum [1] range of each variable
 
     def getRanges(self):
-      rangos =  [[0.0 for x in range (2)] for y in range (self.getnVars())]
+
+      rangos =  [[0.0 for y in range (2)] for x in range (self.getnVars())]
       print("rangos has two dimensions, first is self.getnVars()"+ str(self.getnVars())+"second is 2")
       for i in range( 0, self.getnInputs()):
         print("self.getnInputs()"+ str(self.getnInputs())+ " i = " + str(i))

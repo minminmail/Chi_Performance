@@ -609,7 +609,7 @@ class Instance :
         print("  > Inputs ("+self.__numInputAttributes+"): ")
         for  i in range (0, self.__numInputAttributes):
             if (self.__missingValues[Instance.ATT_INPUT][i]):
-                print("?");
+                print("?")
 
             else:
                 inputAttrType=Attributes.getInputAttribute(i).getType()
@@ -791,7 +791,7 @@ class Instance :
      * Get Input Missing Values
      * @return a boolean indicating if that input value is missing.
     '''
-    def getInputMissingValues(self,pos):
+    def getInputMissingValuesWithPos(self,pos):
         return self.__missingValues[0][pos]
     #end getINputMissingValues
 

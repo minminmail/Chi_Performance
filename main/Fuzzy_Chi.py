@@ -44,11 +44,11 @@ class Fuzzy_Chi:
   outputTst=""
   fileDB=""
   fileRB=""
-  nClasses=0
-  nLabels=0
-  combinationType=0
-  inferenceType=0
-  ruleWeight=0
+  nClasses= None
+  nLabels= None
+  combinationType= None
+  inferenceType=None
+  ruleWeight= None
   dataBase=None
   ruleBase=None
 
@@ -143,7 +143,7 @@ class Fuzzy_Chi:
 
             #It launches the algorithm
   def execute(self) :
-    if (self.somethingWrong==True) : #We do not execute the program
+    if self.somethingWrong : #We do not execute the program
       print("An error was found, the data-set have missing values")
       print("Please remove those values before the execution")
       print("Aborting the program")
@@ -192,10 +192,10 @@ class Fuzzy_Chi:
             #for classification:
             print("before classificationOutput in Fuzzy_Chi")
             classOut = self.classificationOutput(dataset.getExample(i))
-            print("before getOutputAsString in Fuzzy_Chi")
-            self.output = self.output + dataset.getOutputAsString(i) + " " + classOut + "\n"
-            print("before getOutputAsString in Fuzzy_Chi")
-            if (dataset.getOutputAsString(i)==classOut):
+            print("before getOutputAsStringWithPos in Fuzzy_Chi")
+            self.output = self.output + dataset.getOutputAsStringWithPos(i) + " " + classOut + "\n"
+            print("before getOutputAsStringWithPos in Fuzzy_Chi")
+            if (dataset.getOutputAsStringWithPos(i)==classOut):
               hits=hits+1
           print("before open file in Fuzzy_Chi")
           file = open(filename,"w")

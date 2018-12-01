@@ -66,7 +66,7 @@ class FormatErrorKeeper :
     #  * @param er is the Error to be added.
     # '''
     def setError(self,err):
-        self.__errors.add(err)
+        self.__errors.append(err)
       #end setError
 
 

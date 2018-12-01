@@ -87,14 +87,14 @@ class Attribute:
  #  * defined neither as input or output (-1)
  # '''
 
- __dirAttribute=0
+ __dirAttribute=None
 
  # '''
  #  * It keeps the type of the attribute. It can be one of the following values:
  #  * [Attribute.Nominal, Attribute.Integer, Attribute.Real]
  # '''
 
- __type=0
+ __type=None
 
  #It stores the name of the attribute.
 
@@ -109,35 +109,35 @@ class Attribute:
  #  * Minimum value that can take a real attribute.
  #  '''
 
- __min=0.0
+ __min= None
  # '''
  #  * Maximum value that can take a real attribute.
  #  '''
 
- __max=0.0
+ __max= None
  # '''
  #  * Flag that indicates if it's the first time that an operation is made
  #  * with the current attribute.
  #  '''
 
- __firstTime=None
+ __firstTime=False
  # '''
  #  * It indicates if the bounds of the attribute has been fixed in its definition.
  #  '''
 
- _fixedBounds=None
+ _fixedBounds=False
  # '''
  #  * It counts the number of values that can take a nominal attribute
  #  '''
 
- __countValues=0
+ __countValues=None
 
  # '''
  #  * It informs that a nominal value not compresed in train list values has been
  #  * read in test
  #  '''
 
- __newValuesInTest=None
+ __newValuesInTest=False
  # '''
  #  * It keeps the new values in test
  #  '''
@@ -297,7 +297,7 @@ class Attribute:
   if(self.__type!=self.REAL and self.__type!=self.INTEGER):
    return
 
-  if(self.__firstTime==True) :
+  if self.__firstTime :
    #//If it's the first attribute update and the bounds are not fixed in its
    #//specification, the min and max values are initialized.
     if (not self.__fixedBounds):
@@ -398,7 +398,7 @@ class Attribute:
  #  * @return a String with the most used value.
  #  '''
  def getMostFrequentValue(self, whichClass):
-  if (self.__makeStatistics==False or self.__type != self.NOMINAL or self.__mostUsedValue == None):
+  if (not self.__makeStatistics or self.__type != self.NOMINAL or self.__mostUsedValue == None):
    return None
   if (whichClass <0 or whichClass >= len(self.__mostUsedValue)) :
    return None
@@ -413,7 +413,7 @@ class Attribute:
  #  * @return a double with the mean value.
  #  '''
  def getMeanValue(self, whichClass):
-  if (self.__makeStatistics==False or (self.__type != self.REAL and self.__type!=self.INTEGER) or self.__meanValue == None):
+  if (not self.__makeStatistics or (self.__type != self.REAL and self.__type!=self.INTEGER) or self.__meanValue == None):
    return 0
   if(whichClass<0 or whichClass >= len(self.__meanValue)):
    return 0
@@ -434,7 +434,7 @@ class Attribute:
    print("self.w = " + str(self.w))
    self.h=len(self.__nominalValues)
    print( "self.h = " + str(self.h))
-   self.__classFrequencies = [[0 for x in range(self.h)] for y in range(classNumber)]
+   self.__classFrequencies = [[0 for y in range(self.h)] for x in range(classNumber)]
    self.__numStatUpdates = [0 for x in range (classNumber)]
    for i in range(0, classNumber):
     self.__numStatUpdates[i] = 0
@@ -450,7 +450,7 @@ class Attribute:
    self.__numStatUpdates = [0 for x in range (classNumber)]
    print("before the loop in not nominal block")
    for i in range (0,classNumber):
-    self.__meanValue[i] = 0
+    self.__meanValue[i] = 0.0
     self.__numStatUpdates[i] = 0
    print("finished type is not Nominal.")
 
@@ -460,7 +460,7 @@ class Attribute:
  #  * It does finish the statistics process.
  #  '''
  def finishStatistics(self):
-  if (self.__makeStatistics==False):
+  if (not self.__makeStatistics):
    return
   if (self.__type == self.NOMINAL):
    print("In Attribute class the type is nominal, in finishStatistics method")
@@ -495,7 +495,7 @@ class Attribute:
  #  '''
  def increaseClassFrequency(self, whichClass,  value):
   print("increaseClassFrequency begin......")
-  if (self.__makeStatistics and self.__classFrequencies != None and self.__classFrequencies[whichClass] != None and self.__classFrequencies[whichClass] != None):
+  if (self.__makeStatistics and self.__classFrequencies != None and self.__classFrequencies[whichClass] != None):
    column_here=self.convertNominalValue(value)
    print("self.__classFrequencies, row here is :"+whichClass+",column_here is :" + str(column_here) )
    self.__classFrequencies[whichClass] [column_here] =self.__classFrequencies[whichClass] [column_here] + 1
@@ -617,14 +617,12 @@ class Attribute:
  #  '''
  def equals( self,attr) :
   if(not self.__name==attr.name):
-   return False
+    return False
   if(attr.type!=self.__type) :
-   return False;
-  if(self.__type==self.NOMINAL) :
-   if(self.__nominalValues.lower()!=attr.nominalValues.lower()):
-    return False;
-
-    return True;
+    return False
+  if(self.__type==self.NOMINAL and(self.__nominalValues.lower()!=attr.nominalValues.lower())):
+    return False
+  return True
    #end equals
  #
  #
@@ -710,7 +708,7 @@ class Attribute:
   else:
      print("NOT DEFINED")
 
-  print(" Range: ")
+  print(" > Range: ")
   if (self.__type==self.NOMINAL):
      print("{")
      for i in range(0, len(self.__nominalValues)):
@@ -723,20 +721,18 @@ class Attribute:
   else:
      print("["+self.__min+","+self.__max+"]")
 
-  if (self.__type == self.NOMINAL):
-    if (self.__mostUsedValue != None):
+  if (self.__type == self.NOMINAL) and(self.__mostUsedValue != None):
      print("\n    > Most used value: ")
      for  i in range(0, len(self.__mostUsedValue)):
-      print("       > class "+i+":"+self.__mostUsedValue[i])
+      print("       > class "+ str(i)+":"+self.__mostUsedValue[i])
       print("  ("+self.__classFrequencies[i][self.__convertNominalValue(self.__mostUsedValue[i])]+")." )
 
-  else :
-    if (self.__meanValue != None):
+  elif self.__meanValue != None:
      print("\n    > Mean used value: ")
      for i in range (0,len(self.__meanValue)):
-      print("       > class "+ str(i)+": "+ str(self.__meanValue[i]))
+      print("   > class "+ str(i)+": "+ str(self.__meanValue[i]))
 
-  print()
+  print("\n")
   #end print
    #end of class Attribute
 

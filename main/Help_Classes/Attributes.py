@@ -217,8 +217,8 @@ class Attributes:
         print("size of attributes = "+ str(size))
         attribute = self.attributes[i]
         if  attribute.getName()==_name:
+            stopPos = i
             break
-        stopPos=i
 
     if (stopPos == size) :
         return None
@@ -233,7 +233,8 @@ class Attributes:
   def  getAttributes(self):
     if (len(self.attributes) == 0):
         return None
-    attr = self.attributes
+
+    attr = [Attribute() for x in range (0, len(self.attributes))]
     for i in range(0, len(attr)):
       attr[i] = self.attributes[i]
 
@@ -258,7 +259,7 @@ class Attributes:
   def getInputAttributes(self):
     if (len(self.inputAttr) == 0) :
         return None
-    attr = self.inputAttr
+    attr = [Attribute() for x in range (0, len(self.inputAttr))]
     for i in range (0, len(attr)):
       attr[i] = self.inputAttr[i]
 
@@ -307,6 +308,9 @@ class Attributes:
         print("The output attributes are 0:")
         return None
     else:
+        attr= [Attribute() for x in range(0,len(self.outputAttr))]
+        for i in range(0,len(self.outputAttr)):
+            attr[i]=self.outputAttr[i]
         return self.outputAttr
 
 
@@ -331,8 +335,8 @@ class Attributes:
     ending = ","
     for i in range (0, len(self.outputAttr)):
       if (i == len(self.outputAttr) - 1):
-
-          aux = aux+ self.outputAttr[i].getName() + ending
+          ending=" "
+      aux = aux+ self.outputAttr[i].getName() + ending
 
     return aux
   #end getOutputHeader
@@ -370,7 +374,7 @@ class Attributes:
   def  getUndefinedAttributes(self):
     if (len(self.undefinedAttr) == 0):
         return None
-    attr = self.undefinedAttr
+    attr = [Attribute() for x in range (0, len(self.undefinedAttr))]
     for i in range(0,attr.length):
       attr[i] = self.undefinedAttr[i]
 
@@ -631,7 +635,7 @@ class Attributes:
         self.outputAttr.removeElementAt(whichAtt)
 
     #We get the position where it has to go in the undefined attributes vector.
-    self.undefPosition = self.searchUndefPosition(atToDel)
+    undefPosition = self.searchUndefPosition(atToDel)
     self.undefinedAttr.insertElementAt(atToDel, self.undefPosition)
 
     self.hasNominal = False
@@ -737,11 +741,11 @@ class Attributes:
     for i in range(0,len(self.attributes)):
         att = self.attributes[i]
         if (att.getDirectionAttribute() == Attribute.INPUT):
-            print("INPUT ATTRIBUTE:")
+            print(" > INPUT ATTRIBUTE:")
         elif (att.getDirectionAttribute() == Attribute.OUTPUT):
-            print("OUTPUT ATTRIBUTE:")
+            print("> OUTPUT ATTRIBUTE:")
         else:
-            print("UNDEFINED ATTRIBUTE:")
+            print("> UNDEFINED ATTRIBUTE:")
 
         att.printAttr()
 

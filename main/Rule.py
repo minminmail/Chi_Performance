@@ -145,7 +145,7 @@ class Rule:
     #Computation of the sum by classes */
     for i in range( 0,train.size()):
       comp = self.compatibility(train.getExample(i))
-      classes_sum[train.getOutputAsInteger(i)] = classes_sum[train.getOutputAsInteger(i)]+ comp
+      classes_sum[train.getOutputAsIntegerWithPos(i)] = classes_sum[train.getOutputAsIntegerWithPos(i)]+ comp
       total =total+ comp
 
     self.weight = classes_sum[self.clas] / total
@@ -163,7 +163,7 @@ class Rule:
   # Computation of the sum by classes */
     for i in range (0,  train.size()):
       comp = self.compatibility(train.getExample(i))
-      classes_sum[train.getOutputAsInteger(i)] = classes_sum[train.getOutputAsInteger(i)]+comp
+      classes_sum[train.getOutputAsIntegerWithPos(i)] = classes_sum[train.getOutputAsIntegerWithPos(i)]+comp
       total = total+comp
 
     sum = (total - classes_sum[self.clas]) / (train.getnClasses() - 1.0)
@@ -186,7 +186,7 @@ class Rule:
     for i in range( 0, train_size):
       comp = self.compatibility(train.getExample(i))
       print("comp = " + str(comp))
-      classes_sum[train.getOutputAsInteger(i)] = classes_sum[train.getOutputAsInteger(i)]+ comp
+      classes_sum[train.getOutputAsIntegerWithPos(i)] = classes_sum[train.getOutputAsIntegerWithPos(i)]+ comp
       total = total+ comp
 
     print("self.clas ="+ str(self.clas)+"classes_sum[self.clas] :" + str(classes_sum[self.clas]))

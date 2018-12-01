@@ -90,7 +90,7 @@ class RuleBase :
     def Generation( self,train) :
             print("In Generation, the size of train is :" +str(train.size()))
             for i in range( 0, train.size()) :
-                rule = self.searchForBestAntecedent(train.getExample(i),train.getOutputAsInteger(i))
+                rule = self.searchForBestAntecedent(train.getExample(i),train.getOutputAsIntegerWithPos(i))
                 rule.assingConsequent(train, self.ruleWeight)
                 if (not (self.duplicated(rule)) and(rule.weight > 0)):
                     self.ruleBase.append(rule)
