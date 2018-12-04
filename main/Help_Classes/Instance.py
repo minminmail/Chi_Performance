@@ -42,11 +42,13 @@
 #  * @version keel0.1
 #  */
 
+
 from Help_Classes.Attribute import Attribute
 from Help_Classes.Attributes import Attributes
 from Help_Classes.InstanceParser import InstanceParser
 from Help_Classes.ErrorInfo import ErrorInfo
-import Help_Classes.InstanceSet
+
+import math
 
 class Instance :
 
@@ -176,16 +178,15 @@ class Instance :
         if(count != Attributes.getNumAttributes(Attributes)) :
             print("count != Attributes.getNumAttributes(Attributes)......")
             er = ErrorInfo(ErrorInfo.BadNumberOfValues, instanceNum, InstanceParser.lineCounter, 0, 0, self.isTrain,("Instance "+defStr+" has a different number of attributes than defined\n   > Number of attributes defined: "+Attributes.getNumAttributes()+"   > Number of attributes read:    "+count))
-            InstanceSet.errorLogger.setError(er)
+            #InstanceSet.errorLogger.setError(er)
 
         #Compute the statistics
-        if (self.isTrain==True):
+        if self.isTrain:
             print("self.isTrain==True......")
             atts = Attributes.getInputAttributes(Attributes)
             length= int(len(atts))
             for i in range(0,length):
-                if(self.__missingValues[Instance.ATT_INPUT][i]==False):
-
+                if not self.__missingValues[Instance.ATT_INPUT][i]:
                     if((atts[i].getType() == Attribute.NOMINAL) and (Attributes.getOutputNumAttributes() == 1)):
                         atts[i].increaseClassFrequency(currentClass, self.__nominalValues[Instance.ATT_INPUT][i])
                     elif((atts[i].getType() == Attribute.INTEGER or atts[i].getType() == Attribute.REAL) and self.__missingValues[Instance.ATT_INPUT][i]==False):
@@ -238,13 +239,13 @@ class Instance :
         curAt=Attribute()
         allat=[]
 
-        inOut=0
-        inInt=0
-        out=0
-        undef=0
+        inOut= None
+        inHere= None
+        outHere= None
+        undef= None
 
         #initialise structures
-        self.anyMissingValue = bool[3]
+        self.anyMissingValue = [False for x in range (0,3)]
         self.anyMissingValue[0] = False
         self.anyMissingValue[1] = False
         self.anyMissingValue[2] = False
@@ -261,18 +262,18 @@ class Instance :
         self.__nominalValues =  []
         self.__realValues    =  []
         self.__missingValues = []
-        self.__nominalValues[0]    = str[self.__numInputAttributes]
-        self.__nominalValues[1]    = str[self.__numOutputAttributes]
-        self.__nominalValues[2]    = str[self.__numUndefinedAttributes]
-        self.__intNominalValues[0] = int[self.__numInputAttributes]
-        self.__intNominalValues[1] = int[self.__numOutputAttributes]
-        self.__intNominalValues[2] = int[self.__numUndefinedAttributes]
-        self.__realValues[0]       = float[self.__numInputAttributes]
-        self.__realValues[1]       = float[self.__numOutputAttributes]
-        self.__realValues[2]       = float[self.__numUndefinedAttributes]
-        self.__missingValues[0]    = float[self.__numInputAttributes]
-        self.__missingValues[1]    = bool[self.__numOutputAttributes]
-        self.__missingValues[2]    = bool[self.__numUndefinedAttributes]
+        self.__nominalValues[0]    = ["" for x in range(0,self.__numInputAttributes)]
+        self.__nominalValues[1]    = ["" for x in range(0,self.__numOutputAttributes)]
+        self.__nominalValues[2]    = ["" for x in range( 0,self.__numUndefinedAttributes)]
+        self.__intNominalValues[0] = [0 for x in range(0,self.__numInputAttributes)]
+        self.__intNominalValues[1] = [0 for x in range(0,self.__numOutputAttributes)]
+        self.__intNominalValues[2] = [0 for x in range(0,self.__numUndefinedAttributes)]
+        self.__realValues[0]       = [0.0 for x in range(0,self.__numInputAttributes)]
+        self.__realValues[1]       = [0.0 for x in range(0,self.__numOutputAttributes)]
+        self.__realValues[2]       = [0.0 for x in range(0,self.__numUndefinedAttributes)]
+        self.__missingValues[0]    = [0.0 for x in range(0,self.__numInputAttributes)]
+        self.__missingValues[1]    = [0.0 for x in range(0,self.__numOutputAttributes)]
+        self.__missingValues[2]    = [False for x in range(0,self.__numUndefinedAttributes)]
 
         for i in range(0,self.__numInputAttributes) :
             self.__missingValues[0][i]=False
@@ -288,7 +289,7 @@ class Instance :
             allat = Attributes.getAttributes()
 
         #fill the data structures
-        inInt = out = undef = 0
+        inHere = outHere = undef = 0
         for i in range(0,len(values)):
             curAt = allat[i]
             inOut = 2
@@ -298,43 +299,43 @@ class Instance :
                 inOut = 1
 
             #is it missing?
-            if(float(values[i]).isNaN()==True):
-                if(inOut==0):
-                    self.__missingValues[inOut][inInt] = True
+            if math.isnan(float(values[i])):
+                if inOut==0:
+                    self.__missingValues[inOut][inHere] = True
                     self.anyMissingValue[inOut] = True
-                    inInt +=1
-                elif(inOut==1):
-                    self.__missingValues[inOut][out] = True
+                    inHere +=1
+                elif inOut==1:
+                    self.__missingValues[inOut][outHere] = True
                     self.anyMissingValue[inOut] = True
-                    out+=1
+                    outHere+=1
                 else:
                     self.__missingValues[inOut][undef] = True
                     self.anyMissingValue[inOut] = True
                     undef+=1
 
-            elif((curAt.getType()==Attribute.NOMINAL)==False): #is numerical?
-                if(inOut==0):
-                    self.__realValues[inOut][inInt] = values[i]
-                    inInt+=1
-                elif(inOut==1):
-                    self.__realValues[inOut][out] = values[i]
-                    out+=1
+            elif not curAt.getType() == Attribute.NOMINAL: #is not numerical
+                if inOut==0:
+                    self.__realValues[inOut][inHere] = values[i]
+                    inHere+=1
+                elif inOut==1:
+                    self.__realValues[inOut][outHere] = values[i]
+                    outHere+=1
                 else:
                     self.__realValues[inOut][undef] = values[i]
                     undef+=1
 
             else :#is nominal
 
-                if(inOut==0):
-                    self.__intNominalValues[inOut][inInt] = int(values[i])
-                    self.__realValues[inOut][inInt] = values[i]
-                    self.__nominalValues[inOut][inInt] = curAt.getNominalValue(int(values[i]))
-                    inInt+=1
-                elif(inOut==1):
-                    self.__intNominalValues[inOut][out] = int(values[i])
-                    self.__realValues[inOut][out] = values[i]
-                    self.__nominalValues[inOut][out] = curAt.getNominalValue(int(values[i]))
-                    out+=1
+                if inOut==0:
+                    self.__intNominalValues[inOut][inHere] = int(values[i])
+                    self.__realValues[inOut][inHere] = values[i]
+                    self.__nominalValues[inOut][inHere] = curAt.getNominalValue(int(values[i]))
+                    inHere+=1
+                elif inOut==1:
+                    self.__intNominalValues[inOut][outHere] = int(values[i])
+                    self.__realValues[inOut][outHere] = values[i]
+                    self.__nominalValues[inOut][outHere] = curAt.getNominalValue(int(values[i]))
+                    outHere+=1
                 else:
                     self.__intNominalValues[inOut][undef] = int(values[i])
                     self.__realValues[inOut][undef] = values[i]
@@ -360,13 +361,13 @@ class Instance :
         print("In processReadValue,count = "+ str(count))
         #Checking if there is a missing value.
         print(" In processReadValue, att = " +att)
-        if(att==None or att=="?") :
+        if att==None or att== "?":
             print("att==None or att==?......")
             Attributes.hasMissing = True
             self.__missingValues[inOut][curCount]=True
             self.__anyMissingValue[inOut] = True
 
-            if (inOut == 1): #If the output is a missing value, an error is generated.
+            if inOut == 1: #If the output is a missing value, an error is generated.
                 error_info_1 =  ErrorInfo(ErrorInfo.OutputMissingValue, instanceNum,
                                  InstanceParser.lineCounter, curCount, Attribute.OUTPUT,
                                  self.isTrain,

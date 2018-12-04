@@ -247,7 +247,9 @@ class Attributes:
 #      * @return the input attribute being int the position passed as an argument.
 #  */
   def getInputAttribute(self, pos):
+    print("pos is :" + str(pos)+ ",self.inputAttr"+ str(self.inputAttr))
     if pos<0 or pos >= len(self.inputAttr):
+        print("Return None for getInputAttribute !!!")
         return None
     return self.inputAttr[pos]
    #end getInputAttribute

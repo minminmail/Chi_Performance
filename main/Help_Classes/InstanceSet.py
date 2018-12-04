@@ -1,12 +1,12 @@
-'''
-    This class contains a complete set of instances. Its public methods are:
-    numInstances
-    Returns the number of instances of the Instance Set.
-    getInstance
-    Returns a concrete instance contained in the Instance Set.
-    getInstances
-    Returns an array with all the instances of the Instance Set.
-'''
+# '''
+#     This class contains a complete set of instances. Its public methods are:
+#     numInstances
+#     Returns the number of instances of the Instance Set.
+#     getInstance
+#     Returns a concrete instance contained in the Instance Set.
+#     getInstances
+#     Returns an array with all the instances of the Instance Set.
+# '''
     # /***********************************************************************
     #
 	# This file is part of KEEL-software, the Data Mining tool for regression,

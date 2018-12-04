@@ -261,10 +261,11 @@ class Attribute:
 
  def setBounds(self,minBound,maxBound) :
   if(self.__type != self.REAL and self.__type != self.INTEGER):
-   return
-   self.__fixedBounds=True;
-   self.__min=minBound
-   self.__max=maxBound
+     return
+  else:
+     self.__fixedBounds=True
+     self.__min=minBound
+     self.__max=maxBound
  #end setBounds
 
  # '''
@@ -309,7 +310,7 @@ class Attribute:
   self.__countValues += 1
 
   if self.__fixedBounds:
-   return
+     return
   if(value<self.__min):
     self.__min=value
   if(value>self.__max) :
