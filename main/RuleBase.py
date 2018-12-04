@@ -140,6 +140,7 @@ class RuleBase :
                 cadena += str(i + 1) + ": "
                 for j in range(0,  self.n_variables - 1) :
                     cadena += self.names[j] + " IS " + rule.antecedent[j].name + " AND "
+                j=j+1
                 cadena += self.names[j] + " IS " + rule.antecedent[j].name + ": " + str(self.classes[rule.clas]) + " with Rule Weight: " + str(rule.weight) + "\n"
             print("RuleBase cadena is:" + cadena)
             return cadena
