@@ -493,7 +493,7 @@ class Attributes:
         attName =attName.strip()
         print("attName is:" + str(attName))
 
-        if (attName in inAttNames):
+        if attName in inAttNames:
             print("attName in inAttNames")
             if(not self.hasSameAttributeName(attName,self.inputAttr)):
                 print("add in input attribute list, attName is:"+attName)
@@ -514,13 +514,13 @@ class Attributes:
     self.hasReal    = False
 
     for index in range (0 ,2):
-        if (index == 0):
+        if index == 0:
             iterations = len(self.inputAttr)
         else:
             iterations = len(self.outputAttr)
 
         for i in range (0,iterations):
-            if (index== 0):
+            if index== 0:
                 att = self.inputAttr[i]
             else:
                 att = self.outputAttr[i]

@@ -61,7 +61,7 @@ class Fuzzy_Chi:
     # Configuration flags.
   PCF_IV = 1
      #  Configuration flags.
-  MCF = 2
+  # MCF = 2
      # Configuration flags.
   NO_RW = 3
      # Configuration flags.

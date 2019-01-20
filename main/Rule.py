@@ -117,8 +117,7 @@ class Rule:
    # * @return double the computation the the product T-norm
 
   def productCompatibility(self, example):
-    product=None
-    membershipDegree=None
+
     product = 1.0
     antecedent_number=len(self.antecedent)
     print("antecedent_number = " + str(antecedent_number))
