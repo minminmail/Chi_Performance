@@ -54,18 +54,18 @@ class Fuzzy :
    # */
 
   def setX( self,X) :
-        print("Set Fuzzy X method begin ......")
-        print("X = " +str(X)+" ,self.x0 = "+str(self.x0)+" ,self.x1 = "+str(self.x1)+", self.x3 = " + str(self.x3))
+        #print("Set Fuzzy X method begin ......")
+        #print("X = " +str(X)+" ,self.x0 = "+str(self.x0)+" ,self.x1 = "+str(self.x1)+", self.x3 = " + str(self.x3))
         if ( (X <= self.x0) or (X >= self.x3)): # /* If X is not in the range of D, the */
-          print("(X <= self.x0) or (X >= self.x3)")
+          #print("(X <= self.x0) or (X >= self.x3)")
           return 0.0 #/* membership degree is 0 */
 
         if (X < self.x1) :
-          print("X <  self.x1")
+          #print("X <  self.x1")
           return ( (X - self.x0) * (self.y / (self.x1 - self.x0)))
 
         if (X > self.x1) :
-          print("X > self.x1")
+          #print("X > self.x1")
           return ( (self.x3 - X) * (self.y / (self.x3 - self.x1)))
 
         return self.y

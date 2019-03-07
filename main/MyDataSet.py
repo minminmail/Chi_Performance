@@ -52,7 +52,7 @@ class MyDataSet:
     #    * @return double[] the attributes of the given example
     # '''
     def getExample(self,pos):
-         print(" In getExample, len(self.__X) = " + str(len(self.__X))+", pos = " + str(pos))
+         print(" In getExample, len(self.__X) = " + str(len(self.__X))+", pos = " + str(pos) + "  ,"+"self.__X[pos] =="+ str(self.__X[pos]))
          return self.__X[pos]
 
 
@@ -407,14 +407,14 @@ class MyDataSet:
    # * @return boolean True if it has some real values, else false.
 
     def hasRealAttributes(self):
-        return Attributes.hasRealAttributes()
+        return Attributes.hasRealAttributes(self)
 
 
     #    * It checks if the data-set has any real value
     #    * @return boolean True if it has some real values, else false.
 
     def hasNumericalAttributes(self):
-        return (Attributes.hasIntegerAttributes() or Attributes.hasRealAttributes())
+        return (Attributes.hasIntegerAttributes(self) or Attributes.hasRealAttributes(self))
 
 
     #    * It checks if the data-set has any missing value
@@ -577,13 +577,13 @@ class MyDataSet:
 
 
     def getType( self,variable) :
-        if (Attributes.getAttribute(variable).getType() == Attributes.getAttributeByPos(Attributes,0).INTEGER):
+        if (Attributes.getAttributeByPos(variable).getType() == Attributes.getAttributeByPos(Attributes,0).INTEGER):
           return self.INTEGER
 
-        if (Attributes.getAttribute(variable).getType() == Attributes.getAttributeByPos(Attributes,0).REAL):
+        if (Attributes.getAttributeByPos(variable).getType() == Attributes.getAttributeByPos(Attributes,0).REAL):
           return self.REAL
 
-        if (Attributes.getAttribute(variable).getType() == Attributes.getAttributeByPos(Attributes,0).NOMINAL):
+        if (Attributes.getAttributeByPos(variable).getType() == Attributes.getAttributeByPos(Attributes,0).NOMINAL):
           return self.NOMINAL
 
         return 0

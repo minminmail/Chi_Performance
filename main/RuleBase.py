@@ -190,8 +190,8 @@ class RuleBase :
             rule = self.ruleBase[i]
             produc = rule.compatibility(example)
             produc *= rule.weight
-            if (rule.clas > class_degrees.length - 1) :
-                aux = [ 0.0 for x in range (class_degrees.length)]
+            if (rule.clas > len(class_degrees) - 1) :
+                aux = [ 0.0 for x in range (len(class_degrees))]
                 for j in range( 0, len(aux)):
                     aux[j] = class_degrees[j]
 

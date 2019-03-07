@@ -88,11 +88,11 @@ class Rule:
 
   def compatibility(self,example):
     if (self.compatibilityType == Fuzzy_Chi.Fuzzy_Chi.MINIMUM):
-      print("self.compatibilityType == Fuzzy_Chi.Fuzzy_Chi.MINIMUM")
+      #print("self.compatibilityType == Fuzzy_Chi.Fuzzy_Chi.MINIMUM")
       return self.minimumCompatibility(example)
 
     else :
-      print("self.compatibilityType != Fuzzy_Chi.Fuzzy_Chi.MINIMUM"+", self.compatibilityType = "+ str(self.compatibilityType))
+      #print("self.compatibilityType != Fuzzy_Chi.Fuzzy_Chi.MINIMUM"+", self.compatibilityType = "+ str(self.compatibilityType))
       return self.productCompatibility(example)
 
 
@@ -120,13 +120,13 @@ class Rule:
 
     product = 1.0
     antecedent_number=len(self.antecedent)
-    print("antecedent_number = " + str(antecedent_number))
+    #print("antecedent_number = " + str(antecedent_number))
     for i in range( 0, antecedent_number):
-      print("example[i="+ str(i)+"]"+":"+ str(example[i]))
+      #print("example[i="+ str(i)+"]"+":"+ str(example[i]))
       membershipDegree = self.antecedent[i].setX(example[i])
-      print("membershipDegree in productCompatibility  = " +str(membershipDegree))
+      #print("membershipDegree in productCompatibility  = " +str(membershipDegree))
       product = product * membershipDegree
-    print("product: "+ str(product))
+    #print("product: "+ str(product))
     return product
 
 
@@ -147,13 +147,14 @@ class Rule:
       classes_sum[train.getOutputAsIntegerWithPos(i)] = classes_sum[train.getOutputAsIntegerWithPos(i)]+ comp
       total =total+ comp
 
+    print("classes_sum[self.clas]  = " + str(classes_sum[self.clas] ) +"total" +str(total))
     self.weight = classes_sum[self.clas] / total
 
    # * Penalized Certainty Factor weight II (by Ishibuchi)
    # * @param train myDataset training dataset
 
   def consequent_PCF2(self,train) :
-    classes_sum = float [train.getnClasses()]
+    classes_sum = float[train.getnClasses()]
     for i in range (0, train.getnClasses()):
        classes_sum[i] = 0.0
 

@@ -621,7 +621,7 @@ class Attribute:
     return False
   if(attr.type!=self.__type) :
     return False
-  if(self.__type==self.NOMINAL and(self.__nominalValues.lower()!=attr.nominalValues.lower())):
+  if(self.__type==self.NOMINAL and(self.__nominalValues !=attr.nominalValues)):
     return False
   return True
    #end equals
@@ -698,7 +698,10 @@ class Attribute:
   typesConv = {"Nominal","Integer","Real"}
   print(" Name: "+self.__name+".")
   print(" Type: "+self.__type )
-  print(" Type: "+typesConv[type]+".")
+
+  for typeHere in typesConv:
+    print(" Type: "+typeHere+".")
+
   print(" Input/Output: ")
   if (self.__dirAttribute==self.INPUT):
 

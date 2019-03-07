@@ -629,16 +629,16 @@ class Attributes:
         #inputAttribute
         atToDel =  self.inputAttr[whichAtt]
         atToDel.setDirectionAttribute(Attribute.DIR_NOT_DEF)
-        self.inputAttr.removeElementAt(whichAtt)
+        del self.inputAttr[whichAtt]
 
     else :# output attribute
         atToDel = self.outputAttr[whichAtt]
         atToDel.setDirectionAttribute(Attribute.DIR_NOT_DEF)
-        self.outputAttr.removeElementAt(whichAtt)
+        del self.outputAttr[whichAtt]
 
     #We get the position where it has to go in the undefined attributes vector.
-    undefPosition = self.searchUndefPosition(atToDel)
-    self.undefinedAttr.insertElementAt(atToDel, self.undefPosition)
+    undef_position = self.searchUndefPosition(atToDel)
+    self.undefinedAttr.insert(undef_position, atToDel)
 
     self.hasNominal = False
     self.hasInteger = False
@@ -651,7 +651,7 @@ class Attributes:
 
         for i in range (0,iterations):
 
-            if self.index == 0:
+            if index == 0:
                 att = self.inputAttr[i]
             else:
                 att = self.outputAttr[i]

@@ -218,7 +218,7 @@ class ParseParameters :
      # """
 
      def getAlgorithmName(self):
-        return self.algorithmName
+        return self.__algorithmName
 
      # """
      # * It returns the name of the parameters

@@ -456,12 +456,12 @@ class InstanceSet:
 
 
     def processInputsAndOutputs(self,isTrain, inputsDef, outputsDef, outputAttrNames, inputAttrNames):
-        # Afteer parsing the header, the inputs and the outputs are prepared.
+        # After parsing the header, the inputs and the outputs are prepared.
         print("Processing inputs and outputs")
         self.outputInfered = False #set default value
         if (isTrain == True):
             print("isTrain == True")
-            if (inputsDef == False and outputsDef == False):
+            if inputsDef == False and outputsDef == False:
                 print("is neither inputAtt no outputAtt")
                 posHere = Attributes.getNumAttributes(self) - 1
 

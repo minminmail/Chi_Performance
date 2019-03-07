@@ -26,6 +26,9 @@
   # @version 1.1
   # @since JDK1.5
 
+
+import numpy as np
+from numpy import array
 from Fuzzy import Fuzzy
 class DataBase :
 
@@ -52,9 +55,10 @@ class DataBase :
             print("self.n_variables: "+ str(self.n_variables)+" self.n_labels : "+str(self.n_labels))
             #First columns , Second rows
             self.dataBase = [[Fuzzy() for y in range(self.n_labels)] for x in range (self.n_variables)]
-
+            self.dataBase = array(self.dataBase )
             self.names = names
 
+            rangos=array(rangos)
             marca=0.0
 
             for  i in range(0,self.n_variables):
@@ -131,7 +135,7 @@ class DataBase :
             numcols=len(self.dataBase[0])
 
             print("numrows: " + str(numrows) + "numcols:"+ str(numcols))
-            if(self.dataBase!=None):
+            if(self.dataBase.size!=0):
                 print("cadena: "+cadena)
                 for i in range(0, self.n_variables):
                     print("i = " + str(i))
